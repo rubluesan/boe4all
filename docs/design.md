@@ -20,7 +20,7 @@
 
 El diseño UI del proyecto parte de estos bocetos:
 
-![Bocetos](./img/Mockups-Proyecto.png)
+![Boceto Página principal](./img/home-mockup.png)
 
 <!-- Filosofía -->
 
