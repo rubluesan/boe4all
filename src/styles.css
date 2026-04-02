@@ -1,1 +1,298 @@
-/* You can add global styles to this file, and also import other style files */
+/* TODO */
+/* --- VARIABLES --- */
+
+:root {
+  /* Paleta de Colores principal*/
+  --primary: ;
+  --primary-hover: ;
+  --primary-light: ;
+  --secondary: ;
+  /* --star: #ca8a04; */
+
+  /* Colores background y superficie */
+  --background: #f8fafc;
+  --surface: #ffffff;
+
+  /* Colores de texto  */
+  --text-main: #0f172a;
+  --text-muted: #475569;
+
+  /* Colores de bordes y figuras/iconos vacios */
+  --border: #e2e8f0;
+
+  /* Sistema de espaciado (1rem - 16px) */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+
+  /* Sombras y radius */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+}
+
+/* --- ESTILOS GLOBALES --- */
+
+/* Reset de espaciado */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fuente y Comportamiento Scroll  */
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- TIPOGRAFÍA FLUIDA --- */
+h1 {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 6vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+h3 {
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-weight: 700;
+}
+
+/* --- CONTAINERS RESPONSIVOS - mobile first --- */
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md))
+    clamp(var(--spacing-md), 4vw, var(--spacing-xxl));
+}
+
+/* --- GRIDS RESPONSIVOS - mobile first --- */
+
+.responsive-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* --- UTILES GLOBALES --- */
+
+/* centrar grupos de items */
+.flex-align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+}
+
+/* Consistencia de clickables/seleccionables */
+button,
+select,
+a {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Consistencia de Botones */
+.btn {
+  appearance: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #e01616;
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* Consistencia en tamaño de los iconos */
+.icon-primary {
+  color: var(--primary);
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-md {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-lg {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-xl {
+  width: 48px;
+  height: 48px;
+}
+
+/* Consistencia alineado de iconos lucide */
+lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Consistencia de transiciones fluidas */
+.smooth-transition {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Consistencia errores de validacion */
+.validation-error {
+  color: #ef4444;
+}
+.validation-error-list {
+  list-style: none;
+}
+
+/* Consistencia avatares */
+.avatar-container {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-lg {
+  width: clamp(80px, 20vw, 110px);
+  height: clamp(80px, 20vw, 110px);
+  font-size: 3rem;
+  border: 4px solid var(--surface);
+  outline: 1px solid var(--border);
+}
+
+/* animacion spin para cargas */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
