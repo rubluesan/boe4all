@@ -8,6 +8,7 @@
 <details>
   <summary>Tabla de Contenidos</summary>
   <ol>
+    <li><a href="#mockups">Bocetos / Mockups</a></li>
     <li><a href="#philosophy">Filosofía de Diseño</a></li>
     <li><a href="#core-elements">Elementos Principales de la UI</a></li>
     <li><a href="#ux">Consistencia y Experiencia de usuario</a></li>
@@ -16,17 +17,31 @@
 
 <!-- Bocetos -->
 
-## Bocetos
+<a id="mockups"></a>
+
+## 1. Bocetos / Mockups
 
 El diseño UI del proyecto parte de estos bocetos:
 
 ![Boceto Página principal](./img/home-mockup.png)
 
+![Boceto Landing Page](./img/landing-mockup.png)
+
+![Boceto Página Registro](./img/register-mockup.png)
+
+![Boceto Página Login](./img/login-mockup.png)
+
+![Boceto Apartado Sumario](./img/sumario-mockup.png)
+
+![Boceto Apartado Disposicion](./img/disposition-mockup.png)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- Filosofía -->
 
 <a id="philosophy"></a>
 
-## 1. Filosofía de Diseño: "Menos es más"
+## 2. Filosofía de Diseño: "Menos es más"
 
 <p align="justify">
 Para diseñar la interfaz de usuario he seguido la filosofía de "Menos es más". La idea es hacer una aplicación simple que muestre datos de manera limpia, así que he intentado crear un diseño consistente, intuitivo, limpio, suave y con bordes redondeados, que no distraiga al usuario de la lectura de información. Para conseguirlo, definí una serie de variables CSS en los estilos globales de aplicación, en el documento "styles.css".
@@ -77,7 +92,7 @@ Aquí muestro un ejemplo de una sombra y un border-radius definidos:
 
 <a id="core-elements"></a>
 
-## 2. Elementos Principales de la UI
+## 3. Elementos Principales de la UI
 
 <p align="justify">
 
@@ -89,7 +104,7 @@ Aquí muestro un ejemplo de una sombra y un border-radius definidos:
 
 <a id="ux"></a>
 
-## 3. Consistencia y Experiencia de usuario
+## 4. Consistencia y Experiencia de usuario
 
 <p align="justify">
 
@@ -101,7 +116,7 @@ Aquí muestro un ejemplo de una sombra y un border-radius definidos:
 
 <a id="responsiveness"></a>
 
-## 4. Responsividad
+## 5. Responsividad
 
 <p align="justify">
 
