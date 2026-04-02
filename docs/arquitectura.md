@@ -76,11 +76,11 @@ Las tecnologías que usado para desarrollar el proyecto son:
 │   │   ├── environments/ - Configuraciones de entorno
 │   │   ├── pages/ - Páginas o vistas (algunas contienen componentes anidados)
 │   │   │   ├── home
-│   │   │   ├── 
-│   │   │   ├── 
-│   │   │   ├── 
-│   │   │   ├── 
-│   │   │   └── 
+│   │   │   ├──
+│   │   │   ├──
+│   │   │   ├──
+│   │   │   ├──
+│   │   │   └──
 │   │   └── shared/ - Componentes(UI) y utiles globales
 │   │       ├── components
 │   │       └── utils
@@ -101,13 +101,13 @@ Las tecnologías que usado para desarrollar el proyecto son:
 #### Servicio implementado para integrar: (...mdlink)
 
 ```typescript
-codigo
+codigo;
 ```
 
 #### Detalles de la implementación:
 
-- **Filtrado de campos:** 
-- **Modelado de datos:** 
+- **Filtrado de campos:**
+- **Modelado de datos:**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,11 +120,10 @@ codigo
 - (lista links a codigo)
 -
 
-
 #### Configuración Base de Supabase
 
 - (lista de movidas de config.)
-- 
+-
 
 #### Endpoints Principales
 
@@ -173,7 +172,6 @@ curl -X POST https://los-paises.publicvm.com/api/register \
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Páginas y componentes -->
@@ -187,7 +185,7 @@ La aplicación tiene las siguientes páginas(también son componentes) y compone
 ### Páginas (en carpeta pages)
 
 - (lista con links md)
-- 
+-
 
 Algunas páginas contienen una carpeta `components/` con componentes que solo se usan en esa página.
 

@@ -6,6 +6,4 @@ import { Component } from '@angular/core';
   templateUrl: './navbar-show.html',
   styleUrl: './navbar-show.css',
 })
-export class NavbarShow {
-
-}
+export class NavbarShow {}

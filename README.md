@@ -173,7 +173,7 @@ No se ha determinado licencia todavía. <!-- See `LICENSE.txt` for more informat
 ## Contacto
 
 Rubén Luengo - rubluesan2@alu.edu.gva.es
-Enrique Castellón - 
+Enrique Castellón -
 
 Project Link: [https://github.com/rubluesan/boe4all](https://github.com/rubluesan/boe4all)
 
