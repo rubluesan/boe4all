@@ -120,7 +120,7 @@ export class SupabaseService {
     this.profileRequestPending = true;
     try {
       const { data, error } = await this.supabase
-        .from('user_profiles')
+        .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
