@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { SupabaseService } from '../../core/services/supabase-service';
 import { Router } from '@angular/router';
-
+import { FormField, email, form, required } from '@angular/forms/signals';
+import { LoginData } from '../../core/models/login-data';
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -17,15 +18,26 @@ export class Login {
   loading = signal(false); // Estado para mostrar el spinner en el botón
   message = signal(''); // Mensaje para el usuario (éxito o error)
 
+  loginModel = signal<LoginData>({
+    email: '',
+    password: '',
+  });
+
+  loginForm = form(this.loginModel, (schemaPath) => {
+    required(schemaPath.email, { message: 'El email es obligatorio' });
+    email(schemaPath.email, { message: 'Introduzca un email válido' });
+
+    required(schemaPath.password, { message: 'La contraseña es obligatoria' });
+  });
   /**
    * Procesa el inicio de sesión del usuario llamando al método correspondiente de SupabaseService
    */
   async handleLogin() {
     this.loading.set(true);
     this.message.set('');
-
+    const data = this.loginForm().value();
     try {
-      const { error } = await this.supabase.signIn(this.email, this.password); // Intenta iniciar sesión
+      const { error } = await this.supabase.signIn(data.email, data.password); // Intenta iniciar sesión
 
       if (error) throw error;
 
