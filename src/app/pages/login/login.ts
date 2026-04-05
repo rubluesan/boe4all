@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { SupabaseService } from '../../core/services/supabase-service';
 import { Router } from '@angular/router';
 import { FormField, email, form, required } from '@angular/forms/signals';
-import { LoginData } from '../../core/models/login-data';
+import { LoginData } from '../../core/models/auth/login-data';
 @Component({
   selector: 'app-login',
   imports: [FormField],
@@ -12,15 +12,13 @@ import { LoginData } from '../../core/models/login-data';
 export class Login {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
-
-  email = '';
-  password = '';
   loading = signal(false); // Estado para mostrar el spinner en el botón
   message = signal(''); // Mensaje para el usuario (éxito o error)
 
   loginModel = signal<LoginData>({
     email: '',
     password: '',
+    repassword: '',
   });
 
   loginForm = form(this.loginModel, (schemaPath) => {
