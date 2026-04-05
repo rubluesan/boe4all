@@ -7,6 +7,7 @@ import { Register } from './pages/register/register';
 export const routes: Routes = [
     { path: '', component: Landing },
     { path: '*', component: Landing },
+    { path: 'landing', component: Landing },
     { path: 'home', component: Home },
     { path: 'login', component: Login },
     { path: 'register', component: Register },
