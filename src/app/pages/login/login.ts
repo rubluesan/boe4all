@@ -3,9 +3,10 @@ import { SupabaseService } from '../../core/services/supabase-service';
 import { Router } from '@angular/router';
 import { FormField, email, form, required } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
+import { LucideAngularModule } from 'lucide-angular';
 @Component({
   selector: 'app-login',
-  imports: [FormField],
+  imports: [FormField, LucideAngularModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

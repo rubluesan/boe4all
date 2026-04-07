@@ -3,10 +3,10 @@
 
 :root {
   /* Paleta de Colores principal*/
-  --primary: ;
-  --primary-hover: ;
-  --primary-light: ;
-  --secondary: ;
+  --primary: blue;
+  --primary-hover: darkblue;
+  --primary-light: lightblue;
+  --secondary: rgb(209, 173, 230);
   /* --star: #ca8a04; */
 
   /* Colores background y superficie */
