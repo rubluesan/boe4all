@@ -10,9 +10,9 @@
   </a>
 
   <h3 align="center">Boe4all</h3>
-  <p align="justify">Boe4all [...]</p>
+  <p align="justify">Boe4all is a web application designed to democratize the understanding of the Official State Gazette (BOE). It features a more intuitive web interface than the official website and an AI agent to create plain language summaries of the provisions the user chooses.</p>
 
-  <p align="justify">Boe4all [...]</p>
+  <p align="justify">Boe4all es una aplicación web cuyo objetivo es democratizar la comprensión del Boletín Oficial del Estado (BOE). Con una interfaz web más intuitiva que la página oficial y un agente IA para crear resúmenes con lenguaje de “a pie” de las disposiciones que el usuario desee.</p>
 
 ### <a href="#">Demo is WIP</a>
 
