@@ -63,7 +63,6 @@ export class Register {
       if (error) throw error;
 
       this.message.set('¡Registro completado! Ya puedes entrar.');
-      console.log('hola');
       this.router.navigate(['/home']);
       // posible redirección a login o home: this.router.navigate(['/home']);
     } catch (e: any) {

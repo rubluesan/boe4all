@@ -20,6 +20,7 @@ export class SupabaseService {
 
   // Booleano para evitar múltiples solicitudes simultáneas de perfil
   private profileRequestPending = false;
+  auth: any;
 
   // Inicialización de la autenticación al instanciar el servicio
   constructor() {
