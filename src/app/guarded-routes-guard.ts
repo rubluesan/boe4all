@@ -5,12 +5,12 @@ import { SupabaseService } from './core/services/supabase-service';
 export const guardedRoutesGuard: CanActivateFn = async (route, state) => {
   const router = inject(Router);
   const supabase = inject(SupabaseService);
-  const { data } = await supabase.auth.getUser();
 
-  if (data.user) {
+  const isAuthenticated = await supabase.authReady();
+
+  if (isAuthenticated) {
     return true;
   } else {
-    router.navigate(['/login']);
-    return false;
+    return router.createUrlTree(['/login']);
   }
 };

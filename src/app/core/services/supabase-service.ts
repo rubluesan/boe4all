@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, OnDestroy } from '@angular/core';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 import { UserProfile } from '../models/UserProfile';
@@ -6,7 +6,7 @@ import { UserProfile } from '../models/UserProfile';
 @Injectable({
   providedIn: 'root',
 })
-export class SupabaseService {
+export class SupabaseService implements OnDestroy {
   // Inicialización del cliente de Supabase usando la URL y la publishable Key
   private supabase: SupabaseClient = createClient(
     environment.supabaseUrl || '',
@@ -20,11 +20,23 @@ export class SupabaseService {
 
   // Booleano para evitar múltiples solicitudes simultáneas de perfil
   private profileRequestPending = false;
-  auth: any;
+  private authSubscription: any;
 
   // Inicialización de la autenticación al instanciar el servicio
   constructor() {
     this.initAuth();
+  }
+
+  ngOnDestroy() {
+    // Limpieza de la suscripción al destruir el servicio
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  async authReady(): Promise<boolean> {
+    const { data } = await this.supabase.auth.getSession();
+    return !!data?.session;
   }
 
   /**
@@ -35,8 +47,9 @@ export class SupabaseService {
     // 1. Comprobamos si ya existe una sesión activa al cargar la app
     this.supabase.auth.getUser().then(({ data }) => {
       setTimeout(() => {
-        this.user.set(data.user);
-        if (data.user) {
+        const currentUser = data?.user ?? null;
+        this.user.set(currentUser);
+        if (currentUser) {
           this.refreshProfile();
         } else {
           this.initialized.set(true);
@@ -45,7 +58,8 @@ export class SupabaseService {
     });
 
     // 2. Escuchamos eventos de login, logout o cambios en el token
-    this.supabase.auth.onAuthStateChange((event, session) => {
+    const { data } = this.supabase.auth.onAuthStateChange((event, session) => {
+      this.authSubscription = data.subscription;
       const currentUser = this.user();
       const newUser = session?.user ?? null;
 
@@ -54,6 +68,7 @@ export class SupabaseService {
         setTimeout(() => {
           this.user.set(null);
           this.profile.set(null);
+          this.initialized.set(true);
         });
         return;
       }
@@ -104,8 +119,6 @@ export class SupabaseService {
   // cierre de sesión
   async signOut() {
     await this.supabase.auth.signOut();
-    this.profile.set(null);
-    this.user.set(null);
   }
 
   /**
@@ -131,7 +144,7 @@ export class SupabaseService {
         this.profile.set(data);
       }
     } catch (e) {
-      // Error silencioso (ej. si el perfil aún no se ha creado por el trigger)
+      console.warn('No se pudo cargar el perfil del usuario (posible trigger en curso):', e);
     } finally {
       this.profileRequestPending = false;
       this.initialized.set(true);
