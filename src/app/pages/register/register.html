@@ -1,10 +1,103 @@
-<form action="">
-    <h1>Regístrese</h1>
-    <label for="email">Correo electronico:</label>
-    <input type="email" id="email" [formField]="loginForm.email"><br>
-    <label for="password">Contraseña:</label>
-    <input type="password" id="password" [formField]="loginForm.password"><br>
-    <label for="repassword">Repetir contraseña:</label>
-    <input type="password" id="repassword" [formField]="loginForm.repassword"><br>
-    <button type="button" (click)="handleRegister()">Enviar</button>
-</form>
+<div class="auth-container fade-in">
+  <div class="auth-card shadow-lg">
+    <div class="auth-header">
+      <h1>Crea tu cuenta</h1>
+      <p class="text-muted">Únete a nuestra comunidad</p>
+    </div>
+
+    <form class="auth-form" novalidate>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper smooth-transition">
+          <lucide-icon name="mail" class="input-icon"></lucide-icon>
+          <input
+            type="email"
+            id="email"
+            placeholder="tu@email.com"
+            [formField]="registerForm.email"
+          />
+        </div>
+        @if (registerForm.email().invalid() && registerForm.email().touched()) {
+          <ul class="validation-error-list">
+            @for (error of registerForm.email().errors(); track error.kind) {
+              <li class="validation-error">{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <div class="input-wrapper smooth-transition">
+          <lucide-icon name="lock" class="input-icon"></lucide-icon>
+          <input
+            type="password"
+            id="password"
+            placeholder="••••••••"
+            [formField]="registerForm.password"
+          />
+        </div>
+        @if (registerForm.password().invalid() && registerForm.password().touched()) {
+          <ul class="validation-error-list">
+            @for (error of registerForm.password().errors(); track error.kind) {
+              <li class="validation-error">{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password-confirmation">Confirmar contraseña</label>
+        <div class="input-wrapper smooth-transition">
+          <lucide-icon name="lock" class="input-icon"></lucide-icon>
+          <input
+            type="password"
+            id="password-confirmation"
+            placeholder="••••••••"
+            [formField]="registerForm.repassword"
+          />
+        </div>
+        @if (registerForm.repassword().errors() && registerForm.repassword().touched()) {
+          <ul class="validation-error-list">
+            @for (error of registerForm.repassword().errors(); track error.kind) {
+              <li class="validation-error">{{ error.message }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary btn-block smooth-transition"
+        (click)="handleRegister()"
+        [disabled]="loading()"
+      >
+        <lucide-icon
+          [name]="loading() ? 'loader-2' : 'send'"
+          [class.animate-spin]="loading()"
+          class="icon-sm"
+        ></lucide-icon>
+        <span>{{ loading() ? 'Registrando...' : 'Registrar' }}</span>
+      </button>
+    </form>
+
+    <!-- Autenticación con Google (OAuth)
+    <div class="auth-divider">
+      <span>o continúa con</span>
+    </div>
+
+
+    <button class="btn btn-outline btn-block smooth-transition">
+      <lucide-icon name="sparkles" class="icon-sm icon-orange"></lucide-icon>
+      <span>Continuar con Google</span>
+    </button>
+    -->
+
+    <footer class="auth-footer">
+      <p>
+        ¿Ya tienes cuenta?
+        <button class="btn-link smooth-transition" routerLink="/login">Inicia sesión</button>
+      </p>
+    </footer>
+  </div>
+</div>

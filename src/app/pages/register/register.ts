@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { SupabaseService } from '../../core/services/supabase-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, required, validate } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
 import { ToastService } from '../../core/services/toast-services';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField],
+  imports: [FormField, LucideAngularModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -24,7 +25,7 @@ export class Register {
     repassword: '',
   });
 
-  loginForm = form(this.loginModel, (schemaPath) => {
+  registerForm = form(this.loginModel, (schemaPath) => {
     required(schemaPath.email, { message: 'El email es obligatorio' });
     email(schemaPath.email, { message: 'Introduzca un email válido' });
 
@@ -49,8 +50,8 @@ export class Register {
   async handleRegister() {
     this.loading.set(true);
     this.message.set('');
-    const data = this.loginForm().value();
-    if (this.loginForm().invalid()) {
+    const data = this.registerForm().value();
+    if (this.registerForm().invalid()) {
       this.toastService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
         true,
