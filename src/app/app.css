@@ -3,3 +3,14 @@
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
 }
+
+.notification-list {
+  position: fixed;
+  top: 8rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2000;
+  list-style: none;
+}

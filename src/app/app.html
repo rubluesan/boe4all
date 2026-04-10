@@ -4,11 +4,17 @@
     <router-outlet></router-outlet>
   </main>
   <app-footer></app-footer>
-  @if (systemMessageService.message()) {
-    <app-notification-toast
-      [isError]="systemMessageService.isError()"
-      [message]="systemMessageService.message()"
-      (onClose)="systemMessageService.clear()"
-    ></app-notification-toast>
+  @if (systemMessageService.messageArray().length > 0) {
+    <ul class="notification-list">
+      @for (item of systemMessageService.messageArray(); track item.id) {
+        <li>
+          <app-notification-toast
+            [isError]="item.isError"
+            [message]="item.text"
+            (onClose)="systemMessageService.removeMessage(item.id)"
+          ></app-notification-toast>
+        </li>
+      }
+    </ul>
   }
 </div>

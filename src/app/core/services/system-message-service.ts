@@ -4,17 +4,14 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root',
 })
 export class SystemMessageService {
-  toastMessage = signal<{ text: string; isError: boolean } | null>(null);
-
-  message = signal('');
+  messageArray = signal<{ id: number; text: string; isError: boolean }[]>([]);
   isError = signal(false);
 
   showMessage(msg: string, error = false) {
-    this.message.set(msg);
-    this.isError.set(error);
+    this.messageArray.update((arr) => [...arr, { id: Date.now(), text: msg, isError: error }]);
   }
 
-  clear() {
-    this.message.set('');
+  removeMessage(id: number) {
+    this.messageArray.update((arr) => arr.filter((item) => item.id !== id));
   }
 }
