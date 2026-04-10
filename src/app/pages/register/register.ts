@@ -3,7 +3,7 @@ import { SupabaseService } from '../../core/services/supabase-service';
 import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, required, validate } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
-import { ToastService } from '../../core/services/toast-services';
+import { SystemMessageService } from '../../core/services/system-message-service';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -15,7 +15,7 @@ import { LucideAngularModule } from 'lucide-angular';
 export class Register {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
-  private toastService = inject(ToastService);
+  private systemMessageService = inject(SystemMessageService);
   loading = signal(false); // Estado para mostrar el spinner en el botón
   message = signal(''); // Mensaje para el usuario (éxito o error)
 
@@ -52,7 +52,7 @@ export class Register {
     this.message.set('');
     const data = this.registerForm().value();
     if (this.registerForm().invalid()) {
-      this.toastService.showMessage(
+      this.systemMessageService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
         true,
       );
