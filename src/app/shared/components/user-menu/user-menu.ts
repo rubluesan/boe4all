@@ -54,7 +54,7 @@ export class UserMenu implements OnInit {
 
   signOut() {
     this.supabaseService.signOut();
-
     this.isOpen.set(false);
+    this.router.navigate(['/landing']);
   }
 }
