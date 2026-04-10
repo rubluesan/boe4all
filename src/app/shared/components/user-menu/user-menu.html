@@ -1,0 +1,44 @@
+<div class="user-menu-container">
+  <button class="avatar-btn" (click)="toggleMenu()" [attr.aria-expanded]="isOpen()">
+    <div class="avatar-container">
+      @if (userProfile()) {
+        <img [src]="userProfile()?.avatar_url" alt="User avatar" class="avatar-img" />
+      }
+    </div>
+    <lucide-icon name="chevron-down" class="chevron" [class.rotated]="isOpen()"></lucide-icon>
+  </button>
+
+  @if (isOpen()) {
+    <div
+      class="dropdown-card"
+      animate.enter="pop-in"
+      animate.leave="pop-out"
+      cdkTrapFocus
+      (cdkTrapFocusAutoCapture)="(true)"
+    >
+      <div class="user-info">
+        <img [src]="userProfile()?.avatar_url" alt="" class="avatar-large" />
+        <div class="details">
+          <span class="name">{{ userProfile()?.username }}</span>
+          <span class="email">{{ userProfile()?.email }}</span>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <nav class="menu-links">
+        <a routerLink="/profile" (click)="isOpen.set(false)">
+          <lucide-icon name="user-pen"></lucide-icon>
+          Mi Perfil
+        </a>
+
+        <button class="sign-out-btn" (click)="signOut()">
+          <lucide-icon name="log-out"></lucide-icon>
+          Cerrar sesión
+        </button>
+      </nav>
+    </div>
+
+    <div class="close-overlay" (click)="toggleMenu()"></div>
+  }
+</div>

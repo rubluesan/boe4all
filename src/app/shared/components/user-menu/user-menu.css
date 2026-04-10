@@ -1,0 +1,133 @@
+.user-menu-container {
+  position: relative;
+  display: inline-block;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-full);
+}
+
+.avatar-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #17282c;
+}
+
+.dropdown-card {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border);
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background-color: var(--border);
+}
+
+/* Info sección */
+.user-info {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.name {
+  font-weight: 600;
+  display: block;
+  color: var(--text-main);
+}
+
+.email {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Links */
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.menu-links a,
+.sign-out-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  text-decoration: none;
+  color: var(--primary);
+  border-radius: 8px;
+  transition: background 0.2s;
+  border: none;
+  background: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.menu-links a:hover {
+  background: var(--primary-light);
+}
+
+.sign-out-btn:hover {
+  color: #ef4444;
+  background: #fee2e2;
+}
+
+/* Animaciones expand/collapse de user menu */
+.pop-in {
+  animation: pop-kf 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.pop-out {
+  animation: pop-kf 0.15s reverse ease-in forwards;
+}
+
+@keyframes pop-kf {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animación de rotacion de flecha */
+
+.chevron {
+  transition: transform 0.2s ease-in-out;
+  display: inline-block;
+}
+
+.chevron.rotated {
+  transform: rotate(180deg);
+}
