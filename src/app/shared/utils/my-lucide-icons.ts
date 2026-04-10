@@ -13,6 +13,9 @@ import {
   LogOut,
   CircleAlert,
   CircleCheck,
+  Github,
+  Linkedin,
+  Twitter,
 } from 'lucide-angular';
 
 export const myLucideIcons = {
@@ -29,4 +32,7 @@ export const myLucideIcons = {
   LogOut,
   CircleAlert,
   CircleCheck,
+  Github,
+  Linkedin,
+  Twitter,
 } as LucideIcons;
