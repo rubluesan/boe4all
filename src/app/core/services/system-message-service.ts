@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class ToastService {
+export class SystemMessageService {
   toastMessage = signal<{ text: string; isError: boolean } | null>(null);
 
   message = signal('');
