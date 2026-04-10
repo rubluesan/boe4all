@@ -1,7 +1,8 @@
-import { Injectable, signal, OnDestroy } from '@angular/core';
+import { Injectable, signal, OnDestroy, inject } from '@angular/core';
 import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
 import { environment } from '../../../environments/environment';
 import { UserProfile } from '../models/UserProfile';
+import { SystemMessageService } from './system-message-service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,8 @@ export class SupabaseService implements OnDestroy {
     environment.supabaseUrl || '',
     environment.supabaseKey || '',
   );
+
+  systemMessageService = inject(SystemMessageService);
 
   // Signals para manejar el estado
   user = signal<User | null>(null);
@@ -118,7 +121,16 @@ export class SupabaseService implements OnDestroy {
 
   // cierre de sesión
   async signOut() {
-    await this.supabase.auth.signOut();
+    try {
+      const { error } = await this.supabase.auth.signOut();
+      if (error) {
+        throw error;
+      }
+    } catch (error: any) {
+      this.systemMessageService.showMessage(error?.message || 'Error al cerrar sesión', true);
+    }
+
+    this.systemMessageService.showMessage('Sesión cerrada correctamente', false);
   }
 
   /**
