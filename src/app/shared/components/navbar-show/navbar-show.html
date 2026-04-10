@@ -8,42 +8,72 @@
     <img src="assets/brand-logo.webp" alt="Logo Boe4all" width="40" height="40" />
     <span class="site-title">Boe4all</span>
   </a>
+  @if (userLoggedIn()) {
+    @if (mobileNavIsOpen()) {
+      <!-- Overlay borroso -->
+      <div class="menu-overlay" (click)="toggleMenu()" role="presentation"></div>
 
-  @if (mobileNavIsOpen()) {
-    <!-- Overlay borroso -->
-    <div class="menu-overlay" (click)="toggleMenu()" role="presentation"></div>
+      <nav
+        id="mobile-nav-id"
+        class="navbar mobile-nav"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menú de navegación móvil"
+        animate.enter="enter-animation"
+        animate.leave="leaving"
+        cdkTrapFocus
+        cdkTrapFocusAutoCapture
+        (cdkTrapFocusRestoreFocus)="(true)"
+      >
+        <div class="mobile-nav-header">
+          <div class="logo flex-align-center">
+            <img src="assets/brand-logo.webp" alt="Logo Boe4all" width="40" height="40" />
+          </div>
+          <button class="close-icon" (click)="toggleMenu()" aria-label="Cerrar menú">
+            <lucide-icon name="x" class="icon-sm" aria-hidden="true"> </lucide-icon>
+          </button>
+        </div>
+        <a
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav-link"
+          (click)="toggleMenu()"
+        >
+          <lucide-icon name="home" class="icon-primary icon-md" aria-hidden="true"></lucide-icon>
+          <span>Inicio</span>
+        </a>
+        <a
+          routerLink="/countries"
+          routerLinkActive="active"
+          class="nav-link"
+          (click)="toggleMenu()"
+        >
+          <lucide-icon
+            name="binoculars"
+            class="icon-primary icon-md"
+            aria-hidden="true"
+          ></lucide-icon>
+          <span>Explorar</span>
+        </a>
+      </nav>
+    }
 
     <nav
-      id="mobile-nav-id"
-      class="navbar mobile-nav"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Menú de navegación móvil"
-      animate.enter="enter-animation"
-      animate.leave="leaving"
-      cdkTrapFocus
-      cdkTrapFocusAutoCapture
-      (cdkTrapFocusRestoreFocus)="(true)"
+      class="navbar desktop-nav"
+      [attr.aria-hidden]="mobileNavIsOpen()"
+      aria-label="Navegación principal"
     >
-      <div class="mobile-nav-header">
-        <div class="logo flex-align-center">
-          <img src="assets/brand-logo.webp" alt="Logo Boe4all" width="40" height="40" />
-        </div>
-        <button class="close-icon" (click)="toggleMenu()" aria-label="Cerrar menú">
-          <lucide-icon name="x" class="icon-sm" aria-hidden="true"> </lucide-icon>
-        </button>
-      </div>
       <a
         routerLink="/"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
         class="nav-link"
-        (click)="toggleMenu()"
       >
         <lucide-icon name="home" class="icon-primary icon-md" aria-hidden="true"></lucide-icon>
         <span>Inicio</span>
       </a>
-      <a routerLink="/countries" routerLinkActive="active" class="nav-link" (click)="toggleMenu()">
+      <a routerLink="/countries" routerLinkActive="active" class="nav-link">
         <lucide-icon
           name="binoculars"
           class="icon-primary icon-md"
@@ -52,46 +82,29 @@
         <span>Explorar</span>
       </a>
     </nav>
-  }
 
-  <nav
-    class="navbar desktop-nav"
-    [attr.aria-hidden]="mobileNavIsOpen()"
-    aria-label="Navegación principal"
-  >
-    <a
-      routerLink="/"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="nav-link"
-    >
-      <lucide-icon name="home" class="icon-primary icon-md" aria-hidden="true"></lucide-icon>
-      <span>Inicio</span>
-    </a>
-    <a routerLink="/countries" routerLinkActive="active" class="nav-link">
-      <lucide-icon name="binoculars" class="icon-primary icon-md" aria-hidden="true"></lucide-icon>
-      <span>Explorar</span>
-    </a>
-  </nav>
-
-  @if (userLoggedIn()) {
     <div class="user-menu">
       <app-user-menu></app-user-menu>
     </div>
+
+    <!-- Botón hamburguesa -->
+    <button
+      class="menu-button"
+      (click)="toggleMenu()"
+      aria-label="Abrir menú"
+      [attr.aria-expanded]="mobileNavIsOpen()"
+      aria-controls="mobile-nav-id"
+    >
+      <lucide-icon name="menu" class="icon-md" aria-hidden="true"> </lucide-icon>
+    </button>
   }
-
-  <!-- Botón hamburguesa -->
-  <button
-    class="menu-button"
-    (click)="toggleMenu()"
-    aria-label="Abrir menú"
-    [attr.aria-expanded]="mobileNavIsOpen()"
-    aria-controls="mobile-nav-id"
-  >
-    <lucide-icon name="menu" class="icon-md" aria-hidden="true"> </lucide-icon>
-  </button>
-
   @if (!userLoggedIn()) {
-    <button class="btn btn-primary btn-sm" (click)="goToLogin()">Iniciar Sesión</button>
+    <span routerLink="/login" routerLinkActive #rla="routerLinkActive"></span>
+
+    @if (rla.isActive) {
+      <button class="btn btn-primary btn-sm" (click)="goToRegister()">Regístrate</button>
+    } @else {
+      <button class="btn btn-primary btn-sm" (click)="goToLogin()">Inicia Sesión</button>
+    }
   }
 </div>

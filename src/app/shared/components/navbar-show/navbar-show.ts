@@ -41,6 +41,10 @@ export class NavbarShow {
     this.router.navigate(['/login']);
   }
 
+  goToRegister() {
+    this.router.navigate(['/register']);
+  }
+
   logout() {
     this.supabase.signOut();
     this.router.navigate(['/landing']);
