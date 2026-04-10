@@ -16,6 +16,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  ArrowRight,
 } from 'lucide-angular';
 
 export const myLucideIcons = {
@@ -35,4 +36,5 @@ export const myLucideIcons = {
   Github,
   Linkedin,
   Twitter,
+  ArrowRight,
 } as LucideIcons;

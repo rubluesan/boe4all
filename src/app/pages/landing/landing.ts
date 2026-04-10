@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-landing',
-  imports: [],
+  imports: [LucideAngularModule, RouterLink],
   templateUrl: './landing.html',
   styleUrl: './landing.css',
 })

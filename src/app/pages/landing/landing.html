@@ -1,7 +1,31 @@
-<h1>Bienvenido a Boe4all</h1>
-<p>
-  Esta es la aplicación de Boe4all, donde puedes encontrar toda la información relevante sobre el
-  Boletín Oficial del Estado (BOE) de España. Aquí podrás consultar las últimas publicaciones,
-  buscar por fecha o por tema, y mantenerte informado sobre las novedades legislativas y
-  administrativas.
-</p>
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1 id="hero-heading">Bienvenido a Boe4all</h1>
+        <p class="text-muted">
+          Esta es la aplicación de Boe4all, donde puedes encontrar toda la información relevante
+          sobre el Boletín Oficial del Estado (BOE) de España. Aquí podrás consultar las últimas
+          publicaciones, buscar por fecha o por tema, y mantenerte informado sobre las novedades
+          legislativas y administrativas.
+        </p>
+        <div class="hero-actions">
+          <button
+            class="btn btn-primary btn-lg flex-align-center smooth-transition"
+            routerLink="/home"
+            aria-label="Empezar ahora"
+          >
+            <span>Empezar ahora</span>
+            <lucide-icon name="arrow-right" class="icon-sm" aria-hidden="true"></lucide-icon>
+          </button>
+        </div>
+      </div>
+      <div class="hero-image" aria-hidden="true">
+        <div class="image-placeholder smooth-transition">
+          <img src="assets/boe4all-screenshot.png" alt="Screenshot de muestra de la aplicación" />
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
