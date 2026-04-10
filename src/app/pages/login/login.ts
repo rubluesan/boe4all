@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, required } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
 import { LucideAngularModule } from 'lucide-angular';
+import { SystemMessageService } from '../../core/services/system-message-service';
 @Component({
   selector: 'app-login',
   imports: [FormField, LucideAngularModule, RouterLink],
@@ -13,6 +14,8 @@ import { LucideAngularModule } from 'lucide-angular';
 export class Login {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
+  private systemMessageService = inject(SystemMessageService);
+
   loading = signal(false); // Estado para mostrar el spinner en el botón
   message = signal(''); // Mensaje para el usuario (éxito o error)
 
@@ -40,6 +43,7 @@ export class Login {
 
       if (error) throw error;
 
+      this.systemMessageService.showMessage('Sesión iniciada correctamente', false);
       this.router.navigate(['/home']); // Redirige al Home después de login exitoso
     } catch (e: any) {
       this.message.set(e.message || 'Error en la autenticación');
