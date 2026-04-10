@@ -11,6 +11,8 @@ import {
   ChevronDown,
   UserPen,
   LogOut,
+  CircleAlert,
+  CircleCheck,
 } from 'lucide-angular';
 
 export const myLucideIcons = {
@@ -25,4 +27,6 @@ export const myLucideIcons = {
   ChevronDown,
   UserPen,
   LogOut,
+  CircleAlert,
+  CircleCheck,
 } as LucideIcons;

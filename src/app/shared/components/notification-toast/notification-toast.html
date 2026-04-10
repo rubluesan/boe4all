@@ -1,0 +1,10 @@
+<div
+  class="toast-notification flex-align-center"
+  [class.error]="isError()"
+  [class.success]="!isError()"
+  animate.enter="enter-animation"
+  [class.leaving]="isLeaving()"
+>
+  <lucide-icon [name]="isError() ? 'circle-alert' : 'circle-check'" class="icon-sm"></lucide-icon>
+  <span>{{ message() }}</span>
+</div>
