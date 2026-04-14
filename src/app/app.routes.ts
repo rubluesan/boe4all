@@ -6,10 +6,10 @@ import { Register } from './pages/register/register';
 import { guardedRoutesGuard } from './core/guards/guarded-routes-guard';
 
 export const routes: Routes = [
-  { path: '', component: Landing },
-  { path: '*', component: Landing },
-  { path: 'landing', component: Landing },
-  { path: 'home', component: Home, canActivate: [guardedRoutesGuard] },
-  { path: 'login', component: Login },
-  { path: 'register', component: Register },
+  { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
+  { path: '*', component: Landing, data: { breadcrumb: 'LandingPage' } },
+  { path: 'landing', component: Landing,  data: { breadcrumb: 'LandingPage' } },
+  { path: 'home', component: Home, canActivate: [guardedRoutesGuard], data: { breadcrumb: 'Home' } },
+  { path: 'login', component: Login, data: { breadcrumb: 'Login' } },
+  { path: 'register', component: Register, data: { breadcrumb: 'Register' } },
 ];
