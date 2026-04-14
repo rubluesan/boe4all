@@ -3,10 +3,13 @@
 
 :root {
   /* Paleta de Colores principal*/
-  --primary: blue;
-  --primary-hover: darkblue;
-  --primary-light: lightblue;
-  --secondary: rgb(209, 173, 230);
+  --primary: #33786e;
+  --primary-hover: #1e524b;
+  --primary-light: #e6f4f1;
+
+  /* Acento: Atención y Acción IA */
+  --secondary: #ffd54f;
+  --secondary-dark: #f59e0b;
   /* --star: #ca8a04; */
 
   /* Colores background y superficie */
@@ -14,8 +17,8 @@
   --surface: #ffffff;
 
   /* Colores de texto  */
-  --text-main: #0f172a;
-  --text-muted: #475569;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
 
   /* Colores de bordes y figuras/iconos vacios */
   --border: #e2e8f0;
