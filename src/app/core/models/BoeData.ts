@@ -7,15 +7,15 @@
 // Interfaz principal que representa el sumario del BOE
 export interface BoeSumario {
   metadatos: {
-    publicacion: string;
-    fecha_publicacion: string;
+    publicacion: string; // == 'BOE'
+    fecha_publicacion: string; // Formato ISO 8601 YYYYMMDD
   };
   diario: Diario[];
 }
 
 // Interfaz que representa un diario del BOE, incluyendo su número, sumario y secciones
 export interface Diario {
-  numero: string;
+  numero: number; // Numero de 1 a 3 digitos
   sumario_diario: SumarioDiario;
   seccion: Seccion[];
 }
@@ -24,22 +24,22 @@ export interface Diario {
 export interface SumarioDiario {
   identificador: string;
   url_pdf: {
-    szBytes: number;
-    szKBytes: number;
-    texto: string;
+    szBytes: number; // De 1 a 9 dígitos
+    szKBytes: number; // De 1 a 6 dígitos
+    texto: string; // url pdf
   };
 }
 
 // Interfaz que representa una sección del BOE, incluyendo su código, nombre y departamentos asociados
 export interface Seccion {
-  codigo: string;
+  codigo: string; // Código alfanumérico de 1 ó 2 caracteres
   nombre: string;
   departamento: Departamento[];
 }
 
 // Interfaz que representa un departamento de la administración, incluyendo su código, nombre y epígrafes asociados
 export interface Departamento {
-  codigo: string;
+  codigo: number; // Código numérico de 4 dígitos
   nombre: string;
   epigrafe: Epigrafe[];
 }
@@ -56,11 +56,11 @@ export interface BoeItem {
   control: string;
   titulo: string;
   url_pdf: {
-    szBytes: number;
-    szKBytes: number;
-    pagina_inicial: string;
-    pagina_final: string;
-    texto: string;
+    szBytes: number; // De 1 a 9 dígitos
+    szKBytes: number; // De 1 a 6 dígitos
+    pagina_inicial: number; // De 1 a 6 dígitos
+    pagina_final: number; // De 1 a 6 dígitos
+    texto: string; // url pdf
   };
   url_html: string;
   url_xml: string;
