@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Disposiciones } from './disposiciones';
+import { CustomSearcher } from './custom-searcher';
 
-describe('Disposiciones', () => {
-  let component: Disposiciones;
-  let fixture: ComponentFixture<Disposiciones>;
+describe('CustomSearcher', () => {
+  let component: CustomSearcher;
+  let fixture: ComponentFixture<CustomSearcher>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Disposiciones]
+      imports: [CustomSearcher]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Disposiciones);
+    fixture = TestBed.createComponent(CustomSearcher);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
