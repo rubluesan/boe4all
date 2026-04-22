@@ -4,6 +4,17 @@
  * Incluyendo metadatos, diarios, secciones, departamentos, epígrafes e ítems.
  */
 
+// Interfaz que representa la respuesta completa de la API del BOE, incluyendo el estado de la respuesta y los datos del sumario
+export interface BoeDataResponse {
+  status: {
+    code: number; // eg. 200
+    text: string; // eg. 'OK'
+  };
+  data: {
+    sumario: BoeSumario;
+  };
+}
+
 // Interfaz principal que representa el sumario del BOE
 export interface BoeSumario {
   metadatos: {
