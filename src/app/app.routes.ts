@@ -5,7 +5,7 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 import { guardedRoutesGuard } from './core/guards/guarded-routes-guard';
 import { Disposition } from './pages/disposition/disposition';
-
+import { Summary } from './pages/summary/summary';
 export const routes: Routes = [
   { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
   { path: '*', component: Landing, data: { breadcrumb: 'LandingPage' } },
@@ -14,4 +14,5 @@ export const routes: Routes = [
   { path: 'login', component: Login, data: { breadcrumb: 'Login' } },
   { path: 'register', component: Register, data: { breadcrumb: 'Register' } },
   { path: 'disposiciones', component: Disposition, canActivate: [guardedRoutesGuard], data: { breadcrumb: 'Disposiciones' } },
+  { path: 'sumario/:fecha', component: Summary,  data: { breadcrumb: 'Sumario' } },
 ];

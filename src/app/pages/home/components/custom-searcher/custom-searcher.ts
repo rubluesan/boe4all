@@ -3,7 +3,7 @@ import { FormField, form, min, max, required } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-custom-searcher',
-  imports: [FormField, Router],
+  imports: [FormField],
   templateUrl: './custom-searcher.html',
   styleUrl: './custom-searcher.css',
 })
@@ -54,8 +54,7 @@ export class CustomSearcher {
   const mes = String(month).padStart(2, '0');
 
   const fechaboe = `${year}${mes}${dia}`;
-  this.ruta.navigate(['/search', fechaboe]);//ruta por defecto ya cambiare el nombre así hay algo ahí
-  console.log(`Buscando eventos para la fecha: ${fechaboe}`);
+  this.ruta.navigate(['sumario/' + fechaboe]);//ruta por defecto ya cambiare el nombre así hay algo ahí
   
   }
 }
