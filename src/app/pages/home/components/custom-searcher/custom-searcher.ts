@@ -45,9 +45,10 @@ export class CustomSearcher {
   });
 
   onSubmit() {
-  const day = this.formulario.day;
-  const month = this.formulario.month;
-  const year = this.formulario.year;
+  const day = this.formulario.day(); 
+  console.log('Día:', day); // Verificar el valor del día
+  const month = this.formulario.month();
+  const year = this.formulario.year();
 
   // aseguramos formato de 2 dígitos
   const dia = String(day).padStart(2, '0');
