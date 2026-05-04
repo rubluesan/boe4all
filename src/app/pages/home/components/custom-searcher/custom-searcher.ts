@@ -45,17 +45,18 @@ export class CustomSearcher {
   });
 
   onSubmit() {
-  const day = this.formulario.day(); 
-  console.log('Día:', day); // Verificar el valor del día
-  const month = this.formulario.month();
-  const year = this.formulario.year();
+    const day = this.formulario.day().controlValue();
+    const month = this.formulario.month().controlValue();
+    const year = this.formulario.year().controlValue();
+    console.log(day, month, year);
+    console.log(typeof this.formulario.day);
+    console.log(this.formulario.day());
+    const fechaboe =
+      `${year}${String(month).padStart(2, '0')
+      }${String(day).padStart(2, '0')
+      }`;
 
-  // aseguramos formato de 2 dígitos
-  const dia = String(day).padStart(2, '0');
-  const mes = String(month).padStart(2, '0');
+    this.ruta.navigate(['sumario', fechaboe]);//ruta por defecto ya cambiare el nombre así hay algo ahí
 
-  const fechaboe = `${year}${mes}${dia}`;
-  this.ruta.navigate(['sumario/' + fechaboe]);//ruta por defecto ya cambiare el nombre así hay algo ahí
-  
   }
 }
