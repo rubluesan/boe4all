@@ -10,9 +10,13 @@
   </a>
 
   <h3 align="center">Boe4all</h3>
-  <p align="justify">Boe4all is a web application designed to democratize the understanding of the Official State Gazette (BOE). It features a more intuitive web interface than the official website and an AI agent to create plain language summaries of the provisions the user chooses.</p>
+  <p align="justify">Boe4all is a web application designed to democratize the understanding of the Official State Gazette of Spain kwown as "Boletín Oficial del Estado" (BOE). It features a more intuitive web interface than the official website and an AI agent to create plain language summaries of the provisions the user chooses.</p> 
+  
+  Check the official BOE website clicking [here](https://www.boe.es/diario_boe/).
 
   <p align="justify">Boe4all es una aplicación web cuyo objetivo es democratizar la comprensión del Boletín Oficial del Estado (BOE). Con una interfaz web más intuitiva que la página oficial y un agente IA para crear resúmenes con lenguaje de “a pie” de las disposiciones que el usuario desee.</p>
+
+Consulta el sitio oficial del BOE pulsando [aquí](https://www.boe.es/diario_boe/).
 
 ### <a href="#">Demo is WIP</a>
 
@@ -54,7 +58,13 @@
 
 [![Boe4all Screen Shot](docs/img/boe4all-screenshot.png)](#)
 
-Boe4all es [...].
+**Boe4all** es una aplicación web cuyo objetivo es hacer más fácil la consulta, navegación y comprensión de la información que el estado español publica en el Diario oficial del Boletín Oficial del Estado, comúnmente conocido como BOE.
+
+La aplicación tendrá una interfaz moderna e intuitiva que permitirá navegar con facilidad entre los diferentes boletines diarios y todas sus disposiciones o anuncios.
+
+Como **característica central** y diferenciadora del proyecto, se integrará un chat con un **asistente IA para crear resúmenes con lenguaje de “a pie”** de las disposiciones que el usuario desee. Además, desarrollaremos un sistema de carpetas para que el usuario pueda organizar sus conversaciones con la IA.
+
+Con esto, pretendemos que cualquier usuario sin conocimientos en derecho, pueda consultar y comprender el BOE, y organizar la información que le interese. **Acercando la información pública y legal a todos**, lo que da nombre al proyecto: **BOE4all** (BOE para todos).
 
 <!-- DOCUMENTATION -->
 
