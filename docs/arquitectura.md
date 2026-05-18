@@ -32,7 +32,134 @@
 ...
 </p>
 
-...codigo mermaid con diagrama aquí
+## Arquitectura general
+
+```mermaid
+flowchart TB
+
+    A[Angular - Interfaz Web BOE y Chat IA] -->|HTTPS| B[Supabase]
+
+    subgraph SUPABASE
+        B1[PostgreSQL]
+        B2[pgvector]
+        B3[Edge Functions]
+        B4[Cache de resumenes]
+    end
+
+    B --> C[OpenAI API]
+    B --> D[API Oficial BOE]
+
+    C --> C1[Resumenes y chat]
+    D --> D1[XML y documentos]
+```
+
+---
+
+## Flujo de navegacion del BOE
+
+```mermaid
+sequenceDiagram
+
+    actor U as Usuario
+    participant A as Angular
+    participant B as API BOE
+
+    U->>A: Navegar por boletines
+    A->>B: Solicitar sumario
+    B-->>A: Datos del BOE
+    A-->>U: Mostrar disposiciones
+```
+
+---
+
+## Flujo de apertura de una disposicion
+
+```mermaid
+sequenceDiagram
+
+    actor U as Usuario
+    participant A as Angular
+    participant S as Supabase Edge Function
+    participant B as API BOE
+    participant O as OpenAI
+    participant DB as PostgreSQL
+
+    U->>A: Abrir disposicion
+    A->>S: Solicitar contenido y resumen
+
+    S->>B: Descargar XML
+    B-->>S: XML de la disposicion
+
+    S->>S: Extraer texto
+
+    S->>O: Generar resumen
+    O-->>S: Resumen simplificado
+
+    S->>DB: Guardar resumen
+
+    S-->>A: Respuesta final
+    A-->>U: Mostrar disposicion y resumen
+```
+
+---
+
+## Flujo del asistente IA
+
+```mermaid
+sequenceDiagram
+
+    actor U as Usuario
+    participant A as Angular
+    participant S as Supabase Edge Function
+    participant V as pgvector
+    participant O as OpenAI
+
+    U->>A: Pregunta sobre disposicion
+    A->>S: Enviar mensaje
+
+    S->>V: Buscar fragmentos relevantes
+    V-->>S: Contexto relacionado
+
+    S->>O: Generar respuesta con contexto
+    O-->>S: Respuesta IA
+
+    S-->>A: Respuesta final
+    A-->>U: Mostrar respuesta
+```
+
+---
+
+## Modelo conceptual del sistema
+
+```mermaid
+flowchart LR
+
+    A[Explorador del BOE]
+    B[Asistente IA por disposicion]
+
+    A --> A1[Consultar sumarios]
+    A --> A2[Visualizar disposiciones]
+
+    B --> B1[Generar resumenes]
+    B --> B2[Chat contextual]
+    B --> B3[Organizacion en carpetas]
+```
+
+---
+
+## Funcionalidades principales
+
+```mermaid
+flowchart TD
+
+    A[Aplicacion BOE IA]
+
+    A --> B[Consultar sumarios]
+    A --> C[Visualizar disposiciones]
+    A --> D[Descargar XML]
+    A --> E[Generar resumenes]
+    A --> F[Chat sobre disposiciones]
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
