@@ -6,7 +6,7 @@
 <div align="center">
   <!-- LOGO -->
   <a href="https://github.com/rubluesan/boe4all">
-    <img src="./public/assets/..." alt="Logo" width="80" height="80">
+    <img src="./public/assets/BOE4all_logo200x64.png" alt="Logo" width="180" height="60">
   </a>
 
   <h3 align="center">Boe4all</h3>
