@@ -36,11 +36,11 @@ export class CustomSearcher {
     required(schemaPath.year, {
       message: 'Debes introducir un año para realizar la búsqueda.',
     });
-    min(schemaPath.year, 1900, {
-      message: 'El año debe ser un número entre 1900 y ' + new Date().getFullYear() + '.',
+    min(schemaPath.year, 1960, {
+      message: 'El año debe ser un número entre 1960 y ' + new Date().getFullYear() + '.',
     });
     max(schemaPath.year, new Date().getFullYear(), {
-      message: 'El año debe ser un número entre 1900 y ' + new Date().getFullYear() + '.',
+      message: 'El año debe ser un número entre 1960 y ' + new Date().getFullYear() + '.',
     });
   });
 
@@ -51,12 +51,8 @@ export class CustomSearcher {
     console.log(day, month, year);
     console.log(typeof this.formulario.day);
     console.log(this.formulario.day());
-    const fechaboe =
-      `${year}${String(month).padStart(2, '0')
-      }${String(day).padStart(2, '0')
-      }`;
+    const fechaboe = `${year}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`;
 
-    this.ruta.navigate(['sumario', fechaboe]);//ruta por defecto ya cambiare el nombre así hay algo ahí
-
+    this.ruta.navigate(['sumario', fechaboe]); //ruta por defecto ya cambiare el nombre así hay algo ahí
   }
 }

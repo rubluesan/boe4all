@@ -1,0 +1,50 @@
+/* --- HOME PAGE STYLES --- */
+
+/* HOME CONTAINER */
+.home-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* SEARCH CONTAINER */
+.search-container {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+  margin-right: var(--spacing-lg);
+}
+
+/* HOME-CONTENT */
+#home-content {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+}
+
+/* --- CONTENEDORES HOME-CONTENT --- */
+#folders-sidebar {
+  width: 200px;
+  background-color: var(--color-primary);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+#content-area {
+  flex: 1;
+  background-color: var(--color-secondary);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+#date-selector {
+  width: 200px;
+  background-color: var(--color-tertiary);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+}
+
+#pagination-controls {
+  background-color: var(--color-quaternary);
+  color: var(--text-main);
+  align-self: center;
+}
