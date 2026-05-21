@@ -1,1 +1,44 @@
-<p>summary works!</p>
+<div class="summary-container container">
+  @if (sumario()) {
+    <h1>Sumario {{ sumario()!.diario[0]!.sumario_diario.identificador }}</h1>
+    @for (seccion of sumario()!.diario[0]!.seccion; track $index) {
+      <div class="seccion">
+        <h2>{{ seccion.nombre }}</h2>
+        @for (departamento of ensureArray(seccion.departamento); track $index) {
+          <div class="departamento">
+            <h3>{{ departamento.nombre }}</h3>
+            @if (departamento.item) {
+              @for (boeItem of ensureArray(departamento.item); track $index) {
+                <div class="boe-item">
+                  <p>{{ boeItem.titulo }}</p>
+                  <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
+                </div>
+              }
+            } @else if (departamento.texto) {
+              @for (boeItem of ensureArray(departamento.texto.item); track $index) {
+                <div class="boe-item">
+                  <p>{{ boeItem.titulo }}</p>
+                  <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
+                </div>
+              }
+            } @else {
+              @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
+                <div class="epigrafe">
+                  <h4>{{ epigrafe.nombre }}</h4>
+                  @for (boeItem of ensureArray(epigrafe.item); track $index) {
+                    <div class="boe-item">
+                      <p>{{ boeItem.titulo }}</p>
+                      <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
+                    </div>
+                  }
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    No hay datos para esa fecha
+  }
+</div>

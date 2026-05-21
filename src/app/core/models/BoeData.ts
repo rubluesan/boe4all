@@ -53,6 +53,8 @@ export interface Departamento {
   codigo: number; // Código numérico de 4 dígitos
   nombre: string;
   epigrafe: Epigrafe[];
+  item: BoeItem[]; // Algunos departamentos pueden tener ítems directamente sin epígrafes
+  texto: BoeItem[]; // Algunos departamentos pueden tener ítems directamente sin epígrafes
 }
 
 // Interfaz que representa un epígrafe (frase que sugiere la temática), incluyendo su nombre y los ítems asociados
