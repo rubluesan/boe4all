@@ -55,6 +55,7 @@ export class Register {
       this.systemMessageService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
         true,
+        'invalid_register_form',
       );
       this.loading.set(false);
       return;
@@ -64,11 +65,15 @@ export class Register {
 
       if (error) throw error;
 
-      this.message.set('¡Registro completado! Ya puedes entrar.');
+      this.systemMessageService.showMessage('¡Registro completado! Ya puedes entrar.', false);
       this.router.navigate(['/home']);
       // posible redirección a login o home: this.router.navigate(['/home']);
     } catch (e: any) {
-      this.message.set(e.message || 'Error en el registro');
+      this.systemMessageService.showMessage(
+        e.message || 'Error en el registro',
+        true,
+        'register_failed',
+      );
     } finally {
       this.loading.set(false);
     }

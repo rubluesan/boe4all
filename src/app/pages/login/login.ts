@@ -42,6 +42,7 @@ export class Login {
       this.systemMessageService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
         true,
+        'invalid_login_form',
       );
       this.loading.set(false);
       return;
@@ -54,7 +55,11 @@ export class Login {
       this.systemMessageService.showMessage('Sesión iniciada correctamente', false);
       this.router.navigate(['/home']); // Redirige al Home después de login exitoso
     } catch (e: any) {
-      this.message.set(e.message || 'Error en la autenticación');
+      this.systemMessageService.showMessage(
+        e.message || 'Error en la autenticación',
+        true,
+        'login_failed',
+      );
     } finally {
       this.loading.set(false);
     }
