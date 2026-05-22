@@ -11,24 +11,38 @@
               @for (boeItem of ensureArray(departamento.item); track $index) {
                 <div class="boe-item">
                   <p>{{ boeItem.titulo }}</p>
-                  <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
+                  <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                 </div>
               }
             } @else if (departamento.texto) {
-              @for (boeItem of ensureArray(departamento.texto.item); track $index) {
-                <div class="boe-item">
-                  <p>{{ boeItem.titulo }}</p>
-                  <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
-                </div>
+              @if (departamento.texto.item) {
+                @for (boeItem of ensureArray(departamento.texto.item); track $index) {
+                  <div class="boe-item">
+                    <p>{{ boeItem.titulo }}</p>
+                    <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
+                  </div>
+                }
+              } @else {
+                @for (epigrafe of ensureArray(departamento.texto.epigrafe); track $index) {
+                  <div class="epigrafe">
+                    <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
+                    @for (boeItem of ensureArray(epigrafe.item); track $index) {
+                      <div class="boe-item">
+                        <p>{{ boeItem.titulo }}</p>
+                        <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
+                      </div>
+                    }
+                  </div>
+                }
               }
             } @else {
               @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
                 <div class="epigrafe">
-                  <h4>{{ epigrafe.nombre }}</h4>
+                  <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
                   @for (boeItem of ensureArray(epigrafe.item); track $index) {
                     <div class="boe-item">
                       <p>{{ boeItem.titulo }}</p>
-                      <p><a [href]="boeItem.url_pdf" target="_blank">Descargar PDF</a></p>
+                      <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                     </div>
                   }
                 </div>
