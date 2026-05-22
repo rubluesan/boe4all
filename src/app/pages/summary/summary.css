@@ -1,0 +1,10 @@
+.boe-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.epigrafe-name {
+  margin-bottom: var(--spacing-sm);
+}
