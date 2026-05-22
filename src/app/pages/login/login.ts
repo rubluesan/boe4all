@@ -38,6 +38,14 @@ export class Login {
     this.loading.set(true);
     this.message.set('');
     const data = this.loginForm().value();
+    if (this.loginForm().invalid()) {
+      this.systemMessageService.showMessage(
+        'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
+        true,
+      );
+      this.loading.set(false);
+      return;
+    }
     try {
       const { error } = await this.supabase.signIn(data.email, data.password); // Intenta iniciar sesión
 
