@@ -56,6 +56,7 @@ export class Register {
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
         true,
       );
+      this.loading.set(false);
       return;
     }
     try {
