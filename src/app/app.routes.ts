@@ -9,10 +9,20 @@ import { Summary } from './pages/summary/summary';
 export const routes: Routes = [
   { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
   { path: '*', component: Landing, data: { breadcrumb: 'LandingPage' } },
-  { path: 'landing', component: Landing,  data: { breadcrumb: 'LandingPage' } },
-  { path: 'home', component: Home, canActivate: [guardedRoutesGuard], data: { breadcrumb: 'Home' } },
+  { path: 'landing', component: Landing, data: { breadcrumb: 'LandingPage' } },
+  {
+    path: 'home',
+    component: Home,
+    canActivate: [guardedRoutesGuard],
+    data: { breadcrumb: 'Home' },
+  },
   { path: 'login', component: Login, data: { breadcrumb: 'Login' } },
   { path: 'register', component: Register, data: { breadcrumb: 'Register' } },
-  { path: 'disposiciones', component: Disposition, canActivate: [guardedRoutesGuard], data: { breadcrumb: 'Disposiciones' } },
-  { path: 'sumario/:fecha', component: Summary,  data: { breadcrumb: 'Sumario' } },
+  {
+    path: 'disposicion/:id',
+    component: Disposition,
+    canActivate: [guardedRoutesGuard],
+    data: { breadcrumb: 'Disposicion' },
+  },
+  { path: 'sumario/:fecha', component: Summary, data: { breadcrumb: 'Sumario' } },
 ];

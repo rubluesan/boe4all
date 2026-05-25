@@ -9,7 +9,7 @@
             <h3>{{ departamento.nombre }}</h3>
             @if (departamento.item) {
               @for (boeItem of ensureArray(departamento.item); track $index) {
-                <div class="boe-item">
+                <div class="boe-item" (click)="openDisposition(boeItem)">
                   <p>{{ boeItem.titulo }}</p>
                   <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                 </div>
@@ -17,7 +17,7 @@
             } @else if (departamento.texto) {
               @if (departamento.texto.item) {
                 @for (boeItem of ensureArray(departamento.texto.item); track $index) {
-                  <div class="boe-item">
+                  <div class="boe-item" (click)="openDisposition(boeItem)">
                     <p>{{ boeItem.titulo }}</p>
                     <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                   </div>
@@ -27,7 +27,7 @@
                   <div class="epigrafe">
                     <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
                     @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                      <div class="boe-item">
+                      <div class="boe-item" (click)="openDisposition(boeItem)">
                         <p>{{ boeItem.titulo }}</p>
                         <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                       </div>
@@ -40,7 +40,7 @@
                 <div class="epigrafe">
                   <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
                   @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                    <div class="boe-item">
+                    <div class="boe-item" (click)="openDisposition(boeItem)">
                       <p>{{ boeItem.titulo }}</p>
                       <p><a [href]="boeItem.url_pdf.texto" target="_blank">Descargar PDF</a></p>
                     </div>
