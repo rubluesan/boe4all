@@ -102,3 +102,144 @@
     height: 280px;
   }
 }
+
+/* --- RESUMEN IA SECTION --- */
+
+.daily-ia-summary {
+  width: 100%;
+  padding: 3rem 0;
+  box-sizing: border-box;
+}
+
+.summary-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Grid: una sola columna en móvil */
+.summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Estilo base de las tarjetas contenedor */
+.summary-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+/* Tarjeta del texto de la IA */
+.main-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.boe-date-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.ai-generated-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ai-intro {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.ai-bullet-points {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  line-height: 1.5;
+}
+
+.ai-conclusion {
+  font-style: italic;
+  margin: 0;
+}
+
+/* Tarjeta de captación (CTA) */
+.cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.cta-card h3 {
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+.benefit-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.benefit-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.benefit-item p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Botón de llamada a la acción hacia el registro */
+.btn-register-cta {
+  display: block;
+  text-align: center;
+  padding: 0.85rem 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn-register-cta:hover {
+  transform: translateY(-2px);
+}
+
+/* --- MEDIA QUERY RESUMEN IA SECTION (Para Escritorio y Pantallas Grandes) --- */
+@media (min-width: 992px) {
+  .summary-header {
+    margin-bottom: 3.5rem;
+  }
+
+  /* Distribución en dos columnas: el resumen ocupa el 65% y el CTA el 35% */
+  .summary-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Añadimos un poco más de holgura a los textos en pantallas grandes */
+  .summary-card {
+    padding: 2.5rem;
+  }
+
+  .cta-card {
+    padding: 2.5rem 2rem;
+  }
+}
