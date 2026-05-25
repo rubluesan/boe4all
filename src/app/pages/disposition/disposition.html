@@ -1,9 +1,45 @@
-<p>disposition works!</p>
-<p>{{ disposition()?.titulo }}</p>
-<p>{{ date() }}</p>
-<iframe [src]="safePdfUrl()" width="600px" height="600px" style="border: none">
-  <p>
-    Tu navegador no soporta iframes.
-    <a [href]="disposition()?.url_pdf?.texto" target="_blank">Descarga el PDF</a>.
-  </p>
-</iframe>
+<div class="disposition-container container">
+  @if (disposition()) {
+    <div class="disposition-header">
+      <div class="disposition-data">
+        <p style="text-align: justify">{{ disposition()?.titulo }}</p>
+        <p>{{ date() }}</p>
+        <p>{{ disposition()?.control }}</p>
+        <p>{{ disposition()?.identificador }}</p>
+      </div>
+      <div class="disposition-actions">
+        <p>
+          <a
+            [href]="disposition()!.url_pdf.texto"
+            target="_blank"
+            (click)="$event.stopPropagation()"
+            >Descargar PDF</a
+          >
+        </p>
+        <p>
+          <a [href]="disposition()!.url_html" target="_blank" (click)="$event.stopPropagation()"
+            >Ver oficial</a
+          >
+        </p>
+        <!-- Acciones adicionales -->
+        ACCIONES (VOLVER, AÑADIR A CARPETA, ETC.)
+      </div>
+    </div>
+
+    <div class="disposition-content">
+      <div class="left-column">
+        <iframe [src]="safePdfUrl()" width="100%" height="600px" style="border: none">
+          <p>
+            Tu navegador no soporta iframes.
+            <a [href]="disposition()?.url_pdf?.texto" target="_blank">Descarga el PDF</a>.
+          </p>
+        </iframe>
+      </div>
+      <div class="right-column">
+        <p>ASISTENTE</p>
+      </div>
+    </div>
+  } @else {
+    <p>Disposición no encontrada.</p>
+  }
+</div>
