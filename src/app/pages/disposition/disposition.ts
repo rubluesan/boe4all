@@ -17,6 +17,7 @@ export class Disposition {
 
   disposition = signal<BoeItem | null>(null);
   date = signal<string | null>(null);
+  mensajes = signal<{ text: string; isUser: boolean }[]>([]);
 
   safePdfUrl = computed<SafeResourceUrl | null>(() => {
     const url = this.disposition()?.url_pdf.texto;
@@ -44,5 +45,28 @@ export class Disposition {
     if (!this.disposition()) {
       this.router.navigate(['/sumario', { fecha: this.date() }]);
     }
+  }
+
+  enviarMensaje(event: Event) {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const textoInput = formData.get('textoChat') as string;
+
+    if (!textoInput || !textoInput.trim()) {
+      return;
+    }
+
+    this.mensajes.update((msgs) => [...msgs, { text: textoInput.trim(), isUser: true }]);
+
+    form.reset();
+
+    setTimeout(() => {
+      const container = document.querySelector('.chat-messages-container');
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }, 0);
   }
 }

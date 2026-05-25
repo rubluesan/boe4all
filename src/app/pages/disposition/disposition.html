@@ -28,7 +28,7 @@
 
     <div class="disposition-content">
       <div class="left-column">
-        <iframe [src]="safePdfUrl()" width="100%" height="600px" style="border: none">
+        <iframe [src]="safePdfUrl()" width="100%" height="100%" style="border: none">
           <p>
             Tu navegador no soporta iframes.
             <a [href]="disposition()?.url_pdf?.texto" target="_blank">Descarga el PDF</a>.
@@ -36,7 +36,39 @@
         </iframe>
       </div>
       <div class="right-column">
-        <p>ASISTENTE</p>
+        <div class="chat-wrapper">
+          <div class="chat-header">
+            <h3>Asistente IA - BOE</h3>
+            <span class="chat-status">CHAT STATUS</span>
+          </div>
+
+          <div class="chat-messages-container">
+            <div class="message system">
+              <p>¡Hola! Soy tu asistente del BOE. ¿En qué puedo ayudarte hoy?</p>
+            </div>
+
+            @for (msg of mensajes(); track $index) {
+              <div class="message" [class.user]="msg.isUser" [class.ia]="!msg.isUser">
+                <div class="message-content">
+                  <p>{{ msg.text }}</p>
+                </div>
+              </div>
+            }
+          </div>
+
+          <form class="chat-input-container" (submit)="enviarMensaje($event)">
+            <input
+              type="text"
+              placeholder="Pregúntame sobre el sumario de hoy..."
+              class="chat-input"
+              autocomplete="off"
+              name="textoChat"
+            />
+            <button type="submit" class="chat-submit-btn btn btn-primary btn-primary-hover">
+              Enviar
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   } @else {
