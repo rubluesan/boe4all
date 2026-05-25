@@ -48,6 +48,7 @@ export interface Seccion {
   codigo: string; // Código alfanumérico de 1 ó 2 caracteres
   nombre: string;
   departamento: Departamento[];
+  texto: { departamento: Departamento[] }; // Algunos diarios pueden tener los departamentos dentro de un campo 'texto' en lugar de directamente en 'departamento'
 }
 
 // Interfaz que representa un departamento de la administración, incluyendo su código, nombre y epígrafes asociados
