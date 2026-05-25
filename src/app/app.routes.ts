@@ -8,7 +8,6 @@ import { Disposition } from './pages/disposition/disposition';
 import { Summary } from './pages/summary/summary';
 export const routes: Routes = [
   { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
-  { path: '*', component: Landing, data: { breadcrumb: 'LandingPage' } },
   { path: 'landing', component: Landing, data: { breadcrumb: 'LandingPage' } },
   {
     path: 'home',
@@ -24,5 +23,11 @@ export const routes: Routes = [
     canActivate: [guardedRoutesGuard],
     data: { breadcrumb: 'Disposicion' },
   },
-  { path: 'sumario/:fecha', component: Summary, data: { breadcrumb: 'Sumario' } },
+  {
+    path: 'sumario/:fecha',
+    component: Summary,
+    canActivate: [guardedRoutesGuard],
+    data: { breadcrumb: 'Sumario' },
+  },
+  { path: '**', component: Landing, data: { breadcrumb: 'LandingPage' } },
 ];
