@@ -162,4 +162,50 @@ export class SupabaseService implements OnDestroy {
       this.initialized.set(true);
     }
   }
+
+  async updateProfile(updates: { username: string; avatar_url: string }) {
+    const user = this.user();
+    if (!user) throw new Error('No user logged in');
+
+    // Solo el dueño puede actualizar su propio perfil debido a las políticas RLS
+    const res = await this.supabase
+      .from('profiles')
+      .update({
+        ...updates,
+        updated_at: new Date(),
+      })
+      .eq('id', user.id);
+
+    await this.refreshProfile();
+    return res;
+  }
+
+  /**
+   * Sube una imagen al Bucket de 'avatars' en Supabase Storage
+   */
+  async uploadAvatar(file: File) {
+    const user = this.user();
+    if (!user) throw new Error('No user logged in');
+
+    /*Estaría bien comprimir y escalar la imagen antes de subirla para optimizar 
+    el almacenamiento y la entrega, pero lo dejamos para futuras mejoras */
+    //const compressedBlob = await this.compressImage(file, 400, 400);
+    const fileExt = 'webp';
+    const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+
+    const { error: uploadError } = await this.supabase.storage
+      .from('avatars')
+      .upload(filePath, file, {
+        cacheControl: '31536000',
+        upsert: true,
+      });
+
+    if (uploadError) throw uploadError;
+
+    // Obtenemos la URL pública para mostrar la imagen
+    const { data } = this.supabase.storage.from('avatars').getPublicUrl(filePath);
+
+    // Optimizamos la entrega usando el servicio de transformación de imágenes de Supabase
+    return data.publicUrl.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
+  }
 }

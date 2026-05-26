@@ -1,1 +1,101 @@
-<p>profile works!</p>
+<div class="profile-container fade-in">
+  <div class="container">
+    <header class="profile-header">
+      <h1>Mi Perfil</h1>
+      <p class="text-muted">Gestiona tu información personal y presencia en la comunidad.</p>
+    </header>
+
+    <div class="profile-layout">
+      <!-- Sidebar: Avatar & Quick Stats -->
+      <aside class="profile-sidebar">
+        <div class="card avatar-card shadow-sm">
+          <div class="avatar-section">
+            <div class="avatar-container avatar-lg shadow-md">
+              @if (avatarUrl() && !avatarError()) {
+                <img [src]="avatarUrl()" alt="Avatar" (error)="avatarError.set(true)" />
+              }
+
+              @if (!avatarUrl() || avatarError()) {
+                <span>{{ (profile()?.username?.[0] || userEmail()?.[0])?.toUpperCase() }}</span>
+              }
+            </div>
+
+            <div class="user-info">
+              <h2>{{ profile()?.username || 'Usuario' }}</h2>
+              <span class="email-badge">{{ userEmail() }}</span>
+            </div>
+
+            <label
+              for="avatar-upload"
+              class="btn btn-outline btn-sm avatar-action smooth-transition"
+            >
+              <lucide-icon name="upload" class="icon-xs"></lucide-icon>
+              <span>Cambiar foto</span>
+              <input
+                type="file"
+                id="avatar-upload"
+                (change)="uploadAvatar($event)"
+                accept="image/*"
+                class="hidden"
+              />
+            </label>
+          </div>
+
+          <!-- Para futuras mejoras como listas o intereses -->
+          <!-- <div class="profile-stats">
+            <div class="stat-item">
+              <span class="stat-value">0</span>
+              <span class="stat-label"></span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <span class="stat-value">0</span>
+              <span class="stat-label"></span>
+            </div>
+          </div> -->
+        </div>
+      </aside>
+
+      <!-- Main Content: Settings -->
+      <main class="profile-main">
+        <div class="card settings-card shadow-sm">
+          <div class="card-header">
+            <lucide-icon name="user" class="icon-primary"></lucide-icon>
+            <h3>Información Personal</h3>
+          </div>
+
+          <div class="settings-form">
+            <div class="form-group">
+              <label for="username">Nombre de usuario</label>
+              <div class="input-wrapper smooth-transition">
+                <lucide-icon name="users" class="input-icon"></lucide-icon>
+                <input
+                  type="text"
+                  id="username"
+                  [(ngModel)]="username"
+                  placeholder="Tu nombre público"
+                />
+              </div>
+              <p class="input-hint">.</p>
+            </div>
+
+            <div class="form-actions">
+              <button
+                class="btn btn-primary flex-align-center smooth-transition"
+                (click)="updateProfile()"
+                [disabled]="loading()"
+              >
+                <lucide-icon
+                  [name]="loading() ? 'loader-2' : 'save'"
+                  [class.animate-spin]="loading()"
+                  class="icon-sm"
+                ></lucide-icon>
+                <span>{{ loading() ? 'Guardando...' : 'Guardar cambios' }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>

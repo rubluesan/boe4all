@@ -20,6 +20,10 @@ import {
   Search,
   Bell,
   BookType,
+  User,
+  Users,
+  Save,
+  Upload,
 } from 'lucide-angular';
 
 export const myLucideIcons = {
@@ -43,4 +47,8 @@ export const myLucideIcons = {
   Search,
   Bell,
   BookType,
+  User,
+  Users,
+  Save,
+  Upload,
 } as LucideIcons;
