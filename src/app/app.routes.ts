@@ -7,6 +7,7 @@ import { guardedRoutesGuard } from './core/guards/guarded-routes-guard';
 import { Disposition } from './pages/disposition/disposition';
 import { Summary } from './pages/summary/summary';
 import { Profile } from './pages/profile/profile';
+import { publicRoutesGuard } from './core/guards/public-guard';
 export const routes: Routes = [
   { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
   { path: 'landing', component: Landing, data: { breadcrumb: 'LandingPage' } },
@@ -16,8 +17,18 @@ export const routes: Routes = [
     canActivate: [guardedRoutesGuard],
     data: { breadcrumb: 'Home' },
   },
-  { path: 'login', component: Login, data: { breadcrumb: 'Login' } },
-  { path: 'register', component: Register, data: { breadcrumb: 'Register' } },
+  {
+    path: 'login',
+    component: Login,
+    canActivate: [publicRoutesGuard],
+    data: { breadcrumb: 'Login' },
+  },
+  {
+    path: 'register',
+    component: Register,
+    canActivate: [publicRoutesGuard],
+    data: { breadcrumb: 'Register' },
+  },
   {
     path: 'disposicion/:id',
     component: Disposition,
