@@ -17,7 +17,6 @@ export class Register {
   private router = inject(Router);
   private systemMessageService = inject(SystemMessageService);
   loading = signal(false); // Estado para mostrar el spinner en el botón
-  message = signal(''); // Mensaje para el usuario (éxito o error)
 
   loginModel = signal<LoginData>({
     email: '',
@@ -44,13 +43,14 @@ export class Register {
       return null;
     });
   });
+
   /**
    * Procesa el registro del usuario llamando al método correspondiente de SupabaseService
    */
   async handleRegister() {
     this.loading.set(true);
-    this.message.set('');
     const data = this.registerForm().value();
+
     if (this.registerForm().invalid()) {
       this.systemMessageService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
@@ -60,6 +60,7 @@ export class Register {
       this.loading.set(false);
       return;
     }
+
     try {
       const { error } = await this.supabase.signUp(data.email, data.password); // Intenta crear cuenta
 

@@ -17,7 +17,6 @@ export class Login {
   private systemMessageService = inject(SystemMessageService);
 
   loading = signal(false); // Estado para mostrar el spinner en el botón
-  message = signal(''); // Mensaje para el usuario (éxito o error)
 
   loginModel = signal<LoginData>({
     email: '',
@@ -31,13 +30,14 @@ export class Login {
 
     required(schemaPath.password, { message: 'La contraseña es obligatoria' });
   });
+
   /**
    * Procesa el inicio de sesión del usuario llamando al método correspondiente de SupabaseService
    */
   async handleLogin() {
     this.loading.set(true);
-    this.message.set('');
     const data = this.loginForm().value();
+
     if (this.loginForm().invalid()) {
       this.systemMessageService.showMessage(
         'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
@@ -47,6 +47,7 @@ export class Login {
       this.loading.set(false);
       return;
     }
+
     try {
       const { error } = await this.supabase.signIn(data.email, data.password); // Intenta iniciar sesión
 
