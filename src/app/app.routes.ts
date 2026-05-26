@@ -6,6 +6,7 @@ import { Register } from './pages/register/register';
 import { guardedRoutesGuard } from './core/guards/guarded-routes-guard';
 import { Disposition } from './pages/disposition/disposition';
 import { Summary } from './pages/summary/summary';
+import { Profile } from './pages/profile/profile';
 export const routes: Routes = [
   { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
   { path: 'landing', component: Landing, data: { breadcrumb: 'LandingPage' } },
@@ -28,6 +29,12 @@ export const routes: Routes = [
     component: Summary,
     canActivate: [guardedRoutesGuard],
     data: { breadcrumb: 'Sumario' },
+  },
+  {
+    path: 'profile',
+    component: Profile,
+    canActivate: [guardedRoutesGuard],
+    data: { breadcrumb: 'Profile' },
   },
   { path: '**', component: Landing, data: { breadcrumb: 'LandingPage' } },
 ];
