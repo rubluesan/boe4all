@@ -1,3 +1,7 @@
+.breadcrumb-nav {
+  padding: 20px 20px;
+}
+
 .breadcrumb-list {
   display: flex;
   list-style: none;
@@ -7,19 +11,19 @@
 
 .breadcrumb-list a {
   color: #0066cc;
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .breadcrumb-list a:hover {
-  text-decoration: underline;
+  color: #d87170;
 }
 
 .separator {
   margin: 0 8px;
-  color: #6c757d;
+  color: var(--primary);
 }
 
 .active {
-  color: #6c757d;
+  color: var(--primary);
   font-weight: bold;
 }
