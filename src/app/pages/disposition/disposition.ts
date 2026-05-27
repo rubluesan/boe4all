@@ -30,20 +30,13 @@ export class Disposition {
   });
 
   constructor() {
+    // esta forma de pasar la data es muy xd, por el momento queda así,
+    // se puedecrear un servicio global o algo así
     const currentNavigation = this.router.currentNavigation();
 
     if (currentNavigation?.extras.state) {
       this.disposition.set(currentNavigation.extras.state['disposition'] as BoeItem);
       this.date.set(currentNavigation.extras.state['date'] as string);
-    }
-  }
-
-  ngOnInit() {
-    /* Si el usuario recarga la página (F5), boeItem será null, por lo 
-    que lo llevamos de vuelta a la lista para que no vea la pantalla vacía.
-    */
-    if (!this.disposition()) {
-      this.router.navigate(['/sumario', { fecha: this.date() }]);
     }
   }
 

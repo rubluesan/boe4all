@@ -3,9 +3,15 @@
     <div class="disposition-header">
       <div class="disposition-data">
         <p style="text-align: justify">{{ disposition()?.titulo }}</p>
-        <p>{{ date() }}</p>
-        <p>{{ disposition()?.control }}</p>
-        <p>{{ disposition()?.identificador }}</p>
+        <p>
+          <strong
+            >Páginas {{ disposition()!.url_pdf!.pagina_inicial }} a
+            {{ disposition()!.url_pdf!.pagina_final }}
+            ({{
+              disposition()!.url_pdf!.pagina_final - disposition()!.url_pdf!.pagina_inicial + 1
+            }})
+          </strong>
+        </p>
       </div>
       <div class="disposition-actions">
         <p>
