@@ -30,17 +30,23 @@ export const routes: Routes = [
     data: { breadcrumb: 'Register' },
   },
   {
-    path: 'disposicion/:id',
-    component: Disposition,
-    canActivate: [guardedRoutesGuard],
-    data: { breadcrumb: 'Disposicion' },
-  },
-  {
     path: 'sumario/:fecha',
-    component: Summary,
-    canActivate: [guardedRoutesGuard],
     data: { breadcrumb: 'Sumario' },
+    canActivate: [guardedRoutesGuard],
+    children: [
+      {
+        path: '',
+        component: Summary,
+      },
+      {
+        path: 'disposicion/:id',
+        component: Disposition,
+        canActivate: [guardedRoutesGuard],
+        data: { breadcrumb: 'Disposicion' },
+      },
+    ],
   },
+
   {
     path: 'profile',
     component: Profile,

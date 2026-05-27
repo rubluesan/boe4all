@@ -1,11 +1,21 @@
 <!-- breadcrumb.component.html -->
 <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li *ngFor="let bc of breadcrumbService.breadcrumbs; let last = last"
-        class="breadcrumb-item"
-        [class.active]="last">
-      <a *ngIf="!last" [routerLink]="bc.url">{{ bc.label }}</a>
-      <span *ngIf="last">{{ bc.label }}</span>
-    </li>
+  <ol class="breadcrumb-list">
+    <!-- <li>
+      <a routerLink="/home">Inicio</a>
+    </li> -->
+
+    @for (bc of breadcrumbs; track bc.url; let last = $last) {
+      <li>
+        @if (last) {
+          <span class="active">{{ bc.label }}</span>
+        } @else {
+          <a [routerLink]="bc.url">{{ bc.label }}</a>
+        }
+      </li>
+      @if (!last) {
+        <span class="separator">/</span>
+      }
+    }
   </ol>
 </nav>

@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { inject } from '@angular/core';
 import { BoeService } from '../../core/services/boe-service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { BoeItem, BoeSumario } from '../../core/models/BoeData';
+import { YyyymmddToSpanishDatePipe } from '../../core/pipes/yyyymmdd-to-spanish-date-pipe';
 @Component({
   selector: 'app-summary',
-  imports: [],
+  imports: [YyyymmddToSpanishDatePipe, RouterOutlet],
   templateUrl: './summary.html',
   styleUrl: './summary.css',
 })
@@ -31,8 +32,11 @@ export class Summary {
   }
 
   openDisposition(boeItem: BoeItem) {
-    this.router.navigate(['disposicion', boeItem.identificador], {
-      state: { disposition: boeItem, date: this.sumario()?.metadatos.fecha_publicacion },
-    });
+    this.router.navigate(
+      ['sumario', this.route.snapshot.paramMap.get('fecha'), 'disposicion', boeItem.identificador],
+      {
+        state: { disposition: boeItem, date: this.sumario()?.metadatos.fecha_publicacion },
+      },
+    );
   }
 }

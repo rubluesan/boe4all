@@ -1,5 +1,12 @@
 <div class="summary-container container">
+  <router-outlet></router-outlet>
   @if (sumario()) {
+    <p class="publication-date">
+      Boletín Oficial del Estado:
+      {{ sumario()!.metadatos.fecha_publicacion | yyyymmddToSpanishDate }}, número
+      {{ sumario()!.diario[0]!.numero }}
+    </p>
+
     <h1>Sumario {{ sumario()!.diario[0]!.sumario_diario.identificador }}</h1>
     @for (seccion of ensureArray(sumario()!.diario[0]!.seccion); track $index) {
       <div class="seccion">

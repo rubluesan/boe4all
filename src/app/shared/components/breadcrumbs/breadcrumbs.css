@@ -1,0 +1,25 @@
+.breadcrumb-list {
+  display: flex;
+  list-style: none;
+  padding: 10px 0;
+  font-family: sans-serif;
+}
+
+.breadcrumb-list a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.breadcrumb-list a:hover {
+  text-decoration: underline;
+}
+
+.separator {
+  margin: 0 8px;
+  color: #6c757d;
+}
+
+.active {
+  color: #6c757d;
+  font-weight: bold;
+}

@@ -5,6 +5,18 @@
   margin-bottom: var(--spacing-md);
 }
 
+.boe-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
 .epigrafe-name {
   margin-bottom: var(--spacing-sm);
+}
+
+.publication-date {
+  color: var(--primary);
+  text-align: center;
 }
