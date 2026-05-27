@@ -1,21 +1,23 @@
 <!-- breadcrumb.component.html -->
-<nav class="breadcrumb-nav" aria-label="breadcrumb">
-  <ol class="breadcrumb-list">
-    <!-- <li>
+@if (breadcrumbs.length > 0) {
+  <nav class="breadcrumb-nav" aria-label="breadcrumb">
+    <ol class="breadcrumb-list">
+      <!-- <li>
       <a routerLink="/home">Inicio</a>
     </li> -->
 
-    @for (bc of breadcrumbs; track bc.url; let last = $last) {
-      <li>
-        @if (last) {
-          <span class="active">{{ bc.label }}</span>
-        } @else {
-          <a [routerLink]="bc.url">{{ bc.label }}</a>
+      @for (bc of breadcrumbs; track bc.url; let last = $last) {
+        <li>
+          @if (last) {
+            <span class="active">{{ bc.label }}</span>
+          } @else {
+            <a [routerLink]="bc.url">{{ bc.label }}</a>
+          }
+        </li>
+        @if (!last) {
+          <span class="separator">/</span>
         }
-      </li>
-      @if (!last) {
-        <span class="separator">/</span>
       }
-    }
-  </ol>
-</nav>
+    </ol>
+  </nav>
+}
