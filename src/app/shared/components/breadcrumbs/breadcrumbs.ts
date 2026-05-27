@@ -40,7 +40,6 @@ export class BreadcrumbComponent implements OnInit {
       return breadcrumbs;
     }
 
-    // Buscamos la ruta que está actualmente activa en este nivel
     const child = children.find((c) => c.snapshot.url.length > 0 || c.routeConfig?.path === '');
 
     if (child) {
@@ -50,9 +49,19 @@ export class BreadcrumbComponent implements OnInit {
         url += `/${routeURL}`;
       }
 
-      const label = child.snapshot.data['breadcrumb'];
+      // 1. Obtener el texto base de la configuración (ej: 'Disposicion {id}')
+      let label = child.snapshot.data['breadcrumb'];
 
-      // Evitamos duplicar si el padre y el hijo comparten el mismo texto
+      // 2. MAGIA AQUÍ: Si el texto existe, buscamos los parámetros de la URL
+      if (label) {
+        const params = child.snapshot.params; // Esto contiene { id: 'BOE-A-2026-123' }
+
+        // Recorremos todos los parámetros activos y reemplazamos sus llaves en el texto
+        Object.keys(params).forEach((key) => {
+          label = label.replace(`{${key}}`, params[key]);
+        });
+      }
+
       if (label && (!breadcrumbs.length || breadcrumbs[breadcrumbs.length - 1].label !== label)) {
         breadcrumbs.push({ label, url });
       }

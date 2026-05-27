@@ -9,29 +9,27 @@ import { Summary } from './pages/summary/summary';
 import { Profile } from './pages/profile/profile';
 import { publicRoutesGuard } from './core/guards/public-guard';
 export const routes: Routes = [
-  { path: '', component: Landing, data: { breadcrumb: 'LandingPage' } },
-  { path: 'landing', component: Landing, data: { breadcrumb: 'LandingPage' } },
+  { path: '', component: Landing },
+  { path: 'landing', component: Landing },
   {
     path: 'home',
     component: Home,
     canActivate: [guardedRoutesGuard],
-    data: { breadcrumb: 'Home' },
+    data: { breadcrumb: 'Home', showBreadcrumbs: true },
   },
   {
     path: 'login',
     component: Login,
     canActivate: [publicRoutesGuard],
-    data: { breadcrumb: 'Login' },
   },
   {
     path: 'register',
     component: Register,
     canActivate: [publicRoutesGuard],
-    data: { breadcrumb: 'Register' },
   },
   {
     path: 'sumario/:fecha',
-    data: { breadcrumb: 'Sumario' },
+    data: { breadcrumb: 'Sumario {fecha}', showBreadcrumbs: true },
     canActivate: [guardedRoutesGuard],
     children: [
       {
@@ -42,7 +40,7 @@ export const routes: Routes = [
         path: 'disposicion/:id',
         component: Disposition,
         canActivate: [guardedRoutesGuard],
-        data: { breadcrumb: 'Disposicion' },
+        data: { breadcrumb: 'Disposicion {id}', showBreadcrumbs: true },
       },
     ],
   },
@@ -51,7 +49,6 @@ export const routes: Routes = [
     path: 'profile',
     component: Profile,
     canActivate: [guardedRoutesGuard],
-    data: { breadcrumb: 'Profile' },
   },
-  { path: '**', component: Landing, data: { breadcrumb: 'LandingPage' } },
+  { path: '**', component: Landing },
 ];
