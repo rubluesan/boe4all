@@ -29,7 +29,9 @@
 ## 1. Visión General
 
 <p align="justify">
-...
+La visión general de nuestro proyecto es la utilización de la api del BOE para mostrar los datos 
+y usar un asistente de IA para que cualquier persona tenga la facilidad de entender sin necesidad 
+de conocer el lenguaje técnico del BOE o para preguntarle por cualquier cosa relacionada con este.
 </p>
 
 ## Arquitectura general
