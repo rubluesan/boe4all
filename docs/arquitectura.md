@@ -221,14 +221,23 @@ Las tecnologías que usado para desarrollar el proyecto son:
 
 ## 4. Integraciones con APIs
 
-### 4.1. REST Countries API
+### 4.1. Api del BOE
 
-...
+Para esta aplicación utilizamos la api publica del boe para utilizar sus datos y mostrarlos
+de maneras variopintas con la intención de que sea más intuitivo para los usuarios que no dominan el lenguaje técnico 
+de los BOE añadimos la función de un asistente de IA para preguntarle sobre el lenguaje utilizado y su significado o cualquier
+cosa que se le ocurra al usuario.
 
-#### Servicio implementado para integrar: (...mdlink)
+#### Servicio implementado para integrar: (./src/app/core/services/boe-service.ts)
 
 ```typescript
-codigo;
+private http = inject(HttpClient);
+  private apiUrl = environment.boeapiUrl;
+  public getDailySummary(date: string |null): Observable<HttpResponse<BoeDataResponse>> {
+    return this.http.get<BoeDataResponse>(this.apiUrl + `/${date}`, {
+      observe: 'response',
+    });
+  }
 ```
 
 #### Detalles de la implementación:

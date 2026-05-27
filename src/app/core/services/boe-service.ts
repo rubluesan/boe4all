@@ -10,17 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 export class BoeService {
   private http = inject(HttpClient);
   private apiUrl = environment.boeapiUrl;
-  /*private route = inject(ActivatedRoute);
-  ngOnInit() {
-  const fecha = this.route.snapshot.paramMap.get('fecha');
-  console.log(fecha);
-  this.getDailySummary(fecha).subscribe(response => {
-    console.log(response.body);
-  });
-}*/
   public getDailySummary(date: string |null): Observable<HttpResponse<BoeDataResponse>> {
     return this.http.get<BoeDataResponse>(this.apiUrl + `/${date}`, {
       observe: 'response',
     });
   }
+  
 }
