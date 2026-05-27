@@ -1,6 +1,6 @@
-<div class="home-container container">
+<div class="home-container">
   <div class="search-container">
-    <app-custom-searcher></app-custom-searcher>
+    <!-- <app-custom-searcher></app-custom-searcher> -->
   </div>
 
   <div id="home-content">
@@ -15,8 +15,21 @@
     </div>
 
     <div id="date-selector">
-      <!-- componente de calendario selector de fecha -->
-      CALENDARIO
+      <form class="date-form-container" (submit)="$event.preventDefault(); onDateSubmit()">
+        <div class="date-input-wrapper">
+          <label for="date">Ir a BOE de fecha:</label>
+          <input type="date" id="date" placeholder="fecha" [formField]="dateSelectForm.date" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-primary-hover">Buscar</button>
+      </form>
+      @if (dateSelectForm.date().invalid() && dateSelectForm.date().touched()) {
+        <ul class="validation-error-list">
+          @for (error of dateSelectForm.date().errors(); track error.kind) {
+            <li class="validation-error">{{ error.message }}</li>
+          }
+        </ul>
+      }
     </div>
   </div>
 

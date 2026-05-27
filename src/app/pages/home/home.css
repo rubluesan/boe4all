@@ -37,7 +37,7 @@
 }
 
 #date-selector {
-  width: 200px;
+  width: 15%;
   background-color: var(--color-tertiary);
   color: var(--text-main);
   border: 1px solid var(--border);
@@ -47,4 +47,17 @@
   background-color: var(--color-quaternary);
   color: var(--text-main);
   align-self: center;
+}
+
+/* --- FORMULARIO DE FECHA --- */
+.date-form-container {
+  display: flex;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-md);
+}
+
+.date-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
 }
