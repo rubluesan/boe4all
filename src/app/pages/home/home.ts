@@ -19,7 +19,7 @@ export class Home implements OnInit {
   getTodaysBoe() {
     this.boeService.getDailySummary(dateToYYYYMMDD(new Date())).subscribe({
       next: (response) => {
-        console.log('BOE data for today:', response.body);
+        //console.log('BOE data for today:', response.body);
       },
       error: (error) => {
         console.error('Error fetching BOE data:', error);

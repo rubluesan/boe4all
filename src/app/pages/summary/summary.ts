@@ -21,7 +21,7 @@ export class Summary {
     const fecha = this.route.snapshot.paramMap.get('fecha');
     // console.log(fecha);
     this.service.getDailySummary(fecha).subscribe((response) => {
-      console.log(response.body);
+      // console.log(response.body);
       this.sumario.set(response.body?.data.sumario || null);
     });
   }
