@@ -4,9 +4,10 @@ import { BoeService } from '../../core/services/boe-service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { BoeItem, BoeSumario } from '../../core/models/BoeData';
 import { YyyymmddToSpanishDatePipe } from '../../core/pipes/yyyymmdd-to-spanish-date-pipe';
+import { LucideAngularModule } from 'lucide-angular';
 @Component({
   selector: 'app-summary',
-  imports: [YyyymmddToSpanishDatePipe, RouterOutlet],
+  imports: [YyyymmddToSpanishDatePipe, RouterOutlet, LucideAngularModule],
   templateUrl: './summary.html',
   styleUrl: './summary.css',
 })
@@ -16,13 +17,16 @@ export class Summary {
   router = inject(Router);
 
   sumario = signal<BoeSumario | null>(null);
+  loading = signal(false);
 
   ngOnInit() {
     const fecha = this.route.snapshot.paramMap.get('fecha');
     // console.log(fecha);
+    this.loading.set(true);
     this.service.getDailySummary(fecha).subscribe((response) => {
       // console.log(response.body);
       this.sumario.set(response.body?.data.sumario || null);
+      this.loading.set(false);
     });
   }
 
