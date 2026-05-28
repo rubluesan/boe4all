@@ -20,3 +20,9 @@
   color: var(--primary);
   text-align: center;
 }
+
+.loading-overlay {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}

@@ -2,7 +2,8 @@
   <router-outlet></router-outlet>
   @if (loading()) {
     <div class="loading-overlay">
-      <lucide-icon name="loader-2" class="loading-spinner animate-spin"></lucide-icon>
+      <lucide-icon name="loader-2" class="icon-xl animate-spin"></lucide-icon>
+      <span>Cargando sumario...</span>
     </div>
   } @else {
     @if (sumario()) {
@@ -169,7 +170,10 @@
         </div>
       }
     } @else {
-      No hay datos para esa fecha
+      <div class="loading-overlay">
+        <lucide-icon name="file-exclamation-point" class="icon-xl" />
+        <span>No hay datos para esa fecha.</span>
+      </div>
     }
   }
 </div>

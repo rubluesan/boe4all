@@ -23,10 +23,15 @@ export class Summary {
     const fecha = this.route.snapshot.paramMap.get('fecha');
     // console.log(fecha);
     this.loading.set(true);
-    this.service.getDailySummary(fecha).subscribe((response) => {
-      // console.log(response.body);
-      this.sumario.set(response.body?.data.sumario || null);
-      this.loading.set(false);
+    this.service.getDailySummary(fecha).subscribe({
+      next: (response) => {
+        // console.log(response.body);
+        this.sumario.set(response.body?.data.sumario || null);
+        this.loading.set(false);
+      },
+      error: (error) => {
+        this.loading.set(false);
+      },
     });
   }
 
