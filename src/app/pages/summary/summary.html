@@ -1,5 +1,4 @@
 <div class="summary-container container">
-  <router-outlet></router-outlet>
   @if (loading()) {
     <div class="loading-overlay">
       <lucide-icon name="loader-2" class="icon-xl animate-spin"></lucide-icon>
@@ -7,18 +6,112 @@
     </div>
   } @else {
     @if (sumario()) {
-      <p class="publication-date">
-        Boletín Oficial del Estado:
-        {{ sumario()!.metadatos.fecha_publicacion | yyyymmddToSpanishDate }}, número
-        {{ sumario()!.diario[0]!.numero }}
-      </p>
+      <div class="summary-header">
+        <h1 class="publication-date">
+          Boletín Oficial del Estado:
+          {{ sumario()!.metadatos.fecha_publicacion | yyyymmddToSpanishDate }}, número
+          {{ sumario()!.diario[0]!.numero }}
+        </h1>
 
-      <h1>Sumario {{ sumario()!.diario[0]!.sumario_diario.identificador }}</h1>
-      @for (seccion of ensureArray(sumario()!.diario[0]!.seccion); track $index) {
-        <div class="seccion">
-          <h2>{{ seccion.nombre }}</h2>
-          @if (seccion.texto) {
-            @for (departamento of ensureArray(seccion.texto.departamento); track $index) {
+        <div class="summary-links">
+          <div class="pdf-link">
+            <p style="font-size: 1.15rem">
+              Sumario {{ sumario()!.diario[0]!.sumario_diario.identificador }}:
+            </p>
+            <a [href]="sumario()!.diario[0]!.sumario_diario.url_pdf.texto" target="_blank"
+              >Descargar PDF</a
+            >
+          </div>
+
+          <div class="next-prev-links">
+            <!-- Enlaces de navegación -->
+            <span><a (click)="irAlAnterior()">Anterior</a></span>
+            <span><a (click)="irAlSiguiente()"> Siguiente </a> </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-content">
+        @for (seccion of ensureArray(sumario()!.diario[0]!.seccion); track $index) {
+          <div class="seccion">
+            <h2 class="seccion-name">{{ seccion.nombre }}</h2>
+            @if (seccion.texto) {
+              @for (departamento of ensureArray(seccion.texto.departamento); track $index) {
+                <div class="departamento">
+                  <h3>{{ departamento.nombre }}</h3>
+                  @if (departamento.item) {
+                    @for (boeItem of ensureArray(departamento.item); track $index) {
+                      <div class="boe-item" (click)="openDisposition(boeItem)">
+                        <p>{{ boeItem.titulo }}</p>
+                        <p>
+                          <a
+                            [href]="boeItem.url_pdf.texto"
+                            target="_blank"
+                            (click)="$event.stopPropagation()"
+                            >Descargar PDF</a
+                          >
+                        </p>
+                      </div>
+                    }
+                  } @else if (departamento.texto) {
+                    @if (departamento.texto.item) {
+                      @for (boeItem of ensureArray(departamento.texto.item); track $index) {
+                        <div class="boe-item" (click)="openDisposition(boeItem)">
+                          <p>{{ boeItem.titulo }}</p>
+                          <p>
+                            <a
+                              [href]="boeItem.url_pdf.texto"
+                              target="_blank"
+                              (click)="$event.stopPropagation()"
+                              >Descargar PDF</a
+                            >
+                          </p>
+                        </div>
+                      }
+                    } @else {
+                      @for (epigrafe of ensureArray(departamento.texto.epigrafe); track $index) {
+                        <div class="epigrafe">
+                          <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
+                          @for (boeItem of ensureArray(epigrafe.item); track $index) {
+                            <div class="boe-item" (click)="openDisposition(boeItem)">
+                              <p>{{ boeItem.titulo }}</p>
+                              <p>
+                                <a
+                                  [href]="boeItem.url_pdf.texto"
+                                  target="_blank"
+                                  (click)="$event.stopPropagation()"
+                                  >Descargar PDF</a
+                                >
+                              </p>
+                            </div>
+                          }
+                        </div>
+                      }
+                    }
+                  } @else {
+                    @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
+                      <div class="epigrafe">
+                        <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
+                        @for (boeItem of ensureArray(epigrafe.item); track $index) {
+                          <div class="boe-item" (click)="openDisposition(boeItem)">
+                            <p>{{ boeItem.titulo }}</p>
+                            <p>
+                              <a
+                                [href]="boeItem.url_pdf.texto"
+                                target="_blank"
+                                (click)="$event.stopPropagation()"
+                                >Descargar PDF</a
+                              >
+                            </p>
+                          </div>
+                        }
+                      </div>
+                    }
+                  }
+                </div>
+              }
+            }
+            @for (departamento of ensureArray(seccion.departamento); track $index) {
               <div class="departamento">
                 <h3>{{ departamento.nombre }}</h3>
                 @if (departamento.item) {
@@ -92,83 +185,9 @@
                 }
               </div>
             }
-          }
-          @for (departamento of ensureArray(seccion.departamento); track $index) {
-            <div class="departamento">
-              <h3>{{ departamento.nombre }}</h3>
-              @if (departamento.item) {
-                @for (boeItem of ensureArray(departamento.item); track $index) {
-                  <div class="boe-item" (click)="openDisposition(boeItem)">
-                    <p>{{ boeItem.titulo }}</p>
-                    <p>
-                      <a
-                        [href]="boeItem.url_pdf.texto"
-                        target="_blank"
-                        (click)="$event.stopPropagation()"
-                        >Descargar PDF</a
-                      >
-                    </p>
-                  </div>
-                }
-              } @else if (departamento.texto) {
-                @if (departamento.texto.item) {
-                  @for (boeItem of ensureArray(departamento.texto.item); track $index) {
-                    <div class="boe-item" (click)="openDisposition(boeItem)">
-                      <p>{{ boeItem.titulo }}</p>
-                      <p>
-                        <a
-                          [href]="boeItem.url_pdf.texto"
-                          target="_blank"
-                          (click)="$event.stopPropagation()"
-                          >Descargar PDF</a
-                        >
-                      </p>
-                    </div>
-                  }
-                } @else {
-                  @for (epigrafe of ensureArray(departamento.texto.epigrafe); track $index) {
-                    <div class="epigrafe">
-                      <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                      @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                        <div class="boe-item" (click)="openDisposition(boeItem)">
-                          <p>{{ boeItem.titulo }}</p>
-                          <p>
-                            <a
-                              [href]="boeItem.url_pdf.texto"
-                              target="_blank"
-                              (click)="$event.stopPropagation()"
-                              >Descargar PDF</a
-                            >
-                          </p>
-                        </div>
-                      }
-                    </div>
-                  }
-                }
-              } @else {
-                @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
-                  <div class="epigrafe">
-                    <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                    @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                      <div class="boe-item" (click)="openDisposition(boeItem)">
-                        <p>{{ boeItem.titulo }}</p>
-                        <p>
-                          <a
-                            [href]="boeItem.url_pdf.texto"
-                            target="_blank"
-                            (click)="$event.stopPropagation()"
-                            >Descargar PDF</a
-                          >
-                        </p>
-                      </div>
-                    }
-                  </div>
-                }
-              }
-            </div>
-          }
-        </div>
-      }
+          </div>
+        }
+      </div>
     } @else {
       <div class="loading-overlay">
         <lucide-icon name="file-exclamation-point" class="icon-xl" />
@@ -177,3 +196,4 @@
     }
   }
 </div>
+<router-outlet></router-outlet>

@@ -1,9 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { BoeService } from '../../core/services/boe-service';
-import { dateToYYYYMMDD } from '../../shared/utils/date-to-yyyymmdd';
 import { CustomSearcher } from './components/custom-searcher/custom-searcher';
 import { form, FormField, required } from '@angular/forms/signals';
+import { dateToString } from '../../shared/utils/fechas-boe';
 @Component({
   selector: 'app-home',
   imports: [FormField],
@@ -19,7 +19,7 @@ export class Home implements OnInit {
   }
 
   getTodaysBoe() {
-    this.boeService.getDailySummary(dateToYYYYMMDD(new Date())).subscribe({
+    this.boeService.getDailySummary(dateToString(new Date())).subscribe({
       next: (response) => {
         //console.log('BOE data for today:', response.body);
       },
