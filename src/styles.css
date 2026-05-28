@@ -57,7 +57,7 @@ html {
 }
 
 body {
-  font-family: system-ui, sans-serif;
+  font-family: verdana, sans-serif;
   background-color: var(--background);
   color: var(--text-main);
   line-height: 1.5;
