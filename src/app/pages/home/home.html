@@ -15,21 +15,32 @@
     </div>
 
     <div id="date-selector">
-      <form class="date-form-container" (submit)="$event.preventDefault(); onDateSubmit()">
+      <form
+        class="date-form-container"
+        (submit)="onDateSubmit(fechaInput.value); $event.preventDefault()"
+      >
         <div class="date-input-wrapper">
           <label for="date">Ir a BOE de fecha:</label>
-          <input type="date" id="date" placeholder="fecha" [formField]="dateSelectForm.date" />
+          <input
+            #fechaInput
+            type="date"
+            id="date"
+            placeholder="fecha"
+            min="1960-09-01"
+            [max]="todaysDate"
+            required
+          />
         </div>
 
         <button type="submit" class="btn btn-primary btn-primary-hover">Buscar</button>
       </form>
-      @if (dateSelectForm.date().invalid() && dateSelectForm.date().touched()) {
+      <!-- @if (dateSelectForm.date().invalid() && dateSelectForm.date().touched()) {
         <ul class="validation-error-list">
           @for (error of dateSelectForm.date().errors(); track error.kind) {
             <li class="validation-error">{{ error.message }}</li>
           }
         </ul>
-      }
+      } -->
     </div>
   </div>
 
