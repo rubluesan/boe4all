@@ -5,7 +5,7 @@ import { ActivatedRoute, Router, RouterOutlet, RouterLink } from '@angular/route
 import { BoeItem, BoeSumario } from '../../core/models/BoeData';
 import { YyyymmddToSpanishDatePipe } from '../../core/pipes/yyyymmdd-to-spanish-date-pipe';
 import { LucideAngularModule } from 'lucide-angular';
-import { CdkObserveContent } from '@angular/cdk/observers';
+import { dateToString } from '../../shared/utils/fechas-boe';
 @Component({
   selector: 'app-summary',
   imports: [YyyymmddToSpanishDatePipe, RouterOutlet, LucideAngularModule],
@@ -20,6 +20,7 @@ export class Summary {
   sumario = signal<BoeSumario | null>(null);
   loading = signal(false);
   fechaBoeActual = signal<string | null>(null);
+  fechaHoy = signal<string>(dateToString(new Date())); // fecha de hoy en formato YYYYMMDD
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -52,23 +53,29 @@ export class Summary {
   }
 
   irAlAnterior() {
-    this.boeService.buscarBoeAnterior(this.fechaBoeActual()!).subscribe({
-      next: (response) => {
-        // Extraes la fecha del BOE encontrado desde la respuesta de tu API
-        const nuevaFecha = response.data.sumario.metadatos.fecha_publicacion;
-        this.router.navigate(['/sumario', nuevaFecha]);
-      },
-      error: (err) => console.warn(err.message), // Ej: "Has llegado al primer BOE..."
-    });
+    this.boeService
+      .buscarBoeAnterior(
+        this.fechaBoeActual()!,
+        this.sumario()!.diario[this.sumario()!.diario.length - 1]!.numero,
+      )
+      .subscribe({
+        next: (response) => {
+          const nuevaFecha = response.data.sumario.metadatos.fecha_publicacion;
+          this.router.navigate(['/sumario', nuevaFecha]);
+        },
+        // error: (err) => console.warn(err.message), // Ej: "Has llegado al primer BOE..."
+      });
   }
 
   irAlSiguiente() {
-    this.boeService.buscarBoeSiguiente(this.fechaBoeActual()!).subscribe({
-      next: (response) => {
-        const nuevaFecha = response.data.sumario.metadatos.fecha_publicacion;
-        this.router.navigate(['/sumario', nuevaFecha]);
-      },
-      error: (err) => console.warn(err.message), // Ej: "No hay publicaciones futuras..."
-    });
+    this.boeService
+      .buscarBoeSiguiente(this.fechaBoeActual()!, this.sumario()!.diario[0]!.numero)
+      .subscribe({
+        next: (response) => {
+          const nuevaFecha = response.data.sumario.metadatos.fecha_publicacion;
+          this.router.navigate(['/sumario', nuevaFecha]);
+        },
+        // error: (err) => console.warn(err.message), // Ej: "No hay publicaciones futuras..."
+      });
   }
 }

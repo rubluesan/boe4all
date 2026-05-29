@@ -25,6 +25,7 @@ import {
   Save,
   Upload,
   FileExclamationPoint,
+  ArrowLeft,
 } from 'lucide-angular';
 
 export const myLucideIcons = {
@@ -53,4 +54,5 @@ export const myLucideIcons = {
   Save,
   Upload,
   FileExclamationPoint,
+  ArrowLeft,
 } as LucideIcons;

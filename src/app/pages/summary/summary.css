@@ -40,6 +40,18 @@
   color: #d87170;
 }
 
+.prev-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.next-link {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
 .summary-content {
   display: flex;
   flex-direction: column;

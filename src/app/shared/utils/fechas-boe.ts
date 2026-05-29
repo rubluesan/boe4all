@@ -18,12 +18,6 @@ export function dateToString(date: Date): string {
 export function obtenerDiaAnterior(yyyymmdd: string): string {
   const date = stringToDate(yyyymmdd);
   date.setDate(date.getDate() - 1);
-
-  // Si es domingo (0), restamos otro día más (saltamos al sábado)
-  if (date.getDay() === 0) {
-    date.setDate(date.getDate() - 1);
-  }
-
   return dateToString(date);
 }
 
@@ -31,11 +25,5 @@ export function obtenerDiaAnterior(yyyymmdd: string): string {
 export function obtenerDiaSiguiente(yyyymmdd: string): string {
   const date = stringToDate(yyyymmdd);
   date.setDate(date.getDate() + 1);
-
-  // Si cae en domingo (0), sumamos otro día más (saltamos al lunes)
-  if (date.getDay() === 0) {
-    date.setDate(date.getDate() + 1);
-  }
-
   return dateToString(date);
 }
