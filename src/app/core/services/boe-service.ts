@@ -16,7 +16,6 @@ import {
 export class BoeService {
   private http = inject(HttpClient);
   private apiUrl = environment.boeapiUrl;
-
   private readonly FECHA_MINIMA = '19600901'; // 1 de Septiembre de 1960 - primera publicación del BOE moderno
 
   public getDailySummary(date: string | null): Observable<HttpResponse<BoeDataResponse>> {

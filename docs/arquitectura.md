@@ -32,6 +32,8 @@
 La visión general de nuestro proyecto es la utilización de la api del BOE para mostrar los datos 
 y usar un asistente de IA para que cualquier persona tenga la facilidad de entender sin necesidad 
 de conocer el lenguaje técnico del BOE o para preguntarle por cualquier cosa relacionada con este.
+
+Para ello utilizaremos una arquitectura la cual está explicada con bocetos y diagramas para una mayor comprensión.
 </p>
 
 ## Arquitectura general
@@ -226,11 +228,13 @@ Las tecnologías que usado para desarrollar el proyecto son:
 ### 4.1. Api del BOE
 
 Para esta aplicación utilizamos la api publica del boe para utilizar sus datos y mostrarlos
-de maneras variopintas con la intención de que sea más intuitivo para los usuarios que no dominan el lenguaje técnico 
-de los BOE añadimos la función de un asistente de IA para preguntarle sobre el lenguaje utilizado y su significado o cualquier
+de maneras variopintas con la intención de que sea más intuitivo para los usuarios que no dominan el lenguaje técnico
+de los BOE.
+
+A eso le añadimos la función de un asistente de IA para preguntarle sobre el lenguaje utilizado y su significado o cualquier
 cosa que se le ocurra al usuario.
 
-#### Servicio implementado para integrar: (./src/app/core/services/boe-service.ts)
+#### Servicio implementado para integrar: [Archivo servicio](../src/app/core/services/boe-service.ts)
 
 ```typescript
 private http = inject(HttpClient);
