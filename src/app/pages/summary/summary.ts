@@ -40,7 +40,7 @@ export class Summary {
       }
     });
   }
-
+//Función que se ejecutará al cargar el componente para obtener el sumario del BOE de la fecha indicada en la URL y manejar los estados de carga y error
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
       const fecha = params.get('fecha');
@@ -72,7 +72,7 @@ export class Summary {
       state: { disposition: boeItem, date: this.sumario()?.metadatos.fecha_publicacion },
     });
   }
-
+  //Función que navega al BOE del dia anterior al seleccionado
   irAlAnterior() {
     this.boeService
       .buscarBoeAnterior(
@@ -87,7 +87,7 @@ export class Summary {
         // error: (err) => console.warn(err.message), // Ej: "Has llegado al primer BOE..."
       });
   }
-
+  //Función que navega al BOE del dia siguiente al seleccionado
   irAlSiguiente() {
     this.boeService
       .buscarBoeSiguiente(this.fechaBoeActual()!, this.sumario()!.diario[0]!.numero)

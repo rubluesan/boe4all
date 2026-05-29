@@ -31,7 +31,7 @@ export class Disposition {
 
   constructor() {
     // esta forma de pasar la data es muy xd, por el momento queda así,
-    // se puedecrear un servicio global o algo así
+    // se puede crear un servicio global o algo así
     const currentNavigation = this.router.currentNavigation();
 
     if (currentNavigation?.extras.state) {
@@ -39,7 +39,7 @@ export class Disposition {
       this.date.set(currentNavigation.extras.state['date'] as string);
     }
   }
-
+  // Evento para enviar un mensaje en el chat simulado
   enviarMensaje(event: Event) {
     event.preventDefault();
 

@@ -21,14 +21,14 @@ export class Profile {
   username = '';
   loading = signal(false);
   avatarError = signal(false);
-
+  //Función que se ejecutará al cargar el componente para obtener los datos del perfil del usuario
   async ngOnInit() {
     this.profile.set(this.supabase.profile() || null);
     this.userEmail.set(this.supabase.profile()?.email);
     this.avatarUrl.set(this.supabase.profile()?.avatar_url || null);
     this.username = this.supabase.profile()?.username || '';
   }
-
+//Función asincrona que actualiza el perfil del usuario 
   async updateProfile() {
     this.loading.set(true);
     try {
@@ -45,7 +45,7 @@ export class Profile {
       this.loading.set(false);
     }
   }
-
+  //Función asincrona que se encarga de subir la imagen del avatar del usuario y actualizar el perfil con la nueva url de la imagen
   async uploadAvatar(event: any) {
     const file = event.target.files[0];
     if (!file) return;

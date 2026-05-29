@@ -12,11 +12,11 @@ export class Home implements OnInit {
   private boeService = inject(BoeService);
   private router = inject(Router);
   todaysDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD para el input date
-
+  //Función que se ejecutará al cargar el componente para obtener el BOE del día actual
   ngOnInit() {
     this.getTodaysBoe();
   }
-
+  //Función que obtiene el BOE del día actual
   getTodaysBoe() {
     this.boeService.getDailySummary(dateToString(new Date())).subscribe({
       next: (response) => {
@@ -27,7 +27,7 @@ export class Home implements OnInit {
       },
     });
   }
-
+  //Función asincrona que sirve para poner bien la fecha para el BOE y navegar a la página de sumario con esa fecha
   async onDateSubmit(fechaString: string) {
     if (!fechaString) return;
 
