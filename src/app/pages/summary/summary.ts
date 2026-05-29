@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { inject } from '@angular/core';
+import { inject, effect } from '@angular/core';
 import { BoeService } from '../../core/services/boe-service';
 import { ActivatedRoute, Router, RouterOutlet, RouterLink } from '@angular/router';
 import { BoeItem, BoeSumario } from '../../core/models/BoeData';
@@ -17,10 +17,29 @@ export class Summary {
   route = inject(ActivatedRoute);
   router = inject(Router);
 
-  sumario = signal<BoeSumario | null>(null);
-  loading = signal(false);
+  sumario = signal<BoeSumario | null>({} as BoeSumario);
   fechaBoeActual = signal<string | null>(null);
   fechaHoy = signal<string>(dateToString(new Date())); // fecha de hoy en formato YYYYMMDD
+
+  loading = signal(false);
+  showLoader = signal(false);
+  private loadingTimeout?: number;
+  notFound = signal(false);
+
+  constructor() {
+    effect(() => {
+      if (this.loading()) {
+        this.loadingTimeout = window.setTimeout(() => {
+          if (this.loading()) {
+            this.showLoader.set(true);
+          }
+        }, 180);
+      } else {
+        clearTimeout(this.loadingTimeout);
+        this.showLoader.set(false);
+      }
+    });
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -33,9 +52,11 @@ export class Summary {
           this.sumario.set(response.body?.data.sumario || null);
           this.loading.set(false);
           this.fechaBoeActual.set(response.body?.data.sumario.metadatos.fecha_publicacion || null);
+          this.notFound.set(false);
         },
         error: (error) => {
           this.loading.set(false);
+          this.notFound.set(true);
         },
       });
     });

@@ -1,11 +1,11 @@
 <div class="summary-container container">
-  @if (loading()) {
+  @if (showLoader()) {
     <div class="loading-overlay">
       <lucide-icon name="loader-2" class="icon-xl animate-spin"></lucide-icon>
       <span>Cargando sumario...</span>
     </div>
   } @else {
-    @if (sumario()) {
+    @if (sumario() && !notFound()) {
       @for (diario of sumario()!.diario; track $index) {
         <div class="summary-header">
           <h1 class="publication-date">
