@@ -351,7 +351,7 @@ Algunos detalles que he tenido en cuenta durante el desarrollo implican cuestion
 
 <a id="performance"></a>
 
-### Rendimiento
+<!-- ### Rendimiento
 
 Para el cargado de imágenes he usado la directiva NgOptimizedImage (uso de [ngSrc] en el template).
 En el caso de la página donde se muestran todos los países, además, he cargado
@@ -366,7 +366,7 @@ las cards de los primeros 4 países con prioridad añadiendo la propiedad `prior
   [priority]="true"
 />
 ```
-
+-->
 <a id="seo"></a>
 
 ### SEO

@@ -87,7 +87,7 @@ export class Summary {
         // error: (err) => console.warn(err.message), // Ej: "Has llegado al primer BOE..."
       });
   }
-  //Función que navega al BOE del dia siguiente al seleccionado
+  //Función que navega al BOE del dia siguiente al seleccionado 
   irAlSiguiente() {
     this.boeService
       .buscarBoeSiguiente(this.fechaBoeActual()!, this.sumario()!.diario[0]!.numero)

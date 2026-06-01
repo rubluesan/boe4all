@@ -59,11 +59,11 @@ Justo abajo muestro algunas variables que definí a nivel de raíz del proyecto 
 
 | Rol        | Valor (hex) | Variable CSS   |
 | ---------- | ----------- | -------------- |
-| Primario   | `#0891b2`   | `--primary`    |
-| Secundario | `#22d3ee`   | `--secondary`  |
+| Primario   | `#33786e`   | `--primary`    |
+| Secundario | `#ffd54f`   | `--secondary`  |
 | Background | `#f8fafc`   | `--background` |
 | Superficie | `#ffffff`   | `--surface`    |
-| Texto      | `#0f172a`   | `--text-main`  |
+| Texto      | `#1e293b`   | `--text-main`  |
 | Borde      | `#e2e8f0`   | `--border`     |
 
 ### Variables de espaciado (padding, margin, gap, etc.)
