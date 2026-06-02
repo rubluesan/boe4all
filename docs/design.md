@@ -95,7 +95,13 @@ Aquí muestro un ejemplo de una sombra y un border-radius definidos:
 ## 3. Elementos Principales de la UI
 
 <p align="justify">
+La UI consiste en que cuando abres por la página primero te lleva a la landing page la cual explica un poco la funcionalidad de la página y te permite tanto inciar sesión como registrarte para poder usar la página web.
 
+Al iniciar sesión nos lleva al componente home el cual consiste en una página como de inicio en la cual puedes observar los distintos apartados de la página: como un input de tipo fecha la cual podrás seleccionar una para poder visualizar el BOE de una fecha en concreto, ver las distintas carpetas del usuario, etc..
+
+Al buscar una fecha en el input te aparecerá el sumario del BOE de ese día,con toda la información que este conlleva separandote en tarjetas cada dato que contiene datos relevantes los cuales son clicables y te llevan a otra página con el pdf embebido y un asistente de IA para cualquier duda sobre esa normativa, cabe recalcar que en esa página también puedes descargarte los pdfs en el enlace que pone descargar pdf,Si le damos al enlace ver oficial nos llevará a la página oficial del boe de ese apartado, algo que no he mencionado es la existencia de los breadcrums los cuales están en toda la página web y nos permiten saber en donde estamos y volver atrás en cualquier momento.
+
+En la página de sumario del BOE con la fecha tendremos 2 o 3 enlaces los cuales són descargar oficial, Anterior y Siguiente, descargar oficial te descarga el BOE al completo mientras que anterior te lleva al boe del día anterior o el primero que halla antes que el de la fecha otorgada debido a que los BOE no se realizan todos los dias mientras que siguiente hace lo mismo pero al reves y es por ello que digo que pueden haber 2 o 3 enlaces debido a que si estamos en el ultimo BOE publicado ese enlace no aparecerá.
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

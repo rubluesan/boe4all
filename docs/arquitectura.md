@@ -380,11 +380,11 @@ Para que google indexe y posicione bien la página he añadido MetaTags y títul
   [...]
 
   ngOnInit() {
-    this.titleService.setTitle('Explorar | Los Países');
+    this.titleService.setTitle('Explorar | BOE4ALL');
 
     this.metaService.updateTag({
       name: 'description',
-      content: 'Explora la lista de países. Elige uno para compartir tu opinión con la comunidad.',
+      content: 'Explora la lista de BOEs. Elige uno para informarte sobre las leyes.',
     });
 
     this.metaService.updateTag({
