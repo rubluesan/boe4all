@@ -113,7 +113,173 @@ En la página de sumario del BOE con la fecha tendremos 2 o 3 enlaces los cuales
 ## 4. Consistencia y Experiencia de usuario
 
 <p align="justify">
+Para mantener consistencia en la página hemos decidido usar una paleta de colores para toda la página con colores claros y agradables más el añadido de sombras si quieres versus valores dirijase al apartado 2 Resumen de la paleta de colores.
 
+### Fuente y Comportamiento del scroll
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: verdana, sans-serif;
+  background-color: var(--background);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+### Consistencia de clicables
+button,
+select,
+a {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+### Consistencia de botones
+
+.btn {
+  appearance: none;
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #e01616;
+}
+
+.btn-outline {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+### Consistencia de los iconos 
+
+.icon-primary {
+  color: var(--primary);
+}
+
+.icon-sm {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-md {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-lg {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-xl {
+  width: 48px;
+  height: 48px;
+} 
+
+### Consistencia iconos lucide 
+
+lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.smooth-transition {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.validation-error {
+  color: #ef4444;
+}
+.validation-error-list {
+  list-style: none;
+}
+
+### Consistencia Avatares
+
+.avatar-container {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--primary-light);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+
+.avatar-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-lg {
+  width: clamp(80px, 20vw, 110px);
+  height: clamp(80px, 20vw, 110px);
+  font-size: 3rem;
+  border: 4px solid var(--surface);
+  outline: 1px solid var(--border);
+} 
+
+### Animación para cargas
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
