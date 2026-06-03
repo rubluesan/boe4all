@@ -291,7 +291,96 @@ lucide-icon {
 ## 5. Responsividad
 
 <p align="justify">
+Para la responsividad de la página hemos utilizado estas estructuras CSS:
 
+### Tipografía fluida
+
+h1 {
+  /* Móvil: 1.75rem (28px) -> Escala -> Escritorio: 2.75rem (44px) */
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  /* Bajamos de 900 a 700 (Bold). Sigue siendo un título fuerte pero elegante */
+  font-weight: 700;
+  /* Suavizamos el tracking negativo para que no se peguen las letras */
+  letter-spacing: -0.02em;
+  line-height: 1.15; /* Importante para que los títulos de varias líneas no se encabalguen */
+}
+
+h2 {
+  /* Móvil: 1.4rem (22.4px) -> Escala -> Escritorio: 2rem (32px) */
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  /* Bajamos de 800 a 600 (Semi Bold) */
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+h3 {
+  /* Móvil: 1.15rem (18.4px) -> Escala -> Escritorio: 1.5rem (24px) */
+  font-size: clamp(1.15rem, 3vw, 1.5rem);
+  /* Peso normal/medio tirando a bold, suficiente para un H3 */
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.25;
+} 
+
+### Containers responsivos
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-md) var(--spacing-md);
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  margin: 0 auto;
+  padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md))
+    clamp(var(--spacing-md), 4vw, var(--spacing-xxl));
+} 
+
+### Grids responsive 
+
+.responsive-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .responsive-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+} 
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
