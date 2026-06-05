@@ -1,211 +1,126 @@
 <div class="summary-container container">
   @if (showLoader()) {
-    <div class="loading-overlay">
-      <lucide-icon name="loader-2" class="icon-xl animate-spin"></lucide-icon>
-      <span>Cargando sumario...</span>
-    </div>
+  <div class="loading-overlay">
+    <lucide-icon name="loader-2" class="icon-xl animate-spin icon-primary"></lucide-icon>
+    <span>Cargando sumario...</span>
+  </div>
   } @else {
-    @if (sumario() && !notFound()) {
-      @for (diario of sumario()!.diario; track $index) {
-        <div class="summary-header">
-          <h1 class="publication-date">
-            Boletín Oficial del Estado:
-            {{ sumario()!.metadatos.fecha_publicacion | yyyymmddToSpanishDate }}, número
-            {{ sumario()!.diario[$index].numero }}
-          </h1>
+  @if (sumario() && !notFound()) {
+  @for (diario of sumario()!.diario; track $index) {
 
-          <div class="summary-links">
-            <div class="pdf-link">
-              <p style="font-size: 1.15rem">
-                Sumario {{ sumario()!.diario[$index].sumario_diario.identificador }}:
-              </p>
-              <a [href]="sumario()!.diario[$index].sumario_diario.url_pdf.texto" target="_blank"
-                >Descargar PDF</a
-              >
-            </div>
+  <header class="summary-head">
+    <div class="summary-head-top">
+      <div class="summary-head-title">
+        <h1 class="publication-date">
+          {{ sumario()!.metadatos.fecha_publicacion | yyyymmddToSpanishDate }}
+        </h1>
+        <span class="boe-num-badge">BOE · Nº&nbsp;{{ sumario()!.diario[$index].numero }}</span>
+      </div>
+      <div class="summary-head-actions">
+        <a [href]="sumario()!.diario[$index].sumario_diario.url_pdf.texto" target="_blank"
+          class="btn btn-outline btn-sm">
+          <lucide-icon name="file-text" class="icon-sm" aria-hidden="true"></lucide-icon>
+          <span>Sumario PDF</span>
+        </a>
+        <div class="nav-btns">
+          @if (fechaBoeActual() && fechaBoeActual() !== '19600901') {
+          <button class="btn btn-outline btn-sm" (click)="irAlAnterior()" [appTooltip]="'BOE del día anterior'">
+            <lucide-icon name="arrow-left" class="icon-sm" aria-hidden="true"></lucide-icon>
+            <span>Anterior</span>
+          </button>
+          }
+          @if (fechaBoeActual() && fechaUrl() && fechaUrl()! < fechaHoy()) { <button class="btn btn-outline btn-sm"
+            (click)="irAlSiguiente()" [appTooltip]="'BOE del día siguiente'">
+            <span>Siguiente</span>
+            <lucide-icon name="arrow-right" class="icon-sm" aria-hidden="true"></lucide-icon>
+            </button>
+            }
+        </div>
+      </div>
+    </div>
+  </header>
 
-            <div class="next-prev-links">
-              <!-- Enlaces de navegación -->
-              @if (fechaBoeActual() && fechaBoeActual() !== '19600901') {
-                <a class="prev-link" (click)="irAlAnterior()">
-                  <lucide-icon name="arrow-left" class="icon-md"></lucide-icon>
-                  <span>Anterior</span>
-                </a>
-              }
-              @if (fechaBoeActual() && fechaBoeActual() !== fechaHoy()) {
-                <a class="next-link" (click)="irAlSiguiente()">
-                  <span>Siguiente</span>
-                  <lucide-icon name="arrow-right" class="icon-md"></lucide-icon>
-                </a>
-              }
+  <div class="filter-bar">
+    <div class="search-wrapper">
+      <lucide-icon name="search" class="search-icon icon-sm" aria-hidden="true"></lucide-icon>
+      <input type="search" class="search-input" placeholder="Buscar disposición…" [value]="filtroTexto()"
+        (input)="filtroTexto.set($any($event.target).value)" (keydown.escape)="filtroTexto.set('')"
+        aria-label="Buscar disposición" />
+      @if (filtroTexto()) {
+      <button class="clear-btn" (click)="filtroTexto.set('')" aria-label="Limpiar búsqueda"
+        [appTooltip]="'Limpiar búsqueda (Esc)'">
+        <lucide-icon name="x" class="icon-sm" aria-hidden="true"></lucide-icon>
+      </button>
+      }
+    </div>
+    @if (seccionesUnicas().length > 1) {
+    <div class="section-pills" role="group" aria-label="Filtrar por sección">
+      <button class="pill" [class.active]="filtroSeccion() === 'todas'"
+        (click)="filtroSeccion.set('todas')">Todas</button>
+      @for (sec of seccionesUnicas(); track sec) {
+      <button class="pill" [class.active]="filtroSeccion() === sec" (click)="filtroSeccion.set(sec)" [title]="sec">{{
+        abreviarSeccion(sec) }}</button>
+      }
+    </div>
+    }
+  </div>
+
+  @if (hayFiltrosActivos() && totalItemsFiltrados() === 0) {
+  <div class="no-results">
+    <lucide-icon name="search" class="icon-xl" aria-hidden="true"></lucide-icon>
+    <p>No se encontraron disposiciones con los filtros actuales.</p>
+    <button class="btn btn-outline btn-sm" (click)="limpiarFiltros()">Limpiar filtros</button>
+  </div>
+  } @else {
+  <div class="summary-content">
+    @for (seccion of ensureArray(sumario()!.diario[$index].seccion); track $index) {
+    @if (seccionVisible(seccion.nombre) && seccionTieneItems(seccion)) {
+    <section class="seccion">
+      <h2 class="seccion-name">{{ seccion.nombre }}</h2>
+      @for (departamento of getDepartamentos(seccion); track $index) {
+      @if (departamentoTieneItems(departamento)) {
+      <div class="departamento">
+        <h3>{{ departamento.nombre }}</h3>
+        <div class="boe-items-list">
+          @for (ic of getItemsConContexto(departamento); track $index) {
+          @if (matchesFilter(ic.item)) {
+          <div class="boe-item" (click)="openDisposition(ic.item)" tabindex="0" role="button"
+            [attr.aria-label]="ic.item.titulo" (keydown.enter)="openDisposition(ic.item)"
+            (keydown.space)="$event.preventDefault(); openDisposition(ic.item)">
+            @if (ic.epigrafe) {
+            <span class="boe-item-epigrafe">{{ ic.epigrafe }}</span>
+            }
+            <p class="boe-item-title">{{ ic.item.titulo }}</p>
+            <div class="boe-item-footer">
+              <a class="pdf-btn" [href]="ic.item.url_pdf.texto" target="_blank" (click)="$event.stopPropagation()"
+                title="Descargar PDF de esta disposición">
+                <lucide-icon name="file-text" class="icon-sm" aria-hidden="true"></lucide-icon>
+                <span>PDF</span>
+              </a>
+              <span class="open-hint" aria-hidden="true">
+                <lucide-icon name="arrow-right" class="icon-sm"></lucide-icon>
+              </span>
             </div>
           </div>
-        </div>
-
-        <div class="summary-content">
-          @for (seccion of ensureArray(sumario()!.diario[$index].seccion); track $index) {
-            <div class="seccion">
-              <h2 class="seccion-name">{{ seccion.nombre }}</h2>
-              @if (seccion.texto) {
-                @for (departamento of ensureArray(seccion.texto.departamento); track $index) {
-                  <div class="departamento">
-                    <h3>{{ departamento.nombre }}</h3>
-                    @if (departamento.item) {
-                      @for (boeItem of ensureArray(departamento.item); track $index) {
-                        <div class="boe-item" (click)="openDisposition(boeItem)">
-                          <p>{{ boeItem.titulo }}</p>
-                          <p>
-                            <a
-                              [href]="boeItem.url_pdf.texto"
-                              target="_blank"
-                              (click)="$event.stopPropagation()"
-                              >Descargar PDF</a
-                            >
-                          </p>
-                        </div>
-                      }
-                    } @else if (departamento.texto) {
-                      @if (departamento.texto.item) {
-                        @for (boeItem of ensureArray(departamento.texto.item); track $index) {
-                          <div class="boe-item" (click)="openDisposition(boeItem)">
-                            <p>{{ boeItem.titulo }}</p>
-                            <p>
-                              <a
-                                [href]="boeItem.url_pdf.texto"
-                                target="_blank"
-                                (click)="$event.stopPropagation()"
-                                >Descargar PDF</a
-                              >
-                            </p>
-                          </div>
-                        }
-                      } @else {
-                        @for (epigrafe of ensureArray(departamento.texto.epigrafe); track $index) {
-                          <div class="epigrafe">
-                            <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                            @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                              <div class="boe-item" (click)="openDisposition(boeItem)">
-                                <p>{{ boeItem.titulo }}</p>
-                                <p>
-                                  <a
-                                    [href]="boeItem.url_pdf.texto"
-                                    target="_blank"
-                                    (click)="$event.stopPropagation()"
-                                    >Descargar PDF</a
-                                  >
-                                </p>
-                              </div>
-                            }
-                          </div>
-                        }
-                      }
-                    } @else {
-                      @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
-                        <div class="epigrafe">
-                          <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                          @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                            <div class="boe-item" (click)="openDisposition(boeItem)">
-                              <p>{{ boeItem.titulo }}</p>
-                              <p>
-                                <a
-                                  [href]="boeItem.url_pdf.texto"
-                                  target="_blank"
-                                  (click)="$event.stopPropagation()"
-                                  >Descargar PDF</a
-                                >
-                              </p>
-                            </div>
-                          }
-                        </div>
-                      }
-                    }
-                  </div>
-                }
-              }
-              @for (departamento of ensureArray(seccion.departamento); track $index) {
-                <div class="departamento">
-                  <h3>{{ departamento.nombre }}</h3>
-                  @if (departamento.item) {
-                    @for (boeItem of ensureArray(departamento.item); track $index) {
-                      <div class="boe-item" (click)="openDisposition(boeItem)">
-                        <p>{{ boeItem.titulo }}</p>
-                        <p>
-                          <a
-                            [href]="boeItem.url_pdf.texto"
-                            target="_blank"
-                            (click)="$event.stopPropagation()"
-                            >Descargar PDF</a
-                          >
-                        </p>
-                      </div>
-                    }
-                  } @else if (departamento.texto) {
-                    @if (departamento.texto.item) {
-                      @for (boeItem of ensureArray(departamento.texto.item); track $index) {
-                        <div class="boe-item" (click)="openDisposition(boeItem)">
-                          <p>{{ boeItem.titulo }}</p>
-                          <p>
-                            <a
-                              [href]="boeItem.url_pdf.texto"
-                              target="_blank"
-                              (click)="$event.stopPropagation()"
-                              >Descargar PDF</a
-                            >
-                          </p>
-                        </div>
-                      }
-                    } @else {
-                      @for (epigrafe of ensureArray(departamento.texto.epigrafe); track $index) {
-                        <div class="epigrafe">
-                          <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                          @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                            <div class="boe-item" (click)="openDisposition(boeItem)">
-                              <p>{{ boeItem.titulo }}</p>
-                              <p>
-                                <a
-                                  [href]="boeItem.url_pdf.texto"
-                                  target="_blank"
-                                  (click)="$event.stopPropagation()"
-                                  >Descargar PDF</a
-                                >
-                              </p>
-                            </div>
-                          }
-                        </div>
-                      }
-                    }
-                  } @else {
-                    @for (epigrafe of ensureArray(departamento.epigrafe); track $index) {
-                      <div class="epigrafe">
-                        <h4 class="epigrafe-name">{{ epigrafe.nombre }}</h4>
-                        @for (boeItem of ensureArray(epigrafe.item); track $index) {
-                          <div class="boe-item" (click)="openDisposition(boeItem)">
-                            <p>{{ boeItem.titulo }}</p>
-                            <p>
-                              <a
-                                [href]="boeItem.url_pdf.texto"
-                                target="_blank"
-                                (click)="$event.stopPropagation()"
-                                >Descargar PDF</a
-                              >
-                            </p>
-                          </div>
-                        }
-                      </div>
-                    }
-                  }
-                </div>
-              }
-            </div>
+          }
           }
         </div>
-      }
-    } @else {
-      <div class="loading-overlay">
-        <lucide-icon name="file-exclamation-point" class="icon-xl" />
-        <span>No hay datos para esa fecha.</span>
       </div>
+      }
+      }
+    </section>
     }
+    }
+  </div>
+  }
+
+  }
+  } @else {
+  <div class="loading-overlay">
+    <lucide-icon name="file-exclamation-point" class="icon-xl" aria-hidden="true"></lucide-icon>
+    <span>No hay datos para esa fecha.</span>
+  </div>
+  }
   }
 </div>
 <router-outlet></router-outlet>
