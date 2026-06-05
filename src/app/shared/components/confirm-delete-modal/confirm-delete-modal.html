@@ -1,0 +1,52 @@
+<div class="modal-backdrop" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modal-title'">
+  <div class="modal-card shadow-lg" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+
+    <div class="modal-header">
+      <div class="modal-icon-wrapper">
+        <lucide-icon name="trash-2" class="icon-md" aria-hidden="true"></lucide-icon>
+      </div>
+      <h2 id="modal-title" class="modal-title">{{ title() }}</h2>
+      <button type="button" class="modal-close-btn" (click)="onCancel.emit()" aria-label="Cerrar">
+        <lucide-icon name="x" class="icon-sm" aria-hidden="true"></lucide-icon>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-description">{{ description() }}</p>
+
+      @if (requireConfirmText()) {
+        <div class="confirm-input-group">
+          <label for="confirm-input" class="confirm-label">
+            Escribe <strong>{{ confirmWord }}</strong> para confirmar:
+          </label>
+          <input
+            type="text"
+            id="confirm-input"
+            [(ngModel)]="userInput"
+            (input)="checkInput()"
+            placeholder="{{ confirmWord }}"
+            class="confirm-input"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="onCancel.emit()">
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        [disabled]="!canConfirm()"
+        (click)="onConfirm.emit()"
+      >
+        <lucide-icon name="trash-2" class="icon-sm" aria-hidden="true"></lucide-icon>
+        {{ dangerLabel() }}
+      </button>
+    </div>
+
+  </div>
+</div>
