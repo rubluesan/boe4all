@@ -105,10 +105,32 @@ export class SupabaseService implements OnDestroy {
    */
   // registro con email y contraseña
   async signUp(email: string, password: string) {
+    const confirmUrl = `${window.location.origin}/auth/confirm`;
     return await this.supabase.auth.signUp({
       email,
       password,
+      options: { emailRedirectTo: confirmUrl },
     });
+  }
+
+  async resendConfirmationEmail(email: string) {
+    const confirmUrl = `${window.location.origin}/auth/confirm`;
+    return await this.supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: { emailRedirectTo: confirmUrl },
+    });
+  }
+
+  async exchangeConfirmCode(code: string) {
+    return await this.supabase.auth.exchangeCodeForSession(code);
+  }
+
+  async deleteAccount() {
+    const { error } = await this.supabase.rpc('delete_user_account');
+    if (error) throw error;
+    // Clear local session after deletion
+    await this.supabase.auth.signOut({ scope: 'local' });
   }
 
   // inicio de sesión con email y contraseña
@@ -187,25 +209,20 @@ export class SupabaseService implements OnDestroy {
     const user = this.user();
     if (!user) throw new Error('No user logged in');
 
-    /*Estaría bien comprimir y escalar la imagen antes de subirla para optimizar 
-    el almacenamiento y la entrega, pero lo dejamos para futuras mejoras */
-    //const compressedBlob = await this.compressImage(file, 400, 400);
-    const fileExt = 'webp';
-    const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+    // Path fijo por usuario: upsert sobreescribe el fichero anterior en lugar de acumular
+    const filePath = `${user.id}/avatar.webp`;
 
     const { error: uploadError } = await this.supabase.storage
       .from('avatars')
       .upload(filePath, file, {
-        cacheControl: '31536000',
+        cacheControl: '3600',
         upsert: true,
       });
 
     if (uploadError) throw uploadError;
 
-    // Obtenemos la URL pública para mostrar la imagen
     const { data } = this.supabase.storage.from('avatars').getPublicUrl(filePath);
-
-    // Optimizamos la entrega usando el servicio de transformación de imágenes de Supabase
-    return data.publicUrl.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/');
+    // Timestamp para romper la caché del navegador en cada subida
+    return `${data.publicUrl}?t=${Date.now()}`;
   }
 }
