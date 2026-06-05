@@ -3,7 +3,7 @@
   <section class="hero" aria-labelledby="hero-heading">
     <div class="container hero-content">
       <div class="hero-text">
-        <h1 id="hero-heading">Bienvenido a Boe4all</h1>
+        <h1 id="hero-heading">Bienvenido a <span class="hero-brand">Boe4all</span></h1>
         <p class="text-muted">
           Esta es la aplicación de Boe4all, donde puedes encontrar toda la información relevante
           sobre el Boletín Oficial del Estado (BOE) de España. Aquí podrás consultar las últimas
@@ -11,20 +11,16 @@
           legislativas y administrativas.
         </p>
         <div class="hero-actions">
-          <button
-            class="btn btn-primary btn-lg flex-align-center smooth-transition"
-            routerLink="/home"
-            aria-label="Empezar ahora"
-          >
+          <button class="btn btn-primary btn-lg flex-align-center smooth-transition" routerLink="/home"
+            aria-label="Empezar ahora">
             <span>Empezar ahora</span>
             <lucide-icon name="arrow-right" class="icon-sm" aria-hidden="true"></lucide-icon>
           </button>
         </div>
       </div>
       <div class="hero-image" aria-hidden="true">
-        <div class="image-placeholder smooth-transition">
-          <img src="assets/boe4all-screenshot.png" alt="Screenshot de muestra de la aplicación" />
-        </div>
+        <img [ngSrc]="'assets/preview-boe4all.webp'" alt="Vista previa de Boe4all" [width]="500" [height]="250"
+          priority>
       </div>
     </div>
   </section>
@@ -40,81 +36,44 @@
         </p>
       </div>
 
-      <div class="summary-grid">
-        <div class="summary-text-panel">
-          <div class="summary-card main-card">
-            <span class="boe-date-tag"
-              >Última actualización:
-              <!--{{ date() }}--></span
-            >
+      <div class="summary-card main-card">
 
-            <div class="ai-generated-content">
-              <p class="ai-intro">
-                El boletín de hoy viene marcado por una fuerte actividad regulatoria. Lo más
-                destacado afecta de forma directa a la ciudadanía en tres ámbitos principales:
-              </p>
-
-              <ul class="ai-bullet-points">
-                <li>
-                  <strong>Novedades en educación y formación:</strong> Se han publicado
-                  modificaciones en los plazos y requisitos para las becas estatales de este año.
-                </li>
-                <li>
-                  <strong>Convocatorias de empleo:</strong> Varias administraciones públicas abren
-                  plazos de inscripción para plazas técnicas y administrativas.
-                </li>
-                <li>
-                  <strong>Normativa económica:</strong> Se aprueban las nuevas bases de ayudas
-                  financieras para la modernización tecnológica de autónomos y pymes.
-                </li>
-              </ul>
-
-              <p class="ai-conclusion">
-                Además, el sumario incluye más de 40 anuncios menores sobre licitaciones y
-                resoluciones administrativas locales.
-              </p>
-            </div>
+        @if (summaryLoading()) {
+          <div class="summary-skeleton">
+            <div class="skeleton-tag"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+            <div class="skeleton-line skeleton-line--md"></div>
+            <div class="skeleton-line skeleton-line--sm"></div>
+            <div class="skeleton-line skeleton-line--lg"></div>
+            <div class="skeleton-line skeleton-line--md"></div>
           </div>
-        </div>
-
-        <div class="summary-cta-panel">
-          <div class="summary-card cta-card">
-            <h3>¿Por qué monitorizar el BOE con IA?</h3>
-
-            <div class="benefit-item">
-              <span class="benefit-icon">
-                <lucide-icon name="book-type" class="icon-md" aria-hidden="true"></lucide-icon>
-              </span>
-              <p>
-                <strong>Traducción jurídica:</strong> Convertimos el lenguaje técnico y complejo del
-                boletín oficial en palabras que todos entendemos.
-              </p>
-            </div>
-
-            <div class="benefit-item">
-              <span class="benefit-icon">
-                <lucide-icon name="bell" class="icon-md" aria-hidden="true"></lucide-icon>
-              </span>
-              <p>
-                <strong>Alertas personalizadas:</strong> Cuéntale a la IA qué buscas (un trabajo,
-                una ayuda, tu sector empresarial) y te avisará al instante si aparece en el BOE.
-              </p>
-            </div>
-
-            <div class="benefit-item">
-              <span class="benefit-icon">
-                <lucide-icon name="search" class="icon-md" aria-hidden="true"></lucide-icon>
-              </span>
-              <p>
-                <strong>Buscador inteligente:</strong> Haz preguntas en lenguaje natural como
-                <em>"¿Hay alguna ayuda nueva para mi comunidad autónoma?"</em>.
-              </p>
-            </div>
-
-            <a routerLink="/register" class="btn-register-cta"> Probar el Asistente Gratis </a>
+        } @else if (dailySummary()) {
+          <span class="boe-date-tag">
+            <lucide-icon name="sparkles" class="icon-xs" aria-hidden="true"></lucide-icon>
+            Generado por IA · {{ formatFecha(dailySummary()!.fecha) }}
+          </span>
+          <div class="ai-generated-content">
+            <p class="ai-intro">{{ dailySummary()!.intro }}</p>
+            <ul class="ai-bullet-points">
+              @for (bullet of dailySummary()!.bullets; track bullet.titulo) {
+                <li><strong>{{ bullet.titulo }}:</strong> {{ bullet.descripcion }}</li>
+              }
+            </ul>
+            <p class="ai-conclusion">{{ dailySummary()!.conclusion }}</p>
           </div>
-        </div>
+        } @else {
+          <div class="summary-unavailable">
+            <lucide-icon name="calendar-x-2" class="icon-lg" aria-hidden="true"></lucide-icon>
+            <p>El resumen de hoy aún no está disponible. El BOE se publica en días hábiles.</p>
+            <a routerLink="/home" class="btn btn-outline btn-sm">Ver BOE anterior</a>
+          </div>
+        }
+
       </div>
+      <p class="daily-disclaimer">
+        <lucide-icon name="triangle-alert" class="icon-xs" aria-hidden="true"></lucide-icon>
+        Las respuestas generadas por la IA no tienen carácter oficial ni valor legal. Consulta siempre el texto oficial del BOE.
+      </p>
     </div>
   </section>
 </div>
