@@ -1,0 +1,49 @@
+<div class="auth-container fade-in">
+  <div class="auth-card shadow-lg">
+    <div class="auth-header">
+      <div class="check-email-icon">
+        <lucide-icon name="mail" class="icon-xl" aria-hidden="true"></lucide-icon>
+      </div>
+      <h1>Revisa tu correo</h1>
+      <p class="text-muted">
+        Hemos enviado un enlace de confirmación a
+        @if (email()) {
+          <strong>{{ email() }}</strong>
+        } @else {
+          tu dirección de email
+        }.
+      </p>
+    </div>
+
+    <div class="check-email-info">
+      <p>Haz clic en el enlace del email para activar tu cuenta.</p>
+      <p class="text-muted text-sm">Si no lo encuentras, revisa la carpeta de spam o correo no deseado.</p>
+    </div>
+
+    @if (email()) {
+      <div class="resend-section">
+        <p class="text-muted text-sm">¿No has recibido el email?</p>
+        <button
+          type="button"
+          class="btn btn-outline btn-block"
+          (click)="resendEmail()"
+          [disabled]="resending() || resent()"
+        >
+          <lucide-icon
+            [name]="resending() ? 'loader-2' : 'send'"
+            [class.animate-spin]="resending()"
+            class="icon-sm"
+            aria-hidden="true"
+          ></lucide-icon>
+          <span>{{ resent() ? '¡Email reenviado!' : 'Reenviar email de confirmación' }}</span>
+        </button>
+      </div>
+    }
+
+    <footer class="auth-footer">
+      <p>
+        <button class="btn-link" routerLink="/login">Volver al inicio de sesión</button>
+      </p>
+    </footer>
+  </div>
+</div>

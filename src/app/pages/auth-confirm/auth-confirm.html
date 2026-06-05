@@ -1,0 +1,36 @@
+<div class="auth-container">
+  <div class="auth-card shadow-lg">
+    @if (status() === 'loading') {
+      <div class="confirm-state fade-in">
+        <lucide-icon name="loader-2" class="confirm-icon animate-spin icon-primary" aria-hidden="true"></lucide-icon>
+        <h2>Verificando tu cuenta...</h2>
+        <p class="text-muted">Un momento, por favor.</p>
+      </div>
+    }
+
+    @if (status() === 'success') {
+      <div class="confirm-state fade-in">
+        <div class="confirm-icon-wrapper confirm-icon-wrapper--success">
+          <lucide-icon name="circle-check" class="confirm-icon" aria-hidden="true"></lucide-icon>
+        </div>
+        <h2>¡Cuenta activada!</h2>
+        <p class="text-muted">Tu cuenta ha sido verificada correctamente. Redirigiendo al inicio...</p>
+        <a routerLink="/home" class="btn btn-primary">Ir al inicio</a>
+      </div>
+    }
+
+    @if (status() === 'error') {
+      <div class="confirm-state fade-in">
+        <div class="confirm-icon-wrapper confirm-icon-wrapper--error">
+          <lucide-icon name="circle-alert" class="confirm-icon" aria-hidden="true"></lucide-icon>
+        </div>
+        <h2>Enlace no válido</h2>
+        <p class="text-muted">{{ errorMessage() }}</p>
+        <div class="confirm-actions">
+          <a routerLink="/register" class="btn btn-primary">Registrarse de nuevo</a>
+          <a routerLink="/login" class="btn btn-outline">Iniciar sesión</a>
+        </div>
+      </div>
+    }
+  </div>
+</div>
