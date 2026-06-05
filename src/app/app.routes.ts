@@ -3,10 +3,13 @@ import { Home } from './pages/home/home';
 import { Landing } from './pages/landing/landing';
 import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
+import { CheckEmail } from './pages/check-email/check-email';
+import { AuthConfirm } from './pages/auth-confirm/auth-confirm';
 import { guardedRoutesGuard } from './core/guards/guarded-routes-guard';
 import { Disposition } from './pages/disposition/disposition';
 import { Summary } from './pages/summary/summary';
 import { Profile } from './pages/profile/profile';
+import { MyBoe } from './pages/my-boe/my-boe';
 import { publicRoutesGuard } from './core/guards/public-guard';
 export const routes: Routes = [
   { path: '', component: Landing },
@@ -18,6 +21,12 @@ export const routes: Routes = [
     data: { breadcrumb: 'Home', showBreadcrumbs: true },
   },
   {
+    path: 'mi-boe',
+    component: MyBoe,
+    canActivate: [guardedRoutesGuard],
+    data: { breadcrumb: 'Mi BOE', showBreadcrumbs: true },
+  },
+  {
     path: 'login',
     component: Login,
     canActivate: [publicRoutesGuard],
@@ -27,6 +36,8 @@ export const routes: Routes = [
     component: Register,
     canActivate: [publicRoutesGuard],
   },
+  { path: 'check-email', component: CheckEmail },
+  { path: 'auth/confirm', component: AuthConfirm },
   {
     path: 'sumario/:fecha',
     data: { breadcrumb: 'Sumario {fecha}', showBreadcrumbs: true },
@@ -44,7 +55,6 @@ export const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'profile',
     component: Profile,
