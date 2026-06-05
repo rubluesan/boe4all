@@ -1,0 +1,218 @@
+<div class="my-boe-container container">
+  <div class="my-boe-header">
+    <h1>Mi BOE</h1>
+    <p class="my-boe-subtitle">Tus disposiciones guardadas, resúmenes y conversaciones con la IA</p>
+  </div>
+
+  <div class="tab-bar-scroll">
+  <div class="tab-bar" role="tablist" aria-label="Secciones de Mi BOE">
+    <button
+      class="tab-btn"
+      role="tab"
+      [class.active]="activeTab() === 'dispositions'"
+      [attr.aria-selected]="activeTab() === 'dispositions'"
+      (click)="activeTab.set('dispositions')"
+    >
+      <lucide-icon name="bookmark" class="icon-sm" aria-hidden="true"></lucide-icon>
+      <span>Guardadas</span>
+      @if (savedDispositions().length > 0) {
+        <span class="tab-badge">{{ savedDispositions().length }}</span>
+      }
+    </button>
+    <button
+      class="tab-btn"
+      role="tab"
+      [class.active]="activeTab() === 'summaries'"
+      [attr.aria-selected]="activeTab() === 'summaries'"
+      (click)="activeTab.set('summaries')"
+    >
+      <lucide-icon name="sparkles" class="icon-sm" aria-hidden="true"></lucide-icon>
+      <span>Resúmenes</span>
+      @if (savedSummaries().length > 0) {
+        <span class="tab-badge">{{ savedSummaries().length }}</span>
+      }
+    </button>
+    <button
+      class="tab-btn"
+      role="tab"
+      [class.active]="activeTab() === 'chats'"
+      [attr.aria-selected]="activeTab() === 'chats'"
+      (click)="activeTab.set('chats')"
+    >
+      <lucide-icon name="message-circle" class="icon-sm" aria-hidden="true"></lucide-icon>
+      <span>Chats</span>
+      @if (chatSessions().length > 0) {
+        <span class="tab-badge">{{ chatSessions().length }}</span>
+      }
+    </button>
+  </div>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <lucide-icon name="loader-2" class="icon-xl animate-spin icon-primary"></lucide-icon>
+    </div>
+  } @else {
+    <!-- DISPOSICIONES GUARDADAS -->
+    @if (activeTab() === 'dispositions') {
+      @if (savedDispositions().length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="bookmark" class="icon-xl" aria-hidden="true"></lucide-icon>
+          <p>No tienes disposiciones guardadas aún</p>
+          <a routerLink="/home" class="btn btn-primary btn-primary-hover">Explorar BOE</a>
+        </div>
+      } @else {
+        <div class="items-list">
+          @for (item of savedDispositions(); track item.id) {
+            <div class="item-card">
+              <div class="item-info">
+                <p class="item-title">{{ item.titulo }}</p>
+                <p class="item-meta">
+                  {{ item.fecha | yyyymmddToSpanishDate }}
+                  <span class="item-id">· {{ item.boe_id }}</span>
+                </p>
+              </div>
+              <div class="item-actions">
+                <button class="btn btn-outline btn-sm" (click)="openDisposition(item)">
+                  <lucide-icon name="binoculars" class="icon-sm" aria-hidden="true"></lucide-icon>
+                  <span>Abrir</span>
+                </button>
+                <button
+                  class="btn btn-sm btn-danger-outline"
+                  (click)="openDeleteConfirm('disposition', item.boe_id)"
+                  aria-label="Eliminar disposición"
+                  [appTooltip]="'Eliminar disposición guardada'"
+                >
+                  <lucide-icon name="trash-2" class="icon-sm" aria-hidden="true"></lucide-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+    <!-- RESÚMENES -->
+    @if (activeTab() === 'summaries') {
+      @if (savedSummaries().length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="sparkles" class="icon-xl" aria-hidden="true"></lucide-icon>
+          <p>No has generado resúmenes aún</p>
+          <a routerLink="/home" class="btn btn-primary btn-primary-hover">Explorar BOE</a>
+        </div>
+      } @else {
+        <div class="items-list">
+          @for (item of savedSummaries(); track item.id) {
+            <div class="item-card summary-card">
+              <div class="summary-header-row">
+                <p class="item-id">{{ item.boe_id }}</p>
+                <p class="item-meta">{{ formatDate(item.created_at) }}</p>
+              </div>
+              <p class="summary-preview">{{ truncate(stripMarkdown(item.content)) }}</p>
+              <div class="item-actions">
+                <button class="btn btn-outline btn-sm" (click)="openSummaryView(item)"
+                        [appTooltip]="'Ver resumen completo'">
+                  <lucide-icon name="sparkles" class="icon-sm icon-primary" aria-hidden="true"></lucide-icon>
+                  <span>Ver</span>
+                </button>
+                <button
+                  class="btn btn-sm btn-danger-outline"
+                  (click)="openDeleteConfirm('summary', item.id)"
+                  aria-label="Eliminar resumen"
+                  [appTooltip]="'Eliminar este resumen'"
+                >
+                  <lucide-icon name="trash-2" class="icon-sm" aria-hidden="true"></lucide-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+    <!-- CHATS -->
+    @if (activeTab() === 'chats') {
+      @if (chatSessions().length === 0) {
+        <div class="empty-state">
+          <lucide-icon name="message-circle" class="icon-xl" aria-hidden="true"></lucide-icon>
+          <p>No tienes conversaciones guardadas aún</p>
+          <a routerLink="/home" class="btn btn-primary btn-primary-hover">Explorar BOE</a>
+        </div>
+      } @else {
+        <div class="items-list">
+          @for (session of chatSessions(); track session.id) {
+            <div class="item-card">
+              <div class="item-info">
+                <p class="item-title">{{ session.titulo }}</p>
+                <p class="item-meta">
+                  {{ session.boe_id }}
+                  <span class="item-id">· Última actividad: {{ formatDate(session.updated_at) }}</span>
+                </p>
+              </div>
+              <div class="item-actions">
+                <button class="btn btn-outline btn-sm" (click)="openChat(session)">
+                  <lucide-icon name="message-circle" class="icon-sm" aria-hidden="true"></lucide-icon>
+                  <span>Reabrir</span>
+                </button>
+                <button
+                  class="btn btn-sm btn-danger-outline"
+                  (click)="openDeleteConfirm('chat', session.id)"
+                  aria-label="Eliminar conversación"
+                  [appTooltip]="'Eliminar esta conversación'"
+                >
+                  <lucide-icon name="trash-2" class="icon-sm" aria-hidden="true"></lucide-icon>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+  }
+</div>
+
+@if (deleteModalVisible()) {
+  <app-confirm-delete-modal
+    [title]="deleteModalTitle()"
+    [description]="deleteModalDescription()"
+    (onConfirm)="confirmDelete()"
+    (onCancel)="closeDeleteModal()"
+  />
+}
+
+@if (summaryViewVisible()) {
+  <div class="summary-view-backdrop" (click)="closeSummaryView()">
+    <div class="summary-view-modal fade-in" (click)="$event.stopPropagation()" role="dialog" aria-modal="true">
+      <div class="summary-view-header">
+        <div class="summary-view-title">
+          <lucide-icon name="sparkles" class="icon-sm icon-primary" aria-hidden="true"></lucide-icon>
+          <span>Resumen IA</span>
+          <span class="summary-view-id">{{ summaryViewItem()?.boe_id }}</span>
+        </div>
+        <button class="summary-view-close" (click)="closeSummaryView()" aria-label="Cerrar">
+          <lucide-icon name="x" class="icon-sm" aria-hidden="true"></lucide-icon>
+        </button>
+      </div>
+      <div class="summary-view-body">
+        <div class="markdown-body" [innerHTML]="summaryViewHtml()"></div>
+      </div>
+      <div class="summary-view-footer">
+        <div class="summary-view-footer-left">
+          <button class="btn btn-outline btn-sm" (click)="copySummaryContent()"
+                  [appTooltip]="'Copiar texto del resumen'">
+            <lucide-icon name="copy" class="icon-sm" aria-hidden="true"></lucide-icon>
+            <span>Copiar</span>
+          </button>
+          @if (getDispositionForSummary(summaryViewItem()?.boe_id)) {
+            <button class="btn btn-outline btn-sm" (click)="openDispositionFromSummary()"
+                    [appTooltip]="'Abrir la disposición original'">
+              <lucide-icon name="binoculars" class="icon-sm" aria-hidden="true"></lucide-icon>
+              <span>Abrir disposición</span>
+            </button>
+          }
+        </div>
+        <span class="summary-view-date">{{ formatDate(summaryViewItem()?.created_at || '') }}</span>
+      </div>
+    </div>
+  </div>
+}
