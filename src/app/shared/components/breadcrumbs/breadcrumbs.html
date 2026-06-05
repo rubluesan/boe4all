@@ -1,17 +1,16 @@
-<!-- breadcrumb.component.html -->
 @if (breadcrumbs.length > 0) {
-  <nav class="breadcrumb-nav" aria-label="breadcrumb">
+  <nav class="breadcrumb-nav" aria-label="Migas de pan">
     <ol class="breadcrumb-list">
-      <li>
-        <a routerLink="/home">Inicio</a>
+      <li class="breadcrumb-item">
+        <a routerLink="/home" class="breadcrumb-link">Inicio</a>
       </li>
       @for (bc of breadcrumbs; track bc.url; let last = $last) {
-        <span class="separator">/</span>
-        <li>
+        <li class="breadcrumb-sep" aria-hidden="true">›</li>
+        <li class="breadcrumb-item">
           @if (last) {
-            <span class="active">{{ bc.label }}</span>
+            <span class="breadcrumb-current" [title]="bc.label">{{ bc.label }}</span>
           } @else {
-            <a [routerLink]="bc.url">{{ bc.label }}</a>
+            <a [routerLink]="bc.url" class="breadcrumb-link">{{ bc.label }}</a>
           }
         </li>
       }

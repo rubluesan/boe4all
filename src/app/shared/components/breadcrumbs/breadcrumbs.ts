@@ -1,7 +1,6 @@
 // breadcrumb.component.ts
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
 interface Breadcrumb {
@@ -13,7 +12,7 @@ interface Breadcrumb {
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumbs.html',
   styleUrls: ['./breadcrumbs.css'],
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink],
 })
 export class BreadcrumbComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
