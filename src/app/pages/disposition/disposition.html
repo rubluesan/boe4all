@@ -2,82 +2,332 @@
   @if (disposition()) {
     <div class="disposition-header">
       <div class="disposition-data">
-        <p style="text-align: justify">{{ disposition()?.titulo }}</p>
-        <p>
-          <strong
-            >Páginas {{ disposition()!.url_pdf!.pagina_inicial }} a
-            {{ disposition()!.url_pdf!.pagina_final }}
-            ({{
-              disposition()!.url_pdf!.pagina_final - disposition()!.url_pdf!.pagina_inicial + 1
-            }})
-          </strong>
-        </p>
+        <p class="disposition-title">{{ disposition()?.titulo }}</p>
+        @if (disposition()!.url_pdf!.pagina_inicial > 0) {
+          <p class="disposition-pages">
+            Páginas {{ disposition()!.url_pdf!.pagina_inicial }}–{{ disposition()!.url_pdf!.pagina_final }}
+            &nbsp;({{ disposition()!.url_pdf!.pagina_final - disposition()!.url_pdf!.pagina_inicial + 1 }} pág.)
+          </p>
+        }
       </div>
       <div class="disposition-actions">
-        <p>
-          <a
-            [href]="disposition()!.url_pdf.texto"
-            target="_blank"
-            (click)="$event.stopPropagation()"
-            >Descargar PDF</a
-          >
-        </p>
-        <p>
-          <a [href]="disposition()!.url_html" target="_blank" (click)="$event.stopPropagation()"
-            >Ver oficial</a
-          >
-        </p>
-        <!-- Acciones adicionales -->
-        ACCIONES (VOLVER, AÑADIR A CARPETA, ETC.)
+        <button
+          class="btn btn-outline btn-sm"
+          (click)="downloadPdf()"
+          [appTooltip]="'Descargar el PDF oficial del BOE'"
+        >
+          <lucide-icon name="file-text" class="icon-sm" aria-hidden="true"></lucide-icon>
+          <span>Descargar PDF</span>
+        </button>
+        <a
+          [href]="disposition()!.url_html"
+          target="_blank"
+          class="btn btn-outline btn-sm"
+          (click)="$event.stopPropagation()"
+          [appTooltip]="'Ver en la sede electrónica del BOE'"
+        >
+          <lucide-icon name="binoculars" class="icon-sm" aria-hidden="true"></lucide-icon>
+          <span>Ver oficial</span>
+        </a>
+        <button
+          class="btn btn-sm"
+          [class.btn-primary]="!isSaved()"
+          [class.btn-saved]="isSaved()"
+          (click)="guardarDisposicion()"
+          [disabled]="isSaved()"
+          [appTooltip]="isSaved() ? 'Ya guardada en Mi BOE' : 'Guardar en Mi BOE'"
+        >
+          <lucide-icon name="bookmark" class="icon-sm" aria-hidden="true"></lucide-icon>
+          <span>{{ isSaved() ? 'Guardada' : 'Guardar' }}</span>
+        </button>
       </div>
     </div>
 
     <div class="disposition-content">
+      <!-- Vista PDF -->
       <div class="left-column">
-        <iframe [src]="safePdfUrl()" width="100%" height="100%" style="border: none">
+        @if (pdfLoading()) {
+          <div class="pdf-loader">
+            <lucide-icon name="loader-2" class="icon-xl animate-spin icon-primary" aria-hidden="true"></lucide-icon>
+            <span>Cargando documento…</span>
+          </div>
+        }
+        <iframe
+          [src]="safePdfUrl()"
+          [class.pdf-hidden]="pdfLoading()"
+          (load)="pdfLoading.set(false)"
+          title="Documento BOE"
+          width="100%"
+          height="100%"
+        >
           <p>
             Tu navegador no soporta iframes.
             <a [href]="disposition()?.url_pdf?.texto" target="_blank">Descarga el PDF</a>.
           </p>
         </iframe>
       </div>
+
+      <!-- Panel IA -->
       <div class="right-column">
         <div class="chat-wrapper">
+
+          <!-- Cabecera del chat -->
           <div class="chat-header">
-            <h3>Asistente IA</h3>
-            <span class="chat-status">CHAT STATUS</span>
+            <div class="chat-header-left">
+              <lucide-icon name="bot" class="icon-md icon-primary" aria-hidden="true"></lucide-icon>
+              <h3>Asistente IA</h3>
+            </div>
+            <div class="chat-header-right">
+
+              <!-- Selector de sesión -->
+              @if (allSessions().length > 0) {
+                <div class="session-selector">
+                  @if (sessionMenuOpen()) {
+                    <div class="session-dropdown-backdrop" (click)="sessionMenuOpen.set(false)"></div>
+                  }
+                  <button
+                    class="session-selector-btn"
+                    (click)="sessionMenuOpen.set(!sessionMenuOpen())"
+                    [attr.aria-expanded]="sessionMenuOpen()"
+                    aria-label="Cambiar conversación"
+                    [appTooltip]="'Cambiar conversación activa'"
+                  >
+                    <lucide-icon name="message-circle" class="icon-xs" aria-hidden="true"></lucide-icon>
+                    <span>{{ currentSessionLabel() }}</span>
+                    <lucide-icon name="chevron-down" class="icon-xs" [class.rotated]="sessionMenuOpen()" aria-hidden="true"></lucide-icon>
+                  </button>
+                  @if (sessionMenuOpen()) {
+                    <div class="session-dropdown" role="menu"
+                         cdkTrapFocus [cdkTrapFocusAutoCapture]="true"
+                         (keydown)="onSessionDropdownKeydown($event)">
+                      @for (session of allSessions(); track session.id) {
+                        <button
+                          class="session-item"
+                          [class.session-item--active]="session.id === sessionId()"
+                          (click)="switchSession(session)"
+                          role="menuitem"
+                        >
+                          <lucide-icon name="message-circle" class="icon-xs" aria-hidden="true"></lucide-icon>
+                          <span>{{ formatSessionDate(session.created_at) }}</span>
+                        </button>
+                      }
+                      <div class="session-dropdown-divider"></div>
+                      <button class="session-item session-item--new" (click)="startNewSession()" role="menuitem">
+                        <lucide-icon name="plus" class="icon-xs" aria-hidden="true"></lucide-icon>
+                        <span>Nueva conversación</span>
+                      </button>
+                    </div>
+                  }
+                </div>
+              }
+
+              <!-- Ver resumen guardado -->
+              @if (allSummaries().length > 0) {
+                <button
+                  class="btn btn-outline btn-sm btn-summary"
+                  (click)="openSummaryModal()"
+                  [appTooltip]="'Ver resúmenes guardados'"
+                >
+                  <lucide-icon name="sparkles" class="icon-sm icon-primary" aria-hidden="true"></lucide-icon>
+                  <span>Resumen@if (allSummaries().length > 1) { ({{ allSummaries().length }}) }</span>
+                </button>
+              }
+
+              <!-- Generar resumen -->
+              <button
+                class="btn btn-outline btn-sm btn-ai"
+                (click)="generarResumen()"
+                [disabled]="summaryLoading()"
+                [appTooltip]="allSummaries().length > 0 ? 'Generar nuevo resumen IA' : 'Genera un resumen IA de esta disposición'"
+              >
+                @if (summaryLoading()) {
+                  <lucide-icon name="loader-2" class="icon-sm animate-spin" aria-hidden="true"></lucide-icon>
+                  <span>Generando…</span>
+                } @else {
+                  <lucide-icon name="sparkles" class="icon-sm" aria-hidden="true"></lucide-icon>
+                  <span>{{ allSummaries().length > 0 ? 'Nuevo' : 'Resumir' }}</span>
+                }
+              </button>
+            </div>
           </div>
 
+          <!-- Mensajes del chat -->
           <div class="chat-messages-container">
-            <div class="message system">
-              <p>¡Hola! Soy tu asistente del BOE. ¿En qué puedo ayudarte hoy?</p>
+            <div class="message ia">
+              <div class="ia-body">
+                <p class="ia-welcome">Hola, soy tu asistente BOE. Pregúntame sobre esta disposición o pulsa <strong>Resumir</strong> para obtener un resumen.</p>
+              </div>
             </div>
 
             @for (msg of mensajes(); track $index) {
-              <div class="message" [class.user]="msg.isUser" [class.ia]="!msg.isUser">
-                <div class="message-content">
-                  <p>{{ msg.text }}</p>
+              @if (msg.isUser) {
+                <div class="message user">
+                  <div class="user-bubble">{{ msg.text }}</div>
                 </div>
-              </div>
+              } @else {
+                <div class="message ia">
+                  <div class="ia-body">
+                    @if (msg.loading) {
+                      <div class="typing-indicator" aria-label="La IA está escribiendo">
+                        <span></span><span></span><span></span>
+                      </div>
+                    } @else {
+                      <div class="markdown-body" [innerHTML]="msg.html"></div>
+                      <div class="ia-actions">
+                        <button
+                          class="ia-action-btn"
+                          (click)="copyMessage(msg.text)"
+                          aria-label="Copiar respuesta"
+                          [appTooltip]="'Copiar texto'"
+                        >
+                          <lucide-icon name="copy" class="icon-xs" aria-hidden="true"></lucide-icon>
+                          <span>Copiar</span>
+                        </button>
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
             }
           </div>
 
+          <!-- Input del chat -->
           <form class="chat-input-container" (submit)="enviarMensaje($event)">
-            <input
-              type="text"
-              placeholder="Preguntarle a la IA"
-              class="chat-input"
-              autocomplete="off"
-              name="textoChat"
-            />
-            <button type="submit" class="chat-submit-btn btn btn-primary btn-primary-hover">
-              Enviar
+            <div class="chat-input-wrapper">
+              <input
+                type="text"
+                placeholder="Pregunta sobre esta disposición…"
+                class="chat-input"
+                autocomplete="off"
+                name="textoChat"
+                [disabled]="chatLoading()"
+              />
+              <span class="chat-kbd-hint" aria-hidden="true"><kbd>↵</kbd></span>
+            </div>
+            <button
+              type="submit"
+              class="chat-submit-btn btn btn-primary btn-primary-hover"
+              [disabled]="chatLoading()"
+              aria-label="Enviar mensaje"
+              [appTooltip]="'Enviar mensaje (Enter)'"
+            >
+              @if (chatLoading()) {
+                <lucide-icon name="loader-2" class="icon-sm animate-spin" aria-hidden="true"></lucide-icon>
+              } @else {
+                <lucide-icon name="send" class="icon-sm" aria-hidden="true"></lucide-icon>
+              }
             </button>
           </form>
+          <p class="chat-disclaimer">
+            <lucide-icon name="triangle-alert" class="icon-xs" aria-hidden="true"></lucide-icon>
+            Las respuestas generadas por la IA no tienen carácter oficial ni valor legal. Consulta siempre el texto oficial del BOE.
+          </p>
         </div>
       </div>
     </div>
   } @else {
-    <p>Disposición no encontrada.</p>
+    <div class="not-found-state">
+      <lucide-icon name="file-exclamation-point" class="icon-xl" aria-hidden="true"></lucide-icon>
+      <p>Disposición no encontrada o sesión expirada.</p>
+      <a routerLink="/home" class="btn btn-primary btn-primary-hover">Volver al inicio</a>
+    </div>
   }
 </div>
+
+<!-- Modal de resúmenes -->
+@if (summaryModalVisible()) {
+  <div class="summary-modal-backdrop" (click)="closeSummaryModal()">
+    <div
+      class="summary-modal fade-in"
+      (click)="$event.stopPropagation()"
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Resumen IA"
+    >
+      <div class="summary-modal-header">
+        <div class="summary-modal-title">
+          <lucide-icon name="sparkles" class="icon-sm icon-primary" aria-hidden="true"></lucide-icon>
+          <span>Resumen IA</span>
+          @if (allSummaries().length > 1) {
+            <div class="summary-version-selector">
+              <button
+                class="summary-version-btn"
+                (click)="summaryMenuOpen.set(!summaryMenuOpen())"
+                [attr.aria-expanded]="summaryMenuOpen()"
+              >
+                <lucide-icon name="calendar" class="icon-xs" aria-hidden="true"></lucide-icon>
+                <span>{{ formatSummaryDate(activeSummary()?.created_at) }}</span>
+                <lucide-icon name="chevron-down" class="icon-xs" [class.rotated]="summaryMenuOpen()" aria-hidden="true"></lucide-icon>
+              </button>
+              @if (summaryMenuOpen()) {
+                <div class="summary-version-dropdown">
+                  @for (s of allSummaries(); track s.id) {
+                    <button
+                      class="summary-version-item"
+                      [class.active]="s.id === activeSummaryId()"
+                      (click)="switchSummary(s.id)"
+                    >
+                      <lucide-icon name="calendar" class="icon-xs" aria-hidden="true"></lucide-icon>
+                      <span>{{ formatSummaryDate(s.created_at) }}</span>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          } @else {
+            <span class="summary-modal-date">{{ formatSummaryDate(activeSummary()?.created_at) }}</span>
+          }
+        </div>
+        <div class="summary-modal-controls">
+          <button
+            class="btn btn-sm btn-danger-outline"
+            (click)="deleteActiveSummary()"
+            aria-label="Eliminar este resumen"
+            [appTooltip]="'Eliminar este resumen'"
+          >
+            <lucide-icon name="trash-2" class="icon-sm" aria-hidden="true"></lucide-icon>
+          </button>
+          <button
+            class="summary-modal-close"
+            (click)="closeSummaryModal()"
+            aria-label="Cerrar"
+          >
+            <lucide-icon name="x" class="icon-sm" aria-hidden="true"></lucide-icon>
+          </button>
+        </div>
+      </div>
+      <div class="summary-modal-body">
+        <div class="markdown-body" [innerHTML]="activeSummaryHtml()"></div>
+      </div>
+      <div class="summary-modal-footer">
+        <div class="summary-modal-footer-left">
+          <button
+            class="btn btn-outline btn-sm"
+            (click)="copyMessage(activeSummary()?.content || '')"
+            [appTooltip]="'Copiar texto del resumen'"
+          >
+            <lucide-icon name="copy" class="icon-sm" aria-hidden="true"></lucide-icon>
+            <span>Copiar</span>
+          </button>
+          <button
+            class="btn btn-outline btn-sm btn-ai"
+            (click)="generarResumen()"
+            [disabled]="summaryLoading()"
+            [appTooltip]="'Generar un nuevo resumen'"
+          >
+            @if (summaryLoading()) {
+              <lucide-icon name="loader-2" class="icon-sm animate-spin" aria-hidden="true"></lucide-icon>
+              <span>Generando…</span>
+            } @else {
+              <lucide-icon name="sparkles" class="icon-sm" aria-hidden="true"></lucide-icon>
+              <span>Nuevo</span>
+            }
+          </button>
+        </div>
+        <span class="summary-modal-count">{{ allSummaries().length }} resumen{{ allSummaries().length !== 1 ? 'es' : '' }}</span>
+      </div>
+    </div>
+  </div>
+}
