@@ -1,63 +1,165 @@
-/* --- HOME PAGE STYLES --- */
-
-/* HOME CONTAINER */
 .home-container {
   display: flex;
   flex-direction: column;
+  gap: var(--spacing-xxl);
+  padding-top: var(--spacing-xl);
 }
 
-/* SEARCH CONTAINER */
-.search-container {
-  display: flex;
-  justify-content: right;
-  margin-top: 20px;
-  margin-right: var(--spacing-lg);
-}
-
-/* HOME-CONTENT */
-#home-content {
-  display: flex;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
-}
-
-/* --- CONTENEDORES HOME-CONTENT --- */
-#folders-sidebar {
-  width: 200px;
-  background-color: var(--color-primary);
-  color: var(--text-main);
-  border: 1px solid var(--border);
-}
-
-#content-area {
-  flex: 1;
-  background-color: var(--color-secondary);
-  color: var(--text-main);
-  border: 1px solid var(--border);
-}
-
-#date-selector {
-  width: 15%;
-  background-color: var(--color-tertiary);
-  color: var(--text-main);
-  border: 1px solid var(--border);
-}
-
-#pagination-controls {
-  background-color: var(--color-quaternary);
-  color: var(--text-main);
-  align-self: center;
-}
-
-/* --- FORMULARIO DE FECHA --- */
-.date-form-container {
-  display: flex;
-  gap: var(--spacing-xl);
-  padding: var(--spacing-md);
-}
-
-.date-input-wrapper {
+/* ---- Hero ---- */
+.home-hero {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
+  text-align: center;
+  padding: var(--spacing-xl) 0 var(--spacing-md);
+}
+
+.home-hero h1 {
+  font-size: clamp(1.75rem, 4.5vw, 2.5rem);
+}
+
+.home-hero h1 span {
+  color: var(--spain-red);
+}
+
+.home-hero-subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.65;
+}
+
+/* ---- Tarjetas ---- */
+.home-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 768px) {
+  .home-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.home-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.home-card--primary { border-top-color: var(--primary); }
+.home-card--red     { border-top-color: var(--spain-red); }
+.home-card--gold    { border-top-color: var(--secondary); }
+
+.home-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--primary-light);
+  border-radius: var(--radius-md);
+}
+
+.home-card-icon--red {
+  background: var(--spain-red-light);
+}
+
+.home-card-icon--gold {
+  background: var(--secondary-light);
+}
+
+.home-card h2 {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.home-card-desc {
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ---- Formulario de fecha ---- */
+.date-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.date-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  color: var(--text-main);
+  background: var(--background);
+  transition: border-color 0.2s ease;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+}
+
+@media (min-width: 480px) {
+  .date-form {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .date-input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* ---- Botones de acento por card ---- */
+.btn-outline--red {
+  color: var(--spain-red);
+  border-color: var(--spain-red);
+}
+
+.btn-outline--red:hover {
+  background: var(--spain-red-light);
+  border-color: var(--spain-red);
+  color: var(--spain-red);
+}
+
+.btn-outline--gold {
+  color: var(--secondary-dark);
+  border-color: var(--secondary-dark);
+}
+
+.btn-outline--gold:hover {
+  background: var(--secondary-light);
+  border-color: var(--secondary-dark);
+  color: var(--secondary-dark);
 }

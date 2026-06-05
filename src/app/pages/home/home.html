@@ -1,51 +1,61 @@
-<div class="home-container">
-  <div class="search-container">
-    <!-- <app-custom-searcher></app-custom-searcher> -->
+<div class="home-container container">
+  <div class="home-hero">
+    <h1>Boletín Oficial del <span>Estado</span></h1>
+    <p class="home-hero-subtitle">Consulta, entiende y guarda las disposiciones del BOE con ayuda de la IA</p>
   </div>
 
-  <div id="home-content">
-    <div id="folders-sidebar">
-      <!-- componente de carpetas -->
-      CARPETAS
-    </div>
-
-    <div id="content-area">
-      <!-- componente de contenido -->
-      CONTENIDO
-    </div>
-
-    <div id="date-selector">
+  <div class="home-cards">
+    <!-- Explorar por fecha -->
+    <div class="home-card home-card--primary">
+      <div class="home-card-icon">
+        <lucide-icon name="calendar" class="icon-lg icon-primary" aria-hidden="true"></lucide-icon>
+      </div>
+      <h2>Explorar por fecha</h2>
+      <p class="home-card-desc">Accede al sumario del BOE de cualquier fecha desde 1960</p>
       <form
-        class="date-form-container"
+        class="date-form"
         (submit)="onDateSubmit(fechaInput.value); $event.preventDefault()"
       >
-        <div class="date-input-wrapper">
-          <label for="date">Ir a BOE de fecha:</label>
-          <input
-            #fechaInput
-            type="date"
-            id="date"
-            placeholder="fecha"
-            min="1960-09-01"
-            [max]="todaysDate"
-            required
-          />
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-primary-hover">Buscar</button>
+        <input
+          #fechaInput
+          type="date"
+          class="date-input"
+          [max]="todaysDate"
+          min="1960-09-01"
+          required
+          aria-label="Seleccionar fecha del BOE"
+        />
+        <button type="submit" class="btn btn-primary btn-primary-hover">
+          <lucide-icon name="search" class="icon-sm" aria-hidden="true"></lucide-icon>
+          Buscar
+        </button>
       </form>
-      <!-- @if (dateSelectForm.date().invalid() && dateSelectForm.date().touched()) {
-        <ul class="validation-error-list">
-          @for (error of dateSelectForm.date().errors(); track error.kind) {
-            <li class="validation-error">{{ error.message }}</li>
-          }
-        </ul>
-      } -->
     </div>
-  </div>
 
-  <div id="pagination-controls">
-    <!-- componente de paginación -->
-    PAGINACIÓN
+    <!-- BOE de hoy -->
+    <div class="home-card home-card--red">
+      <div class="home-card-icon home-card-icon--red">
+        <lucide-icon name="newspaper" class="icon-lg icon-red" aria-hidden="true"></lucide-icon>
+      </div>
+      <h2>BOE de hoy</h2>
+      <p class="home-card-desc">Consulta las últimas publicaciones del Boletín Oficial del Estado</p>
+      <button class="btn btn-outline btn-outline--red" (click)="irAlBoeDehoy()">
+        <lucide-icon name="arrow-right" class="icon-sm" aria-hidden="true"></lucide-icon>
+        Ver sumario de hoy
+      </button>
+    </div>
+
+    <!-- Mi BOE -->
+    <div class="home-card home-card--gold">
+      <div class="home-card-icon home-card-icon--gold">
+        <lucide-icon name="bookmark" class="icon-lg icon-gold" aria-hidden="true"></lucide-icon>
+      </div>
+      <h2>Mi BOE</h2>
+      <p class="home-card-desc">Accede a tus disposiciones guardadas, resúmenes generados y chats anteriores</p>
+      <button class="btn btn-outline btn-outline--gold" routerLink="/mi-boe">
+        <lucide-icon name="arrow-right" class="icon-sm" aria-hidden="true"></lucide-icon>
+        Ver mis guardados
+      </button>
+    </div>
   </div>
 </div>
