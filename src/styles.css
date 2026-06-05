@@ -2,21 +2,26 @@
 /* --- VARIABLES --- */
 
 :root {
-  /* Paleta de Colores principal*/
+  /* Paleta de Colores principal */
   --primary: #33786e;
   --primary-hover: #1e524b;
   --primary-light: #e6f4f1;
 
-  /* Acento: Atención y Acción IA */
-  --secondary: #ffd54f;
-  --secondary-dark: #f59e0b;
-  /* --star: #ca8a04; */
+  /* Rojo y gualda — bandera de España / identidad BOE */
+  --spain-red: #c60b1e;
+  --spain-red-light: #fde8ea;
+  --spain-red-hover: #a00918;
+
+  /* Acento: gualda / IA */
+  --secondary: #ffc107;
+  --secondary-dark: #e6a800;
+  --secondary-light: #fff8e1;
 
   /* Colores background y superficie */
   --background: #f8fafc;
   --surface: #ffffff;
 
-  /* Colores de texto  */
+  /* Colores de texto */
   --text-main: #1e293b;
   --text-muted: #64748b;
 
@@ -35,9 +40,16 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 24px;
   --radius-full: 9999px;
+
+  /* Escala tipográfica (referencia para uso en componentes) */
+  --text-xs:   0.75rem;    /* 12px — badges, etiquetas */
+  --text-sm:   0.875rem;   /* 14px — meta, captions */
+  --text-base: 1rem;       /* 16px — cuerpo */
+  --text-lg:   1.125rem;   /* 18px — cuerpo destacado */
 }
 
 /* --- ESTILOS GLOBALES --- */
@@ -54,43 +66,43 @@
 /* Fuente y Comportamiento Scroll  */
 html {
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
-  font-family: verdana, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   background-color: var(--background);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-/* --- TIPOGRAFÍA FLUIDA --- */
+/* --- TIPOGRAFÍA --- */
+
+h1, h2, h3, h4 {
+  font-family: 'Lora', Georgia, serif;
+}
+
 h1 {
-  /* Móvil: 1.75rem (28px) -> Escala -> Escritorio: 2.75rem (44px) */
-  font-size: clamp(1.75rem, 5vw, 2.75rem);
-  /* Bajamos de 900 a 700 (Bold). Sigue siendo un título fuerte pero elegante */
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 700;
-  /* Suavizamos el tracking negativo para que no se peguen las letras */
   letter-spacing: -0.02em;
-  line-height: 1.15; /* Importante para que los títulos de varias líneas no se encabalguen */
-}
-
-h2 {
-  /* Móvil: 1.4rem (22.4px) -> Escala -> Escritorio: 2rem (32px) */
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  /* Bajamos de 800 a 600 (Semi Bold) */
-  font-weight: 600;
-  letter-spacing: -0.01em;
   line-height: 1.2;
 }
 
+h2 {
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
 h3 {
-  /* Móvil: 1.15rem (18.4px) -> Escala -> Escritorio: 1.5rem (24px) */
-  font-size: clamp(1.15rem, 3vw, 1.5rem);
-  /* Peso normal/medio tirando a bold, suficiente para un H3 */
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
   letter-spacing: 0;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 /* --- CONTAINERS RESPONSIVOS - mobile first --- */
@@ -201,6 +213,13 @@ a {
   background: var(--primary-hover);
 }
 
+.btn-sm {
+  min-height: 36px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.875rem;
+  gap: 0.3rem;
+}
+
 .btn-danger {
   background: #ef4444;
   color: white;
@@ -212,19 +231,37 @@ a {
 
 .btn-outline {
   background: transparent;
-  border-color: var(--border);
-  color: var(--text-main);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .btn-outline:hover {
-  border-color: var(--primary);
-  color: var(--primary);
   background: var(--primary-light);
+}
+
+/* Botón peligro con outline */
+.btn-danger-outline {
+  background: transparent;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.btn-danger-outline:hover {
+  background: #fee2e2;
+  border-color: #dc2626;
 }
 
 /* Consistencia en tamaño de los iconos */
 .icon-primary {
   color: var(--primary);
+}
+
+.icon-red {
+  color: var(--spain-red);
+}
+
+.icon-gold {
+  color: var(--secondary-dark);
 }
 
 .icon-sm {
@@ -279,6 +316,8 @@ lucide-icon {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  font-weight: 700;
+  font-size: 1rem;
   box-shadow: var(--shadow-sm);
 }
 
@@ -296,6 +335,80 @@ lucide-icon {
   outline: 1px solid var(--border);
 }
 
+/* Icono extra pequeño */
+.icon-xs {
+  width: 12px;
+  height: 12px;
+}
+
+/* --- FOCUS VISIBLE: anillo de foco accesible para navegación por teclado --- */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --- KBD: indicadores de atajos de teclado --- */
+kbd {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-sm);
+  padding: 0.1rem 0.3rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  user-select: none;
+  vertical-align: middle;
+}
+
+/* --- TOOLTIPS (generados por TooltipDirective, se insertan en <body>) --- */
+.app-tooltip {
+  position: fixed;
+  z-index: 10000;
+  background: var(--text-main);
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  max-width: 260px;
+}
+
+.app-tooltip--visible {
+  opacity: 1;
+}
+
+/* utilidades de texto */
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+/* animacion entrada suave */
+.fade-in {
+  animation: fade-in 0.22s ease both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* animacion spin para cargas */
 .animate-spin {
   animation: spin 1s linear infinite;
@@ -309,4 +422,94 @@ lucide-icon {
   to {
     transform: rotate(360deg);
   }
+}
+
+/* --- MARKDOWN BODY (aplicado a [innerHTML] que Angular no puede scopear) --- */
+.markdown-body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: inherit;
+  word-break: break-word;
+}
+
+.markdown-body p { margin: 0 0 0.6em; }
+.markdown-body p:last-child { margin-bottom: 0; }
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0.9em 0 0.4em;
+  color: inherit;
+}
+.markdown-body h1 { font-size: 1.05em; }
+.markdown-body h2 { font-size: 1em; }
+.markdown-body h3 { font-size: 0.95em; }
+.markdown-body h4 { font-size: 0.9em; }
+
+.markdown-body h1:first-child,
+.markdown-body h2:first-child,
+.markdown-body h3:first-child {
+  margin-top: 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5em;
+  margin: 0.4em 0 0.6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+.markdown-body li { line-height: 1.6; }
+.markdown-body li > ul,
+.markdown-body li > ol { margin: 0.2em 0 0; }
+
+.markdown-body strong { font-weight: 700; }
+.markdown-body em { font-style: italic; }
+
+.markdown-body code {
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+.markdown-body pre {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+.markdown-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid var(--primary);
+  margin: 0.5em 0;
+  padding: 0.2em 0 0.2em 0.75em;
+  color: var(--text-muted);
+}
+
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0.75em 0;
+}
+
+.markdown-body a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
