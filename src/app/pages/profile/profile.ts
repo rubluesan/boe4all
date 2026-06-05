@@ -1,38 +1,48 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { SupabaseService } from '../../core/services/supabase-service';
 import { SystemMessageService } from '../../core/services/system-message-service';
-import { UserProfile } from '../../core/models/UserProfile';
+import { ConfirmDeleteModal } from '../../shared/components/confirm-delete-modal/confirm-delete-modal';
 import { LucideAngularModule } from 'lucide-angular';
 import { FormsModule } from '@angular/forms';
+import { SeoService } from '../../core/services/seo-service';
 
 @Component({
   selector: 'app-profile',
-  imports: [LucideAngularModule, FormsModule],
+  imports: [LucideAngularModule, FormsModule, ConfirmDeleteModal],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
 export class Profile {
   private supabase = inject(SupabaseService);
   private systemMessageService = inject(SystemMessageService);
+  private router = inject(Router);
 
-  profile = signal<UserProfile | null>(null);
-  userEmail = signal<string | undefined>('');
-  avatarUrl = signal<string | null>(null);
+  profile = this.supabase.profile;
+  userEmail = computed(() => this.supabase.profile()?.email);
+
+  avatarUrl = computed(() => this.supabase.profile()?.avatar_url ?? null);
+  avatarError = signal(false);
+
   username = '';
   loading = signal(false);
-  avatarError = signal(false);
-  //Función que se ejecutará al cargar el componente para obtener los datos del perfil del usuario
-  async ngOnInit() {
-    this.profile.set(this.supabase.profile() || null);
-    this.userEmail.set(this.supabase.profile()?.email);
-    this.avatarUrl.set(this.supabase.profile()?.avatar_url || null);
-    this.username = this.supabase.profile()?.username || '';
+  deleteAccountModalVisible = signal(false);
+
+  private usernameInitialized = false;
+  constructor() {
+    inject(SeoService).setPage({ title: 'Mi perfil', noIndex: true });
+    effect(() => {
+      const p = this.supabase.profile();
+      if (p && !this.usernameInitialized) {
+        this.username = p.username ?? '';
+        this.usernameInitialized = true;
+      }
+    });
   }
-//Función asincrona que actualiza el perfil del usuario 
+
   async updateProfile() {
     this.loading.set(true);
     try {
-      console.log(this.username + ' ' + this.avatarUrl());
       const { error } = await this.supabase.updateProfile({
         username: this.username,
         avatar_url: this.avatarUrl() || '',
@@ -45,21 +55,37 @@ export class Profile {
       this.loading.set(false);
     }
   }
-  //Función asincrona que se encarga de subir la imagen del avatar del usuario y actualizar el perfil con la nueva url de la imagen
+
   async uploadAvatar(event: any) {
     const file = event.target.files[0];
     if (!file) return;
-
     this.loading.set(true);
     try {
       const publicUrl = await this.supabase.uploadAvatar(file);
-      this.avatarUrl.set(publicUrl);
       this.avatarError.set(false);
-      await this.updateProfile();
+      const { error } = await this.supabase.updateProfile({
+        username: this.username,
+        avatar_url: publicUrl,
+      });
+      if (error) throw error;
+      this.systemMessageService.showMessage('¡Foto actualizada!', false);
     } catch (e: any) {
       this.systemMessageService.showMessage(e.message || 'Error al subir imagen', true);
     } finally {
       this.loading.set(false);
+    }
+  }
+
+  async confirmDeleteAccount() {
+    this.loading.set(true);
+    try {
+      await this.supabase.deleteAccount();
+      this.router.navigate(['/']);
+    } catch (e: any) {
+      this.systemMessageService.showMessage(e.message || 'Error al eliminar la cuenta', true);
+    } finally {
+      this.loading.set(false);
+      this.deleteAccountModalVisible.set(false);
     }
   }
 }
