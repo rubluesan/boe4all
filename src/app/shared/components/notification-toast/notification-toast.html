@@ -4,6 +4,9 @@
   [class.success]="!isError()"
   animate.enter="enter-animation"
   [class.leaving]="isLeaving()"
+  [attr.role]="isError() ? 'alert' : 'status'"
+  [attr.aria-live]="isError() ? 'assertive' : 'polite'"
+  aria-atomic="true"
 >
   <lucide-icon [name]="isError() ? 'circle-alert' : 'circle-check'" class="icon-sm"></lucide-icon>
   <span>{{ message() }}</span>

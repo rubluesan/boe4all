@@ -1,8 +1,10 @@
 <div class="user-menu-container">
   <button class="avatar-btn" (click)="toggleMenu()" [attr.aria-expanded]="isOpen()">
     <div class="avatar-container">
-      @if (userProfile()) {
-        <img [src]="userProfile()?.avatar_url" alt="User avatar" class="avatar-img" />
+      @if (userProfile()?.avatar_url) {
+        <img [src]="userProfile()!.avatar_url" alt="User avatar" class="avatar-img" />
+      } @else {
+        <span>{{ (userProfile()?.username?.[0] || userProfile()?.email?.[0])?.toUpperCase() }}</span>
       }
     </div>
     <lucide-icon name="chevron-down" class="chevron" [class.rotated]="isOpen()"></lucide-icon>
@@ -17,7 +19,11 @@
       (cdkTrapFocusAutoCapture)="(true)"
     >
       <div class="user-info">
-        <img [src]="userProfile()?.avatar_url" alt="" class="avatar-large" />
+        @if (userProfile()?.avatar_url) {
+          <img [src]="userProfile()!.avatar_url" alt="" class="avatar-large" />
+        } @else {
+          <div class="avatar-large avatar-initials">{{ (userProfile()?.username?.[0] || userProfile()?.email?.[0])?.toUpperCase() }}</div>
+        }
         <div class="details">
           <span class="name">{{ userProfile()?.username }}</span>
           <span class="email">{{ userProfile()?.email }}</span>

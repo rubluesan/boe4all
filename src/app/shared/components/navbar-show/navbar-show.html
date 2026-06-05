@@ -27,7 +27,7 @@
       >
         <div class="mobile-nav-header">
           <div class="logo flex-align-center">
-            <img src="assets/brand-logo.webp" alt="Logo Boe4all" width="40" height="40" />
+            <img src="assets/BOE4all_logo200x64.png" alt="Logo Boe4all" width="120" height="40" />
           </div>
           <button class="close-icon" (click)="toggleMenu()" aria-label="Cerrar menú">
             <lucide-icon name="x" class="icon-sm" aria-hidden="true"> </lucide-icon>
@@ -44,17 +44,17 @@
           <span>Inicio</span>
         </a>
         <a
-          routerLink="/countries"
+          routerLink="/mi-boe"
           routerLinkActive="active"
           class="nav-link"
           (click)="toggleMenu()"
         >
           <lucide-icon
-            name="binoculars"
+            name="bookmark"
             class="icon-primary icon-md"
             aria-hidden="true"
           ></lucide-icon>
-          <span>Explorar</span>
+          <span>Mi BOE</span>
         </a>
       </nav>
     }
@@ -73,13 +73,13 @@
         <lucide-icon name="home" class="icon-primary icon-md" aria-hidden="true"></lucide-icon>
         <span>Inicio</span>
       </a>
-      <a routerLink="/countries" routerLinkActive="active" class="nav-link">
+      <a routerLink="/mi-boe" routerLinkActive="active" class="nav-link">
         <lucide-icon
-          name="binoculars"
+          name="bookmark"
           class="icon-primary icon-md"
           aria-hidden="true"
         ></lucide-icon>
-        <span>Explorar</span>
+        <span>Mi BOE</span>
       </a>
     </nav>
 

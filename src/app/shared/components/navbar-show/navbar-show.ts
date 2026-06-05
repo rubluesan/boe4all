@@ -18,10 +18,6 @@ export class NavbarShow {
   userLoggedIn = computed(() => !!this.supabase.user());
   mobileNavIsOpen = signal(false);
 
-  // ngOnInit(): void {
-  //   this.userLoggedIn.set(this.authService.isLoggedIn());
-  // }
-
   @HostListener('document:keydown.escape')
   onEscape() {
     if (this.mobileNavIsOpen()) {

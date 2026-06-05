@@ -5,13 +5,11 @@ import {
   ElementRef,
   HostListener,
   inject,
-  OnInit,
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { SupabaseService } from '../../../core/services/supabase-service';
-import { UserProfile } from '../../../core/models/UserProfile';
 import { SystemMessageService } from '../../../core/services/system-message-service';
 
 @Component({
@@ -20,7 +18,7 @@ import { SystemMessageService } from '../../../core/services/system-message-serv
   templateUrl: './user-menu.html',
   styleUrl: './user-menu.css',
 })
-export class UserMenu implements OnInit {
+export class UserMenu {
   private router = inject(Router);
   isOpen = signal(false);
   supabaseService = inject(SupabaseService);
@@ -29,8 +27,6 @@ export class UserMenu implements OnInit {
   userProfile = computed(() => this.supabaseService.profile());
 
   constructor(private elementRef: ElementRef) {}
-
-  ngOnInit(): void {}
 
   @HostListener('document:keydown.escape')
   onEscape() {
