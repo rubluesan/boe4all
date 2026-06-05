@@ -5,6 +5,7 @@ import { FormField, email, form, required } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
 import { LucideAngularModule } from 'lucide-angular';
 import { SystemMessageService } from '../../core/services/system-message-service';
+import { SeoService } from '../../core/services/seo-service';
 @Component({
   selector: 'app-login',
   imports: [FormField, LucideAngularModule, RouterLink],
@@ -15,8 +16,12 @@ export class Login {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
   private systemMessageService = inject(SystemMessageService);
+  constructor() { inject(SeoService).setPage({ title: 'Iniciar sesión', noIndex: true }); }
 
-  loading = signal(false); // Estado para mostrar el spinner en el botón
+  loading = signal(false);
+  notConfirmed = signal(false);
+  notConfirmedEmail = signal('');
+  showPassword = signal(false);
 
   loginModel = signal<LoginData>({
     email: '',
@@ -30,6 +35,13 @@ export class Login {
 
     required(schemaPath.password, { message: 'La contraseña es obligatoria' });
   });
+
+  goToCheckEmail() {
+    if (this.notConfirmedEmail()) {
+      sessionStorage.setItem('pendingConfirmEmail', this.notConfirmedEmail());
+    }
+    this.router.navigate(['/check-email'], { state: { email: this.notConfirmedEmail() } });
+  }
 
   /**
    * Procesa el inicio de sesión del usuario llamando al método correspondiente de SupabaseService
@@ -49,18 +61,24 @@ export class Login {
     }
 
     try {
-      const { error } = await this.supabase.signIn(data.email, data.password); // Intenta iniciar sesión
+      const { error } = await this.supabase.signIn(data.email, data.password);
 
       if (error) throw error;
 
+      this.notConfirmed.set(false);
       this.systemMessageService.showMessage('Sesión iniciada correctamente', false);
-      this.router.navigate(['/home']); // Redirige al Home después de login exitoso
+      this.router.navigate(['/home']);
     } catch (e: any) {
-      this.systemMessageService.showMessage(
-        e.message || 'Error en la autenticación',
-        true,
-        'login_failed',
-      );
+      if (e.message?.toLowerCase().includes('email not confirmed')) {
+        this.notConfirmed.set(true);
+        this.notConfirmedEmail.set(data.email);
+      } else {
+        this.systemMessageService.showMessage(
+          e.message || 'Error en la autenticación',
+          true,
+          'login_failed',
+        );
+      }
     } finally {
       this.loading.set(false);
     }

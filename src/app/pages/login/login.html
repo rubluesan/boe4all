@@ -26,11 +26,20 @@
         <div class="input-wrapper smooth-transition">
           <lucide-icon name="lock" class="input-icon"></lucide-icon>
           <input
-            type="password"
+            [type]="showPassword() ? 'text' : 'password'"
             id="password"
             placeholder="••••••••"
             [formField]="loginForm.password"
+            autocomplete="current-password"
           />
+          <button
+            type="button"
+            class="show-password-btn"
+            (click)="showPassword.set(!showPassword())"
+            [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >
+            <lucide-icon [name]="showPassword() ? 'eye-off' : 'eye'" class="icon-sm"></lucide-icon>
+          </button>
         </div>
         @if (loginForm.password().invalid() && loginForm.password().touched()) {
           <ul class="validation-error-list">
@@ -40,6 +49,18 @@
           </ul>
         }
       </div>
+
+      @if (notConfirmed()) {
+        <div class="email-warning">
+          <lucide-icon name="circle-alert" class="icon-sm" aria-hidden="true"></lucide-icon>
+          <div>
+            <p>Tu email no ha sido confirmado todavía.</p>
+            <button type="button" class="btn-link" (click)="goToCheckEmail()">
+              Reenviar email de confirmación
+            </button>
+          </div>
+        </div>
+      }
 
       <button
         type="button"

@@ -1,10 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { SupabaseService } from '../../core/services/supabase-service';
 import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, required, validate } from '@angular/forms/signals';
 import { LoginData } from '../../core/models/auth/login-data';
 import { SystemMessageService } from '../../core/services/system-message-service';
 import { LucideAngularModule } from 'lucide-angular';
+import { SeoService } from '../../core/services/seo-service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,23 @@ export class Register {
   private supabase = inject(SupabaseService);
   private router = inject(Router);
   private systemMessageService = inject(SystemMessageService);
-  loading = signal(false); // Estado para mostrar el spinner en el botón
+  constructor() { inject(SeoService).setPage({ title: 'Crear cuenta', noIndex: true }); }
+  loading = signal(false);
+
+  showPassword = signal(false);
+  showRepassword = signal(false);
+
+  // Tracked separately to reactively display the requirements checklist
+  rawPassword = signal('');
+
+  passwordRequirements = computed(() => {
+    const pwd = this.rawPassword();
+    return {
+      minLength: pwd.length >= 8,
+      hasUppercase: /[A-Z]/.test(pwd),
+      hasNumber: /[0-9]/.test(pwd),
+    };
+  });
 
   loginModel = signal<LoginData>({
     email: '',
@@ -29,8 +46,17 @@ export class Register {
     email(schemaPath.email, { message: 'Introduzca un email válido' });
 
     required(schemaPath.password, { message: 'La contraseña es obligatoria' });
-    required(schemaPath.repassword, { message: 'Debes confirmar la contraseña' });
+    validate(schemaPath.password, ({ value }) => {
+      const pwd = value();
+      if (!pwd) return null;
+      const valid = pwd.length >= 8 && /[A-Z]/.test(pwd) && /[0-9]/.test(pwd);
+      return valid ? null : {
+        kind: 'weakPassword',
+        message: 'La contraseña no cumple los requisitos mínimos de seguridad',
+      };
+    });
 
+    required(schemaPath.repassword, { message: 'Debes confirmar la contraseña' });
     validate(schemaPath.repassword, ({ value, valueOf }) => {
       const confirm = value();
       const password = valueOf(schemaPath.password);
@@ -44,16 +70,17 @@ export class Register {
     });
   });
 
-  /**
-   * Procesa el registro del usuario llamando al método correspondiente de SupabaseService
-   */
+  onPasswordInput(event: Event) {
+    this.rawPassword.set((event.target as HTMLInputElement).value);
+  }
+
   async handleRegister() {
     this.loading.set(true);
     const data = this.registerForm().value();
 
     if (this.registerForm().invalid()) {
       this.systemMessageService.showMessage(
-        'Hay campos inválidos. Por favor, revise el email y contraseña introducidos.',
+        'Revisa los campos del formulario antes de continuar.',
         true,
         'invalid_register_form',
       );
@@ -62,13 +89,12 @@ export class Register {
     }
 
     try {
-      const { error } = await this.supabase.signUp(data.email, data.password); // Intenta crear cuenta
+      const { error } = await this.supabase.signUp(data.email, data.password);
 
       if (error) throw error;
 
-      this.systemMessageService.showMessage('¡Registro completado! Ya puedes entrar.', false);
-      this.router.navigate(['/home']);
-      // posible redirección a login o home: this.router.navigate(['/home']);
+      sessionStorage.setItem('pendingConfirmEmail', data.email);
+      this.router.navigate(['/check-email'], { state: { email: data.email } });
     } catch (e: any) {
       this.systemMessageService.showMessage(
         e.message || 'Error en el registro',

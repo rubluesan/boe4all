@@ -28,7 +28,7 @@
 
 .auth-header h1 {
   font-size: 1.75rem;
-  font-weight: 800;
+  font-weight: 700;
   margin-bottom: var(--spacing-xs);
   letter-spacing: -0.02em;
 }
@@ -127,6 +127,52 @@ input {
 
 .btn-link:hover {
   text-decoration: underline;
+}
+
+.show-password-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.show-password-btn:hover {
+  color: var(--primary);
+}
+
+.email-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+  padding: 0.75rem var(--spacing-md);
+  background: #fff7ed;
+  border: 1px solid #f97316;
+  border-radius: var(--radius-md);
+  color: #9a3412;
+  font-size: 0.875rem;
+}
+
+.email-warning lucide-icon {
+  flex-shrink: 0;
+  color: #f97316;
+  margin-top: 2px;
+}
+
+.email-warning p {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.email-warning .btn-link {
+  color: #ea580c;
+  padding: 0;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 480px) {
