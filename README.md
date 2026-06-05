@@ -1,4 +1,4 @@
-# Boe4all is WIP
+# Boe4all
 
 <a id="readme-top"></a>
 
@@ -18,9 +18,9 @@
 
 Consulta el sitio oficial del BOE pulsando [aquí](https://www.boe.es/diario_boe/).
 
-### <a href="#">Demo is WIP</a>
+### <a href="https://boe4all.es">VIEW MVP DEMO</a>
 
-### Deploy Status: -
+### Deploy Status: LIVE
 
 <br/>
 
@@ -56,7 +56,7 @@ Consulta el sitio oficial del BOE pulsando [aquí](https://www.boe.es/diario_boe
 
 ## Acerca del proyecto
 
-[![Boe4all Screen Shot](docs/img/boe4all-screenshot.png)](#)
+[![Boe4all Screen Shot](docs/img/preview-boe4all.webp)](#)
 
 **Boe4all** es una aplicación web cuyo objetivo es hacer más fácil la consulta, navegación y comprensión de la información que el estado español publica en el Diario oficial del Boletín Oficial del Estado, comúnmente conocido como BOE.
 
