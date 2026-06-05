@@ -117,6 +117,7 @@ Para mantener consistencia en la página hemos decidido usar una paleta de color
 
 ### Fuente y Comportamiento del scroll
 
+```CSS
 html {
   font-size: 16px;
 }
@@ -128,8 +129,10 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
+```
 
 ### Consistencia de clicables
+```CSS
 button,
 select,
 a {
@@ -139,9 +142,9 @@ a {
 a {
   text-decoration: none;
 }
-
+```
 ### Consistencia de botones
-
+```CSS
 .btn {
   appearance: none;
   border: 2px solid transparent;
@@ -189,9 +192,9 @@ a {
   color: var(--primary);
   background: var(--primary-light);
 }
-
+```
 ### Consistencia de los iconos 
-
+```CSS
 .icon-primary {
   color: var(--primary);
 }
@@ -215,9 +218,9 @@ a {
   width: 48px;
   height: 48px;
 } 
-
+```
 ### Consistencia iconos lucide 
-
+```CSS
 lucide-icon {
   display: inline-flex;
   align-items: center;
@@ -234,9 +237,9 @@ lucide-icon {
 .validation-error-list {
   list-style: none;
 }
-
+```
 ### Consistencia Avatares
-
+```CSS
 .avatar-container {
   width: 40px;
   height: 40px;
@@ -264,9 +267,9 @@ lucide-icon {
   border: 4px solid var(--surface);
   outline: 1px solid var(--border);
 } 
-
+```
 ### Animación para cargas
-
+```CSS
 .animate-spin {
   animation: spin 1s linear infinite;
 }
@@ -280,6 +283,7 @@ lucide-icon {
     transform: rotate(360deg);
   }
 }
+```
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -294,7 +298,7 @@ lucide-icon {
 Para la responsividad de la página hemos utilizado estas estructuras CSS:
 
 ### Tipografía fluida
-
+``` CSS
 h1 {
   /* Móvil: 1.75rem (28px) -> Escala -> Escritorio: 2.75rem (44px) */
   font-size: clamp(1.75rem, 5vw, 2.75rem);
@@ -322,9 +326,9 @@ h3 {
   letter-spacing: 0;
   line-height: 1.25;
 } 
-
+```
 ### Containers responsivos
-
+```CSS
 .container {
   width: 100%;
   margin: 0 auto;
@@ -355,9 +359,9 @@ h3 {
   padding: clamp(var(--spacing-sm), 2vw, var(--spacing-md))
     clamp(var(--spacing-md), 4vw, var(--spacing-xxl));
 } 
-
+```
 ### Grids responsive 
-
+```CSS
 .responsive-grid {
   display: grid;
   gap: var(--spacing-lg);
@@ -381,6 +385,7 @@ h3 {
     grid-template-columns: repeat(4, 1fr);
   }
 } 
+```
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
